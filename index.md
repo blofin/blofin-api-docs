@@ -801,11 +801,11 @@ https://openapi.blofin.com/api/v1/market/candles?instId=BTC-USDT
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-ts | String | Yes | Instrument ID, e.g. `BTC-USDT`
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 bar | String | No | Bar size, the default is `1m`<br>e.g. `1m`/`3m`/`5m`/`15m`/`30m`/`1H`/`2H`/`4H`/`6H`/`8H`/`12H`/`1D`/`3D`/`1W`/`1M`
 after | String | No | Pagination of data to return records earlier than the requested `ts`
 before | String | No | Pagination of data to return records newer than the requested `ts`. The latest data will be returned when using `before` individually
-limit | String | No | Number of results per request. The maximum is `300`. The default is `100`.
+limit | String | No | Number of results per request. The maximum is `100`. The default is `100`.
 
 > Response Example:
 
