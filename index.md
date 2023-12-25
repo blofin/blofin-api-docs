@@ -398,7 +398,7 @@ The API endpoints of `Public Data` do not require authentication.
 
 ## REST API
 
-### GET instruments
+### GET Instruments
 
 
 Retrieve a list of instruments with open contracts.
@@ -466,7 +466,7 @@ maxMarketSize | String | The maximum order quantity of the market order
 state | String | Instrument status<br>`live`<br>`suspend`
 
 
-### GET tickers
+### GET Tickers
 
 Retrieve the latest price snapshot, best bid/ask price, and trading volume in the last 24 hours.
 
@@ -526,7 +526,7 @@ volCurrency24h | String | 24h trading volume, with a unit of base `currency`.
 vol24h | String | 24h trading volume, with a unit of `contract`.
 ts | String | Ticker data generation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### GET order book
+### GET Order Book
 
 Retrieve order book of the instrument.
 
@@ -603,7 +603,7 @@ An example of the array of asks and bids values: ["411.8", "10"]
 - "10" is the quantity at the price (number of contracts)</aside>
 
 
-### GET trades
+### GET Trades
 
 Retrieve the recent transactions of an instrument.
 
@@ -653,7 +653,7 @@ side | String | Trade side<br>`buy`<br>`sell`
 ts | String | Trade time, Unix timestamp format in milliseconds, e.g.`1597026383085`
 
 
-### GET mark price
+### GET Mark Price
 
 Retrieve index and mark price.
 
@@ -697,7 +697,7 @@ indexPrice | String | Index price
 markPrice | String | Mark price
 ts | String | Data return time, Unix timestamp format in milliseconds, e.g.`1597026383085`
 
-### GET funding rate
+### GET Funding Rate
 
 Retrieve funding rate.
 
@@ -739,7 +739,7 @@ instId | String | Instrument ID
 fundingRate | String | Current funding rate
 fundingTime | String | Settlement time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### GET funding rate history
+### GET Funding Rate History
 
 Retrieve funding rate history. 
 
@@ -784,7 +784,7 @@ instId | String | Instrument ID
 fundingRate | String | Actual funding rate
 fundingTime | String | Settlement time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### GET candlesticks
+### GET Candlesticks
 
 Retrieve the candlestick charts.
 
@@ -1095,7 +1095,7 @@ args | Array | Yes | List of subscribed channels
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-event | Object | Event, `subscribe``unsubscribe``error`
+event | Object | Event, `subscribe` `unsubscribe` `error`
 arg | String | Subscribed channel
 `>channel` | String | Channel name
 `>instId` | String | Instrument ID
@@ -1197,7 +1197,7 @@ An example of the array of asks and bids values: ["411.8", "10"]
 </aside>
 
 #### Sequence ID
-seqId is the sequence ID of the market data published. The set of sequence ID received by users is the same if users are connecting to the same channel through multiple websocket connections. Each instId has an unique set of sequence ID. Users can use prevSeqId and seqId to build the message sequencing for incremental order book updates. Generally the value of seqId is larger than prevSeqId. The prevSeqId in the new message matches with seqId of the previous message. The smallest possible sequence ID value is 0, except in snapshot messages where the prevSeqId is always -1.
+SeqId is the sequence ID of the market data published. The set of sequence ID received by users is the same if users are connecting to the same channel through multiple websocket connections. Each instId has an unique set of sequence ID. Users can use prevSeqId and seqId to build the message sequencing for incremental order book updates. Generally the value of seqId is larger than prevSeqId. The prevSeqId in the new message matches with seqId of the previous message. The smallest possible sequence ID value is 0, except in snapshot messages where the prevSeqId is always -1.
 
 **Example**
 
@@ -1306,7 +1306,7 @@ arg | String | Successfully subscribed channel
 data | Object | Subscribed data
 `>instId` | String | Instrument ID
 `>last` | String | Last traded price
-`>lastSize` | String | Lowest price
+`>lastSize` | String | Last traded size
 `>askPrice` | String | Best ask price
 `>askSize` | String | Best ask size
 `>bidPrice` | String | Best bid price
@@ -1322,7 +1322,7 @@ data | Object | Subscribed data
 ## REST API
 
 
-### GET balance
+### GET Balance
 
 Retrieve the balances of all the assets and the amount that is available or on hold.
 
@@ -1421,7 +1421,7 @@ Parameter | Type | Description
 transferId | String | Transfer ID
 clientId | String | Client-supplied ID
 
-### GET funds transfer history
+### GET Funds Transfer History
 
 Query the funds transfer records.
 
@@ -1477,7 +1477,7 @@ ts | String | Creation time, Unix timestamp format in milliseconds, e.g.`1597026
 clientId | String | Client-supplied ID for transfer
 transferId | String | Transfer ID
 
-### GET withdraw history
+### GET Withdraw History
 
 Retrieve the withdrawal records according to the currency, withdrawal status, and time range in reverse chronological order
 
@@ -1563,7 +1563,7 @@ tag | String | Some currencies require a tag for withdrawals. This is not return
 memo | String | Some currencies require this parameter for withdrawals. This is not returned if not required.
 withdrawId | String | Withdrawal ID
 
-### GET deposit history
+### GET Deposit History
 
 Retrieve the deposit records according to the currency, status, and time range in reverse chronological order
 
@@ -1639,7 +1639,7 @@ depositId | String | Deposit ID
 
 # Trading
 ## REST API
-### GET futures account balance
+### GET Futures Account Balance
 
 Retrieve a list of assets (with non-zero balance), remaining balance, and available amount in the future account.
 
@@ -1702,7 +1702,7 @@ details | Array | Detailed asset information in all currencies
 `>isolatedUnrealizedPnl` | String | Isolated unrealized profit and loss of the currency
 `>bonus` | String | Bonus balance
 
-### GET positions
+### GET Positions
 
 Retrieve information on your positions.
 
@@ -1796,7 +1796,7 @@ maintenanceMargin | String | Maintenance margin requirement
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 updateTime | String | Latest time position was adjusted, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### GET leverage
+### GET Leverage
 
 #### HTTP Request
 
@@ -2271,7 +2271,7 @@ clientOrderId | String | Client Order ID as assigned by the client
 code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
 
-### GET active orders
+### GET Active Orders
 
 Retrieve all incomplete orders under the current account.
 
@@ -2389,7 +2389,7 @@ tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-prof
 slTriggerPrice | String | Stop-loss trigger price
 slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
 
-### GET active TPSL orders
+### GET Active TPSL Orders
 
 Retrieve a list of untriggered TP/SL orders under the current account.
 
@@ -2513,7 +2513,7 @@ instId | String | Instrument ID
 clientOrderId | String | Client Order ID as assigned by the client
 positionSide | String | Position side<br>`long`<br>`short`<br>`net`
 
-### GET order history
+### GET Order History
 
 Get completed orders which are placed in the last 3 months
 
@@ -2636,7 +2636,7 @@ slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss w
 cancelSource | String | Type of the cancellation source.
 cancelSourceReason | String | Reason for the cancellation.
 
-### GET TPSL order history
+### GET TPSL Order History
 
 Retrieve a list of all TP/SL orders under the current account in the last 3 months.
 
@@ -2738,7 +2738,7 @@ slTriggerPrice | String | Stop-loss trigger price
 slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### GET trade history
+### GET Trade History
 
 Retrieve recently-filled transaction details.
 
