@@ -1,0 +1,49 @@
+{
+  "name": "blofin-api-docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./reslate.js",
+  "bin": "./reslate.js",
+  "scripts": {
+    "postinstall": "node setup",
+    "setup": "node setup",
+    "lint": "npx eslint .*.js /*.js",
+    "lint.app": "npx eslint /public/js/app/*.js",
+    "lint.ejs": "npx ejs-lint /_includes/public.ejs",
+    "make": "npx eleventy --input=/index.md",
+    "test": "npx mocha",
+    "build.sass": "npx sass --update --style compressed --no-source-map ./public/css",
+    "build.sass.local": "cross-var npx sass --update --style compressed --no-source-map $SLATEDIR/public/css:$SLATEDIR/public/css",
+    "build.sass.test": "cross-var npx sass --update --style expanded --no-source-map $SLATEDIR/public/css:$SLATEDIR/public/css",
+    "build.11ty": "npx eleventy --input=./index.md",
+    "build.local": "npm run build.sass.local && cross-var npx eleventy --input=$SLATEDIR/index.md --output=$SLATEDIR/dist",
+    "build.test": "npm run build.sass.test && cross-var npx eleventy --input=$SLATEDIR/index.md --output=./dist",
+    "build": "npm run build.sass && npm run build.11ty",
+    "build:dev": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
+		"build:test": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
+		"build:pre": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
+		"build:prod": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
+    "debug": "DEBUG=Eleventy* npx eleventy --dryrun --input=/index.md",
+    "serve": "npm run build.sass &&MY_ENVIRONMENT=development npx eleventy --input=./index.md --serve --port=4567",
+    "serve.local": "cross-var npm run build.sass.local && cross-var npx eleventy --input=$SLATEDIR/index.md --output=$SLATEDIR/dist --serve --port=4567"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.blofin.com/frontend/blofin-api-docs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^0.12.1",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.1",
+    "cheerio": "^1.0.0-rc.9",
+    "cross-var-no-babel": "^1.2.0",
+    "imagesloaded": "^4.1.4",
+    "jquery": "^3.6.0",
+    "lunr": "^2.3.9",
+    "markdown-it": "^12.0.6",
+    "markdown-it-anchor": "^7.1.0",
+    "markdown-it-prism": "^2.1.6",
+    "sass": "^1.34.0"
+  }
+}

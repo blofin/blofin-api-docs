@@ -1,0 +1,171 @@
+<% var language_tabs = language_tabs || []; %>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title><%= title || "API Documentation" %></title>
+    <link rel="icon" href="https://s2.blofin.com/icons/favicon.ico" />
+    <link href="<%= basePath %>/public/css/prism-okaidia.css" media="screen" rel="stylesheet">
+    <link href="<%= basePath %>/public/css/print.css" media="print" rel="stylesheet">
+    <link href="<%= basePath %>/public/css/screen.css" media="screen" rel="stylesheet">
+    <script src="<%= basePath %>/public/js/lib/jquery.min.js"></script>
+    <script src="<%= basePath %>/public/js/lib/jquery.highlight.js"></script>
+    <script src="<%= basePath %>/public/js/lib/energize.js"></script>
+    <script src="<%= basePath %>/public/js/lib/imagesloaded.min.js"></script>
+    <script src="<%= basePath %>/public/js/lib/lunr.min.js"></script>
+    <script src="<%= basePath %>/public/js/app/lang.js"></script>
+    <script src="<%= basePath %>/public/js/app/toc.js"></script>
+    <% if (search) { %>
+    <script src="<%= basePath %>/public/js/app/search.js"></script>
+    <% } %>
+    <% if (typeof code_clipboard === 'boolean' && code_clipboard) { %>
+    <script src="<%= basePath %>/public/js/app/copy.js"></script>
+    <% } %>
+    <script type="text/javascript">
+      function adjustLanguageSelectorWidth() {
+        const elem = $('.dark-box > .lang-selector');
+        elem.width(elem.parent().width());
+      }
+      $(function() {
+        loadToc($('#toc'), '.toc-link', '.toc-list-h2, .toc-list-h3, .toc-list-h4, .toc-list-h5, .toc-list-h6', 10);
+        setupLanguages($('body').data('languages'));
+        $('.content').imagesLoaded( function() {
+          recacheHeights();
+          refreshToc();
+        });
+        $(window).resize(function() {
+          adjustLanguageSelectorWidth();
+        });
+        adjustLanguageSelectorWidth();
+      });
+      window.onpopstate = function() {
+        activateLanguage(getLanguageFromQueryString());
+      };
+    </script>
+    <script>
+      var currentHref = window.location.href;
+      var pathname = window.location.pathname;
+      var pathArr = pathname.split('/').reverse();
+      var modules = ['en'];
+      var moduleType = pathArr[1];
+      var moduleIndex = modules.indexOf(moduleType);
+      function changeHyperlink() {
+        // var hash = window.location.hash;
+        // window.location.href = pathname.replace("zh","en") + hash;
+      }
+      function changeMenuLink(type) {
+        // pathArr[1] = type;
+        // window.location.href = pathArr.reverse().join('/');
+      }
+    </script>
+    <%- include('head.ejs',{}) %>
+  </head>
+
+  <body <% if (page_classes) {%>class="<%= page_classes %>" <% } %>data-languages="<%- language_array(language_tabs) %>">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <%- image_tag('navbar.png','Navigation') %>
+      </span>
+    </a>
+    <header>
+      <div class="toc-left">
+        <a href="/">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 72 31" class="bc-w-[58px] bc-h-[24px] bc-text-dark-label"><path d="M15.926 4h4.013v26.268h-4.013V4ZM64.197 11.693h-3.909v18.575h3.91V15.757c1.174-1.782 2.809-1.73 3.46-.904.536.68.527 1.619.478 6.836-.019 2.089-.045 4.862-.045 8.579H72v-13.6c0-2.911-1.001-5.222-3.894-5.222-1.826 0-3.237.811-4.255 2.246.086-.45.346-1.999.346-1.999Z"></path><path fill-rule="evenodd" d="M29.015 30.268c-3.41 0-6.185-2.945-6.185-6.566v-6.145c0-3.62 2.775-6.566 6.185-6.566 3.41 0 6.184 2.946 6.184 6.566v6.145c0 3.62-2.774 6.566-6.184 6.566Zm-.093-15.927c-1.293 0-2.094.802-2.094 4.796v2.891c0 3.994.801 4.796 2.094 4.796 1.292 0 2.093-.802 2.093-4.796v-2.891c0-3.994-.8-4.796-2.093-4.796Z" clip-rule="evenodd"></path><path d="m7.711 19.151 2.607-1.655c2.142.937 2.691 2.84 2.691 4.938v.127c0 1.692 0 3.069-.435 4.4-.892 2.725-3.232 3.295-6.083 3.307H0v-6.222l3.674-2.332v5.571c.296-.008.624-.007.967-.005.665.004 1.388.008 2.045-.065 2.243-.246 2.196-2.512 2.167-3.93-.003-.15-.006-.29-.006-.417v-.087c0-1.205.001-2.924-1.136-3.63ZM3.674 8.29c.12.007.314-.008.556-.028.93-.075 2.57-.206 3.438.717.849.904.828 2.26.814 3.158-.004.198-.006.373 0 .517 0 .37-.031.694-.09.981l4.068-2.581c0-2.478-.405-5.813-7.2-5.813H0v13.722l3.674-2.333V8.29ZM53.405 11.446h3.971v18.822h-3.97V11.446ZM53.008 7.62a2.379 2.379 0 1 1 4.757 0 2.379 2.379 0 0 1-4.757 0ZM38.095 30.268h4.013V19.802h8.397V16.08h-8.397V8.964h8.397V5.241h-12.41v25.027Z"></path><path fill="#F80" d="M0 18.963v5.084l9.692-6.152c1.71-1.085 2.763-3.091 2.763-5.262v-1.575L0 18.963Z"></path></svg>
+        </a>
+        <div class="toc-split-line"></div>
+        <ul class="toc-nav-list">
+          <li><a href="/docs">API</a></li>
+          <!-- <li><a >Change Log</a></li> -->
+        </ul>
+        <select class="toc-nav-dropdown" onchange="javascript:changeMenuLink(options[selectedIndex].value)">
+          <option value="/">API</option>
+          <!-- <option value="/">Change Log</option> -->
+        </select>
+      </div>
+
+      <div class="switch-language">
+        <a onclick="javascript:changeHyperlink()" class="toc-link" style="display: inline-block;" href="javascript:void(0);">English</a>
+      </div>
+    </header>
+    <div class="toc-wrapper">
+      <% if (language_tabs.length>0) {%>
+        <div class="lang-selector">
+          <% for (var lang in language_tabs) { %>
+            <% if (typeof language_tabs[lang] === 'object') { %>
+              <a href="#" data-language-name="<%= Object.keys(language_tabs[lang])[0] %>"><%= language_tabs[lang][Object.keys(language_tabs[lang])[0]] == 'shell' ? 'HTTP' : language_tabs[lang][Object.keys(language_tabs[lang])[0]] %></a>
+            <% } else { %>
+              <a href="#" data-language-name="<%= language_tabs[lang] %>"><%= language_tabs[lang] == 'shell' ? 'HTTP' : language_tabs[lang] %></a>
+            <% } %>
+          <% } %>
+        </div>
+      <% } %>
+      <% if (search) { %>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <% } %>
+
+      <% if (includes) { for (var partial in includes) { %>
+        <% content+= md(include(includes[partial],{layout: 'markdown'})) %>
+      <% } } %>
+
+      <div id="toc" class="toc-list-h1">
+	  	<ul class="toc-list-h1">
+        <% for (var h1 of toc_data(content)) { %>
+          <li>
+            <a href="#<%= h1.id %>" class="toc-h1 toc-link" data-title="<%= h1.title %>"><%- h1.content %></a>
+            <% if (h1.children && (h1.children.length > 0)) { %>
+              <ul class="toc-list-h2">
+                <% for (var h2 of h1.children) { %>
+                  <li>
+                    <a href="#<%= h2.id %>" class="toc-h2 toc-link" data-title="<%= h2.title %>"><%- h2.content %></a>
+                    <% if (h2.children && (h2.children.length > 0)) { %>
+                      <ul class="toc-list-h3">
+                      <% for (var h3 of h2.children) { %>
+                      <li>
+                        <a href="#<%= h3.id %>" class="toc-h3 toc-link" data-title="<%= h3.title %>"><%- h3.content %></a>
+                      </li>
+                      <% } %>
+                    </ul>
+                    <% } %>
+                  </li>
+                <% } %>
+              </ul>
+            <% } %>
+          </li>
+        <% } %>
+		</ul>
+      </div>
+      <% if (toc_footers) { %>
+        <ul class="toc-footer">
+          <% for (var footer in toc_footers) { %>
+            <li><%- toc_footers[footer] %></li>
+          <% } %>
+        </ul>
+      <% } %>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <%- content %>
+      </div>
+      <div class="dark-box">
+        <% if (language_tabs && language_tabs.length) { %>
+          <div class="lang-selector">
+            <% for (var lang in language_tabs) { %>
+              <% if (typeof language_tabs[lang] === 'object') { %>
+                <a href="#" data-language-name="<%= Object.keys(language_tabs[lang])[0] %>"><%= language_tabs[lang][Object.keys(language_tabs[lang])[0]] == 'shell' ? 'HTTP' : language_tabs[lang][Object.keys(language_tabs[lang])[0]] %>  %></a>
+              <% } else { %>
+                <a href="#" data-language-name="<%= language_tabs[lang] %>"><%= language_tabs[lang] == 'shell' ? 'HTTP' : language_tabs[lang] %></a>
+              <% } %>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>
