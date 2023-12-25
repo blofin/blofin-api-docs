@@ -138,7 +138,7 @@ We recommend developers use WebSocket API to retrieve market data and order book
         {
             "apiKey":"22582BD0CFF14C41EDBF1AB98506286D",
             "passphrase":"123456",
-            "timestamp":"1538054050",
+            "timestamp":"1597026383085",
             "sign":"MDMxZmVhNTYzNjhkZTQ3ZTJlMDNkYTAzNDQ2ZWQzYmFlNTA3OWRlMTk5NWQzMWQ0Y2FhODllNTRiNTgzMTVmNA=="
             "nonce":"fwqcew3r3f223v3qv3"
 
@@ -149,7 +149,7 @@ We recommend developers use WebSocket API to retrieve market data and order book
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `login`
 args | Array | Yes | List of account to login
@@ -252,7 +252,7 @@ Below is an example of subscription parameters. The requirement of subscription 
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `subscribe`
 args | Array | Yes | List of subscribed channels
@@ -314,7 +314,7 @@ Unsubscribe from one or more channels.
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `unsubscribe`
 args | Array | Yes | List of subscribed channels
@@ -359,7 +359,7 @@ When a request is rejected by our system due to rate limits, the system will ret
 
 When subscribing to a public channel, use the address of the public service. When subscribing to a private channel, use the address of the private service
 
-* Request limit: The total number of 'subscribe'/'unsubscribe'/'login' requests per connection is limited to 480 times per hour.
+* Request limit: The total number of `subscribe` / `unsubscribe` / `login` requests per connection is limited to 480 times per hour.
 
 <aside class="notice">
 
@@ -414,7 +414,7 @@ https://openapi.blofin.com/api/v1/market/instruments?instId=BTC-USDT
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 
@@ -481,7 +481,7 @@ https://openapi.blofin.com/api/v1/market/tickers?instId=BTC-USDT
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 
@@ -541,7 +541,7 @@ https://openapi.blofin.com/api/v1/market/books?instId=BTC-USDT
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 size | String | No | Order book depth per side. Maximum 100, e.g. 100 bids + 100 asks<br>Default returns to 1 depth data
@@ -618,7 +618,7 @@ https://openapi.blofin.com/api/v1/market/trades?instId=BTC-USDT&limit=50
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 limit | String | No | Number of results per request. <br>The maximum is `100`; <br>The default is `100`
@@ -668,7 +668,7 @@ https://openapi.blofin.com/api/v1/market/mark-price?instId=BTC-USDT
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 
@@ -712,7 +712,7 @@ https://openapi.blofin.com/api/v1/market/funding-rate?instId=BTC-USDT
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 
@@ -754,7 +754,7 @@ https://openapi.blofin.com/api/v1/market/funding-rate-history?instId=BTC-USDT
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 before | String | No | Pagination of data to return records newer than the requested `fundingTime`
@@ -799,7 +799,7 @@ https://openapi.blofin.com/api/v1/market/candles?instId=BTC-USDT
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 ts | String | Yes | Instrument ID, e.g. `BTC-USDT`
 bar | String | No | Bar size, the default is `1m`<br>e.g. `1m`/`3m`/`5m`/`15m`/`30m`/`1H`/`2H`/`4H`/`6H`/`8H`/`12H`/`1D`/`3D`/`1W`/`1M`
@@ -815,14 +815,14 @@ limit | String | No | Number of results per request. The maximum is `300`. The d
     "msg": "success",
     "data": [
         [
-            "1695263160000",
-            "1616.42",
-            "1616.86",
-            "1615.88",
-            "1616.86",
-            "",
-            "1121.6",
-            "1812852.086",
+            "1703484240000",
+            "2283.45",
+            "2283.45",
+            "2282.8",
+            "2282.8",
+            "835",
+            "8.35",
+            "19063.9805",
             "1"
         ]
     ]
@@ -837,13 +837,13 @@ open | String | Open price
 high | String | Highest price
 low | String | Lowest price
 close | String | Close price
-volume | String | Trading volume, with a unit of contracts.
-volumeCurrency | String | Trading volume, with a unit of base currency.
-volumeCurrencyQuote | String | Trading volume, with a unit of quote currency.
+vol | String | Trading volume, with a unit of contracts.
+volCurrency | String | Trading volume, with a unit of base currency.
+volCurrencyQuote | String | Trading volume, with a unit of quote currency.
 confirm | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
 
 ## WebSocket
-### WS Trades channel
+### WS Trades Channel
 
 This channel uses public WebSocket and authentication is not required.
 
@@ -863,7 +863,7 @@ Retrieve the recent trades data. Data will be pushed whenever there is a trade. 
 }
 ```
 #### Request Parameters
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `subscribe` `unsubscribe`
 args | Arrey | Yes | List of subscribed channels
@@ -896,7 +896,7 @@ args | Arrey | Yes | List of subscribed channels
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-event | Object | Event, `subscribe``unsubscribe``error`
+event | Object | Event, `subscribe` `unsubscribe` `error`
 arg | String | Subscribed channel
 `>channel` | String | Channel name
 `>instId` | String | Instrument ID
@@ -935,14 +935,14 @@ data | Object | Subscribed data
 `tradeId` | String | Trade ID
 `price` | String | Trade price
 `size` | String | Trade size
-`side` | String | Trade direction, `buy``sell`
+`side` | String | Trade direction, `buy`,`sell`
 `ts` | String | Filled time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### WS Candlesticks channel
+### WS Candlesticks Channel
 
 This channel uses public WebSocket and authentication is not required.
 
-Retrieve the recent trades data. Data will be pushed whenever there is a trade. Every update contain only one trade.
+Retrieve the candlesticks data of an instrument. the push frequency is the fastest interval 1 second push the data.
 
 
 > Request Example
@@ -958,11 +958,11 @@ Retrieve the recent trades data. Data will be pushed whenever there is a trade. 
 }
 ```
 #### Request Parameters
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `subscribe` `unsubscribe`
 args | Array | Yes | List of subscribed channels
-`>channel` | String | Yes | Channel name, <br>`candle1m` <br>`candle3m` <br>`candle5m` <br>`candle15m` <br>`candle30m` <br>`candle1H` <br>`candle2H` <br>`candle4H` <br>`candle6H` <br>`candle8H` <br>`candle12H` <br>`candle1D` <br>`candle3D` <br>`candle1W` <br>`candle1M`
+`>channel` | String | Yes | Channel name <br>`candle1m` <br>`candle3m` <br>`candle5m` <br>`candle15m` <br>`candle30m` <br>`candle1H` <br>`candle2H` <br>`candle4H` <br>`candle6H` <br>`candle8H` <br>`candle12H` <br>`candle1D` <br>`candle3D` <br>`candle1W` <br>`candle1M`
 `>instId` | String | Yes | Instrument ID
 
 
@@ -973,7 +973,7 @@ args | Array | Yes | List of subscribed channels
     "event": "subscribe",
     "arg": {
         "channel": "candle1D",
-        "instId": "ETH-USDT"
+        "instId": "BTC-USDT"
     }
 }
 ```
@@ -991,7 +991,7 @@ args | Array | Yes | List of subscribed channels
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-event | Object | Event, `subscribe``unsubscribe``error`
+event | Object | Event, `subscribe` `unsubscribe` `error`
 arg | String | Subscribed channel
 `>channel` | String | Channel name
 `>instId` | String | Instrument ID
@@ -1034,17 +1034,20 @@ data | Object | Subscribed data
 `>high` | String | Highest price
 `>low` | String | Lowest price
 `>close` | String | Close price
-`>vol_quantity` | String | Trading volume, with a unit of contracts.
-`>vol_currency` | String | Trading volume, with a unit of base currency.
-`>vol_quote` | String | Trading volume, with a unit of quote currency.
+`>vol` | String | Trading volume, with a unit of contracts.
+`>volCurrency` | String | Trading volume, with a unit of base currency.
+`>volCurrencyQuote` | String | Trading volume, with a unit of quote currency.
 `>confirm` | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
 
-### WS Order book channel
+### WS Order Book Channel
 
 This channel uses public WebSocket and authentication is not required.
 
-Retrieve the recent trades data. Data will be pushed whenever there is a trade. Every update contain only one trade.
+Retrieve order book data.
+Use `books` for 200 depth levels, `books5` for 5 depth levels
 
+- `books`: 200 depth levels will be pushed in the initial full snapshot. Incremental data will be pushed every 100 ms for the changes in the order book during that period of time.
+- `books5`: 5 depth levels snapshot will be pushed every time. Snapshot data will be pushed every 100 ms when there are changes in the 5 depth levels snapshot.
 
 > Request Example
 ```json
@@ -1059,11 +1062,11 @@ Retrieve the recent trades data. Data will be pushed whenever there is a trade. 
 }
 ```
 #### Request Parameters
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `subscribe` `unsubscribe`
 args | Array | Yes | List of subscribed channels
-`>channel` | String | Yes | Channel name, <br>`books`: 200 depth levels snapshot will be pushed every 100ms.  <br>`books5`: 5 depth levels snapshot will be pushed every 100ms.
+`>channel` | String | Yes | Channel name, `books` `books5`
 `>instId` | String | Yes | Instrument ID
 
 
@@ -1202,11 +1205,118 @@ seqId is the sequence ID of the market data published. The set of sequence ID re
 2. Incremental message 1 (normal update): prevSeqId = 10, seqId = 15
 
 
-#### Checksum
+#### Merging incremental data into full data
 After subscribing to the incremental load push (such as `books` 200 levels) of Order Book Channel, users first receive the initial full load of market depth. After the incremental load is subsequently received, update the local full load.
 
 1. If there is the same price, compare the size. If the size is 0, delete this depth data. If the size changes, replace the original data.
 2. If there is no same price, sort by price (bid in descending order, ask in ascending order), and insert the depth information into the full load.
+
+### WS Tickers Channel
+
+This channel uses public WebSocket and authentication is not required.
+
+Retrieve the tickers data of an instrument. the push frequency is the fastest interval 1 second push the data.
+
+
+> Request Example
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"tickers",
+            "instId":"BTC-USDT"
+        }
+    ]
+}
+```
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name, `tickers`
+`>instId` | String | Yes | Instrument ID
+
+
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "tickers",
+        "instId": "BTC-USDT"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"tickers\", \"instId\" : \"BTC-USDT\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | Object | Event, `subscribe` `unsubscribe` `error`
+arg | String | Subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+    "arg": {
+        "channel": "tickers",
+        "instId": "BTC-USDT"
+    },
+    "data": [{
+        "instId": "BTC-USDT",
+        "last": "9999.99",
+        "lastSize": "0.1",
+        "askPrice": "9999.99",
+        "askSize": "11",
+        "bidPrice": "8888.88",
+        "bidSize": "5",
+        "open24h": "9000",
+        "high24h": "10000",
+        "low24h": "8888.88",
+        "volCurrency24h": "2222",
+        "vol24h": "2222",
+        "ts": "1597026383085"
+    }]
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+arg | String | Successfully subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+data | Object | Subscribed data
+`>instId` | String | Instrument ID
+`>last` | String | Last traded price
+`>lastSize` | String | Lowest price
+`>askPrice` | String | Best ask price
+`>askSize` | String | Best ask size
+`>bidPrice` | String | Best bid price
+`>bidSize` | String | Best bid size
+`>open24h` | String | Open price in the past 24 hours
+`>high24h` | String | Highest price in the past 24 hours
+`>low24h` | String | Lowest price in the past 24 hours
+`>volCurrency24h` | String | 24h trading volume, with a unit of base `currency`
+`>vol24h` | String | 24h trading volume, with a unit of `contract`
+`>ts` | String | Ticker data generation time. Unix timestamp format in milliseconds, e.g. `1597026383085`
 
 # Account
 ## REST API
@@ -1227,10 +1337,10 @@ https://openapi.blofin.com/api/v1/asset/balances?accountType=funding
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 accountType | String | Yes | Account type <br> `funding`/`futures`/`copy_trading`/`earn`
-currency | String | No | currency
+currency | String | No | Currency
 
 > Response Example:
 
@@ -1257,11 +1367,11 @@ currency | String | Currency
 balance | String | Balance
 frozen | String | Frozen balance
 available | String | Available balance<br>The balance that can be withdrawn or transferred or used for trading
-bonus | String | bonus balance
+bonus | String | Bonus balance
 
 ### Funds Transfer
 
-Only API Keys with `Trade` privilege can call this endpoint.
+Only API Keys with `TRANSFER` privilege can call this endpoint.
 
 This endpoint supports the transfer of funds between your accounts.
 
@@ -1284,7 +1394,7 @@ body
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | Yes | Transfer currency, e.g. `USDT`
 fromAccount | String | Yes | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`
@@ -1326,14 +1436,15 @@ https://openapi.blofin.com/api/v1/asset/bills
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | No | Transfer currency, e.g. `USDT`
 fromAccount | String | No | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`
 toAccount | String | No | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`
 after | String | No | Amount to be transferred
 before | String | No | Client-supplied ID<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
-limit | String | No | Amount to be transferred
+limit | String | No | Number of results per request.
+The maximum is `100`; The default is `100`
 
 > Response Example:
 
@@ -1381,7 +1492,7 @@ https://openapi.blofin.com/api/v1/asset/withdrawal-history
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | No | Currency, e.g. `USDT`
 withdrawId | String | No | Withdrawal ID
@@ -1401,8 +1512,8 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; T
         {
             "currency": "USDT",
             "chain": "TRC20",
-            "address": "TKdnk55v6L7dgVff4BEDGDKg9v198WNcfo",
-            "txId": "",
+            "address": "THmWeEJKyb976L76MvrTjeYMyNgiS9aKTu",
+            "txId": "1838aab36aef8d7139d5b03b98dc7acaa836387f88888888a89f6d67114fbb4b",
             "type": "0",
             "amount": "40.011111",
             "fee": "0.1",
@@ -1417,8 +1528,8 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; T
         {
             "currency": "USDT",
             "chain": "TRC20",
-            "address": "TKdnk55v6L7dgVff4BEDGDKg9v198WNcfo",
-            "txId": "",
+            "address": "THmWeEJKyb976L76MvrTjeYMyNgiS9aKTu",
+            "txId": "1838aab36aef8d7139d5b03b98dc7acaa836387f88888888a89f6d67114fbb4b",
             "type": "0",
             "amount": "9999.899",
             "fee": "0.1",
@@ -1452,27 +1563,27 @@ tag | String | Some currencies require a tag for withdrawals. This is not return
 memo | String | Some currencies require this parameter for withdrawals. This is not returned if not required.
 withdrawId | String | Withdrawal ID
 
-### GET deposite history
+### GET deposit history
 
-Retrieve the deposite records according to the currency, status, and time range in reverse chronological order
+Retrieve the deposit records according to the currency, status, and time range in reverse chronological order
 
 #### HTTP Request
 
-`GET /api/v1/asset/deposite-history`
+`GET /api/v1/asset/deposit-history`
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/asset/deposite-history
+https://openapi.blofin.com/api/v1/asset/deposit-history
 ```
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | No | Currency, e.g. `USDT`
-depositId | String | No | Deposite ID
+depositId | String | No | Deposit ID
 txId | String | No | Hash record of the deposit
-state | String | No | Status of deposite <br> `0`: pending  <br> `1`: done  <br> `2`: failed  <br> `3`: pending due to temporary deposit suspension on this crypto currency
+state | String | No | Status of deposit <br> `0`: pending  <br> `1`: done  <br> `2`: failed  <br> `3`: pending due to temporary deposit suspension on this crypto currency
 before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
 after | String | No | Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. `1654041600000`
 limit | String | No | Number of results per request. <br>The maximum is `100`; The default is `100`
@@ -1487,26 +1598,24 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; T
         {
             "currency": "USDT",
             "chain": "TRC20",
-            "address": "TVxkZ44VNH4YGsQzRzZYHdmmUSZskgMR7y",
-            "txId": "3c38151bd5913f4ab72d8f61bcb7338076da3eae790e2c3cc8383344c58a7a30",
+            "address": "THmWeEJKyb976L76MvrTjeYMyNgiS9aKTu",
+            "txId": "1838aab36aef8d7139d5b03b98dc7acaa836387f88888888a89f6d67114fbb4b",
             "type": "0",
             "amount": "9",
             "state": "1",
             "ts": "1695262311039",
-            "tag": null,
             "confirm": "12",
             "depositId": "5ef059938ba799aaa845e1c2e8a762bd1"
         },
         {
             "currency": "USDT",
             "chain": "TRC20",
-            "address": "TVxkZ44VNH4YGsQzRzZYHdmmUSZskgMR7y",
-            "txId": "3c38151bd5913f4ab72d8f61bcb7338076da3eae790e2c3cc8383344c58a7a29",
+            "address": "THmWeEJKyb976L76MvrTjeYMyNgiS9aKTu",
+            "txId": "1838aab36aef8d7139d5b03b98dc7acaa836387f88888888a89f6d67114fbb4b",
             "type": "0",
             "amount": "9",
             "state": "1",
             "ts": "1695262311039",
-            "tag": null,
             "confirm": "12",
             "depositId": "5ef059938ba799aaa845e1c2e8a762bd1"
         }
@@ -1517,17 +1626,16 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; T
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-currency | String | Withdraw currency
+currency | String | Currency
 chain | String | Chain name, e.g. `ERC20`, `TRC20`
 address | String | From address
-type | String | Deposite type <br>`0`: blockchain deposite <br>`1`: internal transfers
-txId | String | Hash record of the deposite.
-amount | String | Deposite amount
-state | String | Status of deposite <br> `0`: pending  <br> `1`: done  <br> `2`: failed  <br> `3`: pending due to temporary deposit suspension on this crypto currency
+type | String | Deposit type <br>`0`: blockchain deposit <br>`1`: internal transfers
+txId | String | Hash record of the deposit.
+amount | String | Deposit amount
+state | String | Status of deposit <br> `0`: pending  <br> `1`: done  <br> `2`: failed  <br> `3`: pending due to temporary deposit suspension on this crypto currency
 confirm | String | Confirmations
-ts | String | Time the deposite request was submitted, Unix timestamp format in milliseconds, e.g. `1655251200000`.
-tag | String |  Some currencies require a tag for withdrawals. This is not returned if not required.
-depositeId | String | Deposite ID
+ts | String | Time the deposit request was submitted, Unix timestamp format in 
+depositId | String | Deposit ID
 
 # Trading
 ## REST API
@@ -1580,7 +1688,7 @@ Parameter | Type | Description
 ts | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 totalEquity | String | The total amount of equity in USD
 isolatedEquity | String | Isolated margin equity in USD
-details | String | Detailed asset information in all currencies
+details | Array | Detailed asset information in all currencies
 `>currency` | String | Currency
 `>equity` | String | Equity of the currency
 `>balance` | String | Cash balance
@@ -1609,7 +1717,7 @@ https://openapi.blofin.com/api/v1/account/positions?instId=BTC-USDT
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 
@@ -1643,7 +1751,7 @@ instId | String | No | Instrument ID, e.g. `BTC-USDT`
         },
         {
             "positionId": "5483",
-            "instId": "BSVT-USDT",
+            "instId": "BCH-USDT",
             "instType": "SWAP",
             "marginMode": "cross",
             "positionSide": "net",
@@ -1681,7 +1789,7 @@ averagePrice | String | Average open price
 markPrice | String | Latest Mark price
 marginRatio | String | Margin ratio
 liquidationPrice | String | Estimated liquidation price
-unrealizedPnl | String | Unrealized profit and loss ratio calculated by mark price.
+unrealizedPnl | String | Unrealized profit and loss calculated by mark price.
 unrealizedPnlRatio | String | Unrealized profit and loss ratio calculated by mark price.
 initialMargin | String | Initial margin requirement, only applicable to `cross`.
 maintenanceMargin | String | Maintenance margin requirement
@@ -1701,7 +1809,7 @@ https://openapi.blofin.com/api/v1/account/leverage-info?instId=BTC-USDT&marginMo
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
@@ -1715,7 +1823,7 @@ marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
     "data": {
         "leverage": "3",
         "marginMode": "cross",
-        "instId": "BSVT-USDT"
+        "instId": "BCH-USDT"
     }
 }
 ```
@@ -1746,7 +1854,7 @@ body
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 leverage | String | Yes | Leverage
@@ -1794,12 +1902,11 @@ body
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
 side | String | Yes | Order side, `buy` `sell`
-bbo_flag | String | No | `true`,`false`
 orderType | String | Yes | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
 price | String | Yes | Order price. Not applicable to `market`
 size | String | Yes | Quantity to buy or sell
@@ -1883,12 +1990,11 @@ body
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
 side | String | Yes | Order side, `buy` `sell`
-bbo_flag | String | No | `true`,`false`
 orderType | String | Yes | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
 price | String | Yes | Order price. Not applicable to `market`
 size | String | Yes | Quantity to buy or sell
@@ -1953,7 +2059,7 @@ body
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
@@ -2007,7 +2113,7 @@ body
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 orderId | String | No | Margin mode<br>`cross`<br>`isolated`
@@ -2062,7 +2168,7 @@ body
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 orderId | String | No | Margin mode<br>`cross`<br>`isolated`
@@ -2128,7 +2234,7 @@ body
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 tpslId | String | No | TP/SL order ID
@@ -2180,7 +2286,7 @@ https://openapi.blofin.com/api/v1/trade/orders-pending
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 orderType | String | No | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
@@ -2298,7 +2404,7 @@ https://openapi.blofin.com/api/v1/trade/orders-tpsl-pending
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 tpslId | String | No | TP/SL order ID
@@ -2380,7 +2486,7 @@ body
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
@@ -2422,7 +2528,7 @@ https://openapi.blofin.com/api/v1/trade/orders-history
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 orderType | String | No | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
@@ -2545,12 +2651,12 @@ https://openapi.blofin.com/api/v1/trade/orders-tpsl-history
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 tpslId | String | No | TP/SL order ID
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
-state | String | No | Pagination of data to return records earlier than the requested `tpslId`
+state | String | No | State,`live`, `effective`, `canceled`, `order_failed`
 after | String | No | Pagination of data to return records earlier than the requested `tpslId`
 before | String | No | Pagination of data to return records newer than the requested `tpslId`
 limit | String | No | Number of results per request. The maximum is `100`; The default is `100`
@@ -2647,7 +2753,7 @@ https://openapi.blofin.com/api/v1/trade/fills-history
 
 #### Query Parameters
 
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 orderId | String | No | Order ID
@@ -2704,12 +2810,12 @@ fillPrice | String | filled price
 fillSize | String | Filled quantity
 fillPnl | String | Last filled profit and loss, applicable to orders which have a trade and aim to close position.
 side | String | Order side
-positionSide | String | Position side<br>`long` `short`<br>it returns net innet mode.
+positionSide | String | Position side<br>`long` `short`<br>it returns `net` in net mode.
 fee | String | Fee
 ts | String | Data generation time, Unix timestamp format in milliseconds, e.g. `1597026383085`.
 
 ## WebSocket
-### WS Positions channel
+### WS Positions Channel
 
 This channel uses private WebSocket and authentication is required.
 
@@ -2740,7 +2846,7 @@ Retrieve position information. Initial snapshot will be pushed according to subs
 ```
 
 #### Request Parameters
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `subscribe` `unsubscribe`
 args | Array | Yes | List of subscribed channels
@@ -2783,7 +2889,7 @@ args | Array | Yes | List of subscribed channels
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-event | String | Event, `subscribe``unsubscribe``error`
+event | String | Event, `subscribe` `unsubscribe` `error`
 arg | Object | Subscribed channel
 `>channel` | String | Channel name
 `>instId` | String | Instrument ID
@@ -2838,7 +2944,7 @@ data | Array | Subscribed data
 `>positions` | String | Quantity of positions
 `>availablePositions` | String | Position that can be closed
 `>averagePrice` | String | Average open price
-`>unrealizedPnl` | String | Unrealized profit and loss ratio calculated by mark price.
+`>unrealizedPnl` | String | Unrealized profit and loss calculated by mark price.
 `>unrealizedPnlRatio` | String | Unrealized profit and loss ratio calculated by mark price.
 `>leverage` | String | Leverage
 `>liquidationPrice` | String | Estimated liquidation price
@@ -2851,7 +2957,7 @@ data | Array | Subscribed data
 `>createTime` | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>updateTime` | String | Latest time position was adjusted, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### WS Order channel
+### WS Order Channel
 
 This channel uses private WebSocket and authentication is required.
 
@@ -2882,7 +2988,7 @@ Retrieve order information. Data will not be pushed when first subscribed. Data 
 ```
 
 #### Request Parameters
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `subscribe` `unsubscribe`
 args | Array | Yes | List of subscribed channels
@@ -2925,7 +3031,7 @@ args | Array | Yes | List of subscribed channels
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-event | String | Event, `subscribe``unsubscribe``error`
+event | String | Event, `subscribe` `unsubscribe` `error`
 args | Object | Subscribed channel
 `>channel` | String | Channel name
 `>instId` | String | Instrument ID
@@ -3009,7 +3115,7 @@ data | Array | Subscribed data
 `>reduceOnly` | String | Whether orders can only reduce in position size.
 
 
-### WS tpsl channel
+### WS TPSL Channel
 
 This channel uses private WebSocket and authentication is required.
 
@@ -3040,7 +3146,7 @@ Retrieve tp/sl order information. Data will not be pushed when first subscribed.
 ```
 
 #### Request Parameters
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `subscribe` `unsubscribe`
 args | Array | Yes | List of subscribed channels
@@ -3083,7 +3189,7 @@ args | Array | Yes | List of subscribed channels
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-event | String | Event, `subscribe``unsubscribe``error`
+event | String | Event, `subscribe` `unsubscribe` `error`
 args | Object | Subscribed channel
 `>channel` | String | Channel name
 `>instId` | String | Instrument ID
@@ -3153,7 +3259,7 @@ data | Array | Subscribed data
 `>createTime` | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>updateTime` | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### WS account channel
+### WS Account Channel
 
 This channel uses private WebSocket and authentication is required.
 
@@ -3172,7 +3278,7 @@ Retrieve account information. Data will be pushed when triggered by events such 
 ```
 
 #### Request Parameters
-Parameter | Type | Default | Description
+Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `subscribe` `unsubscribe``error`
 args | Array | Yes | List of subscribed channels
@@ -3212,7 +3318,7 @@ args | Array | Yes | List of subscribed channels
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-event | String | Event, `subscribe``unsubscribe``error`
+event | String | Event, `subscribe` `unsubscribe` `error`
 args | Object | Subscribed channel
 `>channel` | String | Channel name
 code | String | Error code
