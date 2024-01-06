@@ -44,4 +44,4 @@ jobs:
       
     - name: Upload Documentation 
       run: |
-        aws s3 cp dist  s3://blofin-exchange-apidocs-prod/  --acl public-read 
+        aws s3 cp dist  s3://blofin-exchange-apidocs-prod/  --acl public-read --debug
