@@ -24,9 +24,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install AWS CLI 
-      run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.14.5.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install --update
+    # - name: Install AWS CLI 
+      # run: |
+          # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.14.5.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install --update
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
