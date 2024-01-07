@@ -1,0 +1,52 @@
+
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Public OpenAPI Documentation
+
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
+on: workflow_dispatch
+
+
+jobs:
+  build:
+    environment: s3
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+
+    # - name: Install AWS CLI 
+    #   run: |
+    #       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.14.5.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install --update
+
+    - id: install-aws-cli
+      uses: unfor19/install-aws-cli-action@v1
+      with:
+        version: 2                         # default
+        verbose: true                     # default
+        arch: amd64                        # allowed values: amd64, arm64
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install && npm run build 
+      
+    - name: Upload Documentation 
+      shell: bash
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        aws s3 cp dist/  s3://blofin-exchange-apidocs-prod/  --debug --recursive
