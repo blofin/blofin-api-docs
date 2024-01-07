@@ -49,4 +49,4 @@ jobs:
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        aws s3 cp dist  s3://blofin-exchange-apidocs-prod/  --acl public-read --debug
+        aws s3 cp dist/  s3://blofin-exchange-apidocs-prod/  --acl public-read --debug --recursive
