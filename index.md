@@ -805,7 +805,7 @@ instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 bar | String | No | Bar size, the default is `1m`<br>e.g. `1m`/`3m`/`5m`/`15m`/`30m`/`1H`/`2H`/`4H`/`6H`/`8H`/`12H`/`1D`/`3D`/`1W`/`1M`
 after | String | No | Pagination of data to return records earlier than the requested `ts`
 before | String | No | Pagination of data to return records newer than the requested `ts`. The latest data will be returned when using `before` individually
-limit | String | No | Number of results per request. The maximum is `100`. The default is `100`.
+limit | String | No | Number of results per request. The maximum is `1440`. The default is `500`.
 
 > Response Example:
 
@@ -832,7 +832,7 @@ limit | String | No | Number of results per request. The maximum is `100`. The d
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-ts | String | Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. `1597026383085`
+ts | String | Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. `1672502400000`
 open | String | Open price
 high | String | Highest price
 low | String | Lowest price
@@ -1318,6 +1318,93 @@ data | Object | Subscribed data
 `>vol24h` | String | 24h trading volume, with a unit of `contract`
 `>ts` | String | Ticker data generation time. Unix timestamp format in milliseconds, e.g. `1597026383085`
 
+### WS Funding Rate Channel
+
+This channel uses public WebSocket and authentication is not required.
+
+Retrieve the funding rate data of an instrument. The push frequency is the fastest interval 30 second push the data.
+
+
+> Request Example
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"funding-rate",
+            "instId":"BTC-USDT"
+        }
+    ]
+}
+```
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name, `funding-rate`
+`>instId` | String | Yes | Instrument ID
+
+
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "funding-rate",
+        "instId": "BTC-USDT"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"funding-rate\", \"instId\" : \"BTC-USDT\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | Object | Event, `subscribe` `unsubscribe` `error`
+arg | String | Subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+    "arg": {
+        "channel": "funding-rate",
+        "instId": "BTC-USDT"
+    },
+    "data": [{
+         "fundingRate":"0.0001875391284828",
+         "fundingTime":"1700726400000",
+         "instId":"BTC-USDT"
+      }]
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+arg | String | Successfully subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+data | Object | Subscribed data
+`>instId` | String | Instrument ID
+`>fundingRate` | String | Current funding rate
+`>fundingTime` | String | Funding time of the upcoming settlement, Unix timestamp format in milliseconds, e.g. `1597026383085`.
+
 # Account
 ## REST API
 
@@ -1443,8 +1530,7 @@ fromAccount | String | No | The remitting account <br>`funding`<br>`futures`<br>
 toAccount | String | No | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`
 after | String | No | Amount to be transferred
 before | String | No | Client-supplied ID<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
-limit | String | No | Number of results per request.
-The maximum is `100`; The default is `100`
+limit | String | No | Number of results per request. The maximum is `100`; The default is `100`
 
 > Response Example:
 
@@ -1628,13 +1714,13 @@ Parameter | Type | Description
 ----------------- | ----- | -----------
 currency | String | Currency
 chain | String | Chain name, e.g. `ERC20`, `TRC20`
-address | String | From address
+address | String | Deposit address
 type | String | Deposit type <br>`0`: blockchain deposit <br>`1`: internal transfers
 txId | String | Hash record of the deposit.
 amount | String | Deposit amount
 state | String | Status of deposit <br> `0`: pending  <br> `1`: done  <br> `2`: failed  <br> `3`: pending due to temporary deposit suspension on this crypto currency
 confirm | String | Confirmations
-ts | String | Time the deposit request was submitted, Unix timestamp format in 
+ts | String | Time the deposit request was submitted, Unix timestamp format in milliseconds, e.g. `1656633600000` 
 depositId | String | Deposit ID
 
 # Trading
@@ -1835,7 +1921,7 @@ instId | String | Instrument ID
 leverage | String | Leverage
 marginMode | String | Margin mode
 
-### Set leverage
+### Set Leverage
 
 #### HTTP Request
 
@@ -1881,7 +1967,7 @@ instId | String | Instrument ID
 leverage | String | Leverage
 marginMode | String | Margin mode
 
-### Place order
+### Place Order
 
 #### HTTP Request
 
@@ -1942,7 +2028,7 @@ clientOrderId | String | Client Order ID as assigned by the client
 code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
 
-### Place multiple orders
+### Place Multiple Orders
 
 #### HTTP Request
 
@@ -2032,7 +2118,7 @@ clientOrderId | String | Client Order ID as assigned by the client
 code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
 
-### Place TPSL order
+### Place TPSL Order
 
 #### HTTP Request
 
@@ -2096,7 +2182,7 @@ clientOrderId | String | Client Order ID as assigned by the client
 code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
 
-### Cancel order
+### Cancel Order
 
 #### HTTP Request
 
@@ -2142,7 +2228,7 @@ clientOrderId | String | Client Order ID as assigned by the client
 code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
 
-### Cancel multiple orders
+### Cancel Multiple Orders
 
 #### HTTP Request
 
@@ -2208,7 +2294,7 @@ code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
 
 
-### Cancel TPSL order
+### Cancel TPSL Order
 
 #### HTTP Request
 
@@ -2293,7 +2379,7 @@ orderType | String | No | Order type<br>`market`: market order<br>`limit`: limit
 state | String | No | State<br>`live`<br>`partially_filled`
 after | String | No | Pagination of data to return records earlier than the requested `orderId`
 before | String | No | Pagination of data to return records newer than the requested `orderId`
-limit | String | No | Number of results per request. The maximum is `100`; The default is `100`
+limit | String | No | Number of results per request. The maximum is `100`; The default is `20`
 
 The `before` and `after` parameters cannot be used simultaneously.
 
@@ -2411,7 +2497,7 @@ tpslId | String | No | TP/SL order ID
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 after | String | No | Pagination of data to return records earlier than the requested `tpslId`
 before | String | No | Pagination of data to return records newer than the requested `tpslId`
-limit | String | No | Number of results per request. The maximum is `100`; The default is `100`
+limit | String | No | Number of results per request. The maximum is `100`; The default is `20`
 
 
 The `before` and `after` parameters cannot be used simultaneously.
@@ -2465,7 +2551,7 @@ reduceOnly | String | Whether orders can only reduce in position size.<br>Valid 
 actualSize | String | Actual order quantity
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### Close positions
+### Close Positions
 
 Close the position of an instrument via a market order.
 
@@ -2537,7 +2623,7 @@ after | String | No | Pagination of data to return records earlier than the requ
 before | String | No | Pagination of data to return records newer than the requested `orderId`
 begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
-limit | String | No | Number of results per request. The maximum is `100`; The default is `100`
+limit | String | No | Number of results per request. The maximum is `100`; The default is `20`
 
 The `before` and `after` parameters cannot be used simultaneously.
 
@@ -2659,7 +2745,7 @@ clientOrderId | String | No | Client Order ID as assigned by the client<br>A com
 state | String | No | State,`live`, `effective`, `canceled`, `order_failed`
 after | String | No | Pagination of data to return records earlier than the requested `tpslId`
 before | String | No | Pagination of data to return records newer than the requested `tpslId`
-limit | String | No | Number of results per request. The maximum is `100`; The default is `100`
+limit | String | No | Number of results per request. The maximum is `100`; The default is `20`
 
 
 The `before` and `after` parameters cannot be used simultaneously.
@@ -2725,13 +2811,13 @@ instId | String | Instrument ID
 marginMode | String | Margin mode
 positionSide | String | Position side
 side | String | Order side
-orderType | String | Quantity to buy or sell.
+orderType | String | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
 size | String | Quantity to buy or sell.
 reduceOnly | String | Whether orders can only reduce in position size.<br>Valid options: `true` or `false`. The default value is `false`.
 leverage | String | Leverage
 state | String | State,`live`, `effective`, `canceled`, `order_failed`
 actualSize | String | Actual order quantity
-orderCategory | String | Quantity to buy or sell.
+orderCategory | String | Order category<br>`nomal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
 tpTriggerPrice | String | Take-profit trigger price
 tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
 slTriggerPrice | String | Stop-loss trigger price
@@ -2761,7 +2847,7 @@ after | String | No | Pagination of data to return records earlier than the requ
 before | String | No | Pagination of data to return records newer than the requested `tradeId`
 begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
-limit | String | No | Number of results per request. The maximum is `100`; The default is `100`
+limit | String | No | Number of results per request. The maximum is `100`; The default is `20`
 
 The `before` and `after` parameters cannot be used simultaneously.
 
