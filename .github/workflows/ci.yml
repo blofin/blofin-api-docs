@@ -43,5 +43,10 @@ jobs:
     - run: npm install && npm run build 
       
     - name: Upload Documentation 
+      shell: bash
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         aws s3 cp dist  s3://blofin-exchange-apidocs-prod/  --acl public-read --debug
