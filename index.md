@@ -3128,6 +3128,7 @@ msg | String | Error message
 
 ```json
 {
+    "action":"snapshot",
     "arg":{
         "channel":"orders"
     },
@@ -3169,6 +3170,7 @@ msg | String | Error message
 #### Push Data Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
+action | String | Push data action, incremental data or full snapshot.<br>`snapshot`: full<br>`update`: incremental
 arg | Object | Successfully subscribed channel
 `>channel` | String | Channel name
 data | Array | Subscribed data
@@ -3286,6 +3288,7 @@ msg | String | Error message
 
 ```json
 {
+    "action": "snapshot",
     "arg":{
         "channel":"orders-algo"
     },
@@ -3320,6 +3323,7 @@ msg | String | Error message
 #### Push Data Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
+action | String | Push data action, incremental data or full snapshot.<br>`snapshot`: full<br>`update`: incremental
 arg | Object | Successfully subscribed channel
 `>channel` | String | Channel name
 data | Array | Subscribed data
