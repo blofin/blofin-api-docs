@@ -352,7 +352,7 @@ When a request is rejected by our system due to rate limits, the system will ret
 
 ### REST API Limits
 * Limit the call of the endpoint by IP, up to 500 requests per minute, if triggered, the service will be suspended for 5 minutes; up to 1500 requests per 5 minutes, if triggered, the service will be suspended for 1 hour.
-* Rate limits of trading-related APIs at 30 requests every 10 seconds.
+* Rate limits of trading-related APIs at 50 requests every 10 seconds.
 
 ### WebSocket Limits
 * Connection limit: 1 request per second (based on IP)
