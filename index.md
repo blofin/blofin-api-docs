@@ -2002,6 +2002,7 @@ tpTriggerPrice | String | No | Take-profit trigger price<br>If you fill in this 
 tpOrderPrice | String | No | Take-profit order price.<br>If you fill in this parameter, you should fill in the `tpTriggerPrice` as well.<br>If the price is -1, take-profit will be executed at the market price.
 slTriggerPrice | String | No | Stop-loss trigger price<br>If you fill in this parameter, you should fill in the `slOrderPrice` as well.
 slOrderPrice | String | No | Stop-loss order price.<br>If you fill in this parameter, you should fill in the `slTriggerPrice` as well.<br>If the price is -1, stop-loss will be executed at the market price.
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 > Response Example:
 
@@ -2090,6 +2091,7 @@ tpTriggerPrice | String | No | Take-profit trigger price<br>If you fill in this 
 tpOrderPrice | String | No | Take-profit order price.<br>If you fill in this parameter, you should fill in the `tpTriggerPrice` as well.<br>If the price is -1, take-profit will be executed at the market price.
 slTriggerPrice | String | No | Stop-loss trigger price<br>If you fill in this parameter, you should fill in the `slOrderPrice` as well.
 slOrderPrice | String | No | Stop-loss order price.<br>If you fill in this parameter, you should fill in the `slTriggerPrice` as well.<br>If the price is -1, stop-loss will be executed at the market price.
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 > Response Example:
 
@@ -2158,6 +2160,7 @@ slOrderPrice | String | No | Stop-loss order price.<br>If you fill in this param
 size | String | No | Quantity to take-profit or stop-loss
 reduceOnly | String | No | Whether orders can only reduce in position size.<br>Valid options: `true` or `false`. The default value is `false`.
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 > Response Example:
 
@@ -2415,7 +2418,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "triggerPriceType": "last",
             "slTriggerPrice": "1299.000000000000000000",
             "slOrderPrice": null,
-            "tpOrderPrice": null
+            "tpOrderPrice": null,
+            "brokerId": ""
         },
         {
             "orderId": "29530845",
@@ -2442,7 +2446,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "triggerPriceType": null,
             "slTriggerPrice": null,
             "slOrderPrice": null,
-            "tpOrderPrice": null
+            "tpOrderPrice": null,
+            "brokerId": ""
         }
     ]
 }
@@ -2474,6 +2479,7 @@ tpTriggerPrice | String | Take-profit trigger price
 tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
 slTriggerPrice | String | Stop-loss trigger price
 slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 ### GET Active TPSL Orders
 
@@ -2525,7 +2531,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "reduceOnly": "false",
             "actualSize": null,
             "clientOrderId": "aabbc",
-            "createTime": "1697016700775"
+            "createTime": "1697016700775",
+            "brokerId": ""
         }
     ]
 }
@@ -2550,6 +2557,7 @@ leverage | String | Leverage
 reduceOnly | String | Whether orders can only reduce in position size.<br>Valid options: `true` or `false`. The default value is `false`.
 actualSize | String | Actual order quantity
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 ### Close Positions
 
@@ -2660,7 +2668,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "slTriggerPrice": null,
             "slOrderPrice": null,
             "cancelSource": "user_canceled",
-            "cancelSourceReason": "Order canceled by user"
+            "cancelSourceReason": "Order canceled by user",
+            "brokerId": ""
         },
         {
             "orderId": "29419496",
@@ -2687,7 +2696,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "slTriggerPrice": "1100.000000000000000000",
             "slOrderPrice": null,
             "cancelSource": "user_canceled",
-            "cancelSourceReason": "Order canceled by user"
+            "cancelSourceReason": "Order canceled by user",
+            "brokerId": ""
         }
     ]
 }
@@ -2721,6 +2731,7 @@ slTriggerPrice | String | Stop-loss trigger price
 slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
 cancelSource | String | Type of the cancellation source.
 cancelSourceReason | String | Reason for the cancellation.
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 ### GET TPSL Order History
 
@@ -2776,7 +2787,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "tpTriggerPrice": "1661.100000000000000000",
             "tpOrderPrice": null,
             "slTriggerPrice": null,
-            "slOrderPrice": null
+            "slOrderPrice": null,
+            "brokerId": ""
         },
         {
             "tpslId": "1482",
@@ -2796,7 +2808,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "tpTriggerPrice": "1661.100000000000000000",
             "tpOrderPrice": null,
             "slTriggerPrice": null,
-            "slOrderPrice": null
+            "slOrderPrice": null,
+            "brokerId": ""
         }
     ]
 }
@@ -2823,6 +2836,7 @@ tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-prof
 slTriggerPrice | String | Stop-loss trigger price
 slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 ### GET Trade History
 
@@ -2868,7 +2882,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "side": "buy",
             "positionSide": "net",
             "fee": "0.190536000000000000",
-            "ts": "1696853354238"
+            "ts": "1696853354238",
+            "brokerId": ""
         },
         {
             "instId": "ETH-USDT",
@@ -2880,7 +2895,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "side": "buy",
             "positionSide": "net",
             "fee": "0.095268000000000000",
-            "ts": "1696853354224"
+            "ts": "1696853354224",
+            "brokerId": ""
         }
     ]
 }
@@ -2899,6 +2915,7 @@ side | String | Order side
 positionSide | String | Position side<br>`long` `short`<br>it returns `net` in net mode.
 fee | String | Fee
 ts | String | Data generation time, Unix timestamp format in milliseconds, e.g. `1597026383085`.
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 ## WebSocket
 ### WS Positions Channel
@@ -3161,7 +3178,8 @@ msg | String | Error message
             "orderCategory":"pre_tp_sl",
             "createTime":"1696760245931",
             "updateTime":"1696760245973",
-            "reduceOnly":"false"
+            "reduceOnly":"false",
+            "brokerId":""
         }
     ]
 }
@@ -3201,6 +3219,7 @@ data | Array | Subscribed data
 `>createTime` | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>updateTime` | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>reduceOnly` | String | Whether orders can only reduce in position size.
+`>brokerId` | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 
 ### WS TPSL Channel
@@ -3314,7 +3333,8 @@ msg | String | Error message
             "reduceOnly":"true",
             "cancelType":"not_canceled",
             "createTime":"1696760848240",
-            "updateTime":"1696760848240"
+            "updateTime":"1696760848240",
+            "brokerId":""
         }
     ]
 }
@@ -3348,6 +3368,7 @@ data | Array | Subscribed data
 `>cancelType` | String | Type of the cancellation source.
 `>createTime` | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>updateTime` | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>brokerId` | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 ### WS Account Channel
 
