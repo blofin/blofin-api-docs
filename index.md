@@ -378,13 +378,6 @@ To keep the connection stable:
 
 ## Risk Control Restrictions
 BloFin has three types of risk control strategies for APIs: rate limit, trading restrictions, and network firewall restrictions. Restrictions are subject to change at any time.
-### Trading Restrictions
-Trading behavior is assessed according to the conduct of all users. If your trading behavior deviates significantly from that of regular users, you may be prohibited from trading, and the duration of the prohibition varies. The duration of the trading prohibition may increase under the following circumstances:
-* Frequently occupying the best bid and ask prices.
-* Frequently placing/canceling orders without any trades.
-* Very low trade completion rate, where the completion rate = number of trades / (number of placed orders + number of canceled orders).
-* Very low trade weight, where the trade weight = total trade amount / (total placed order amount + total canceled order amount).
-* Continuously sending frequent requests after receiving a 429 error response.
 
 ### Network Firewall Restrictions
 Currently, we do not provide explicit information about network firewall restrictions. 
