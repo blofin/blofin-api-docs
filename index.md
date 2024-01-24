@@ -377,7 +377,7 @@ To keep the connection stable:
 </aside>
 
 ## Risk Control Restrictions
-BloFin has three types of risk control strategies for APIs: rate limit, trading restrictions, and network firewall restrictions. Restrictions are subject to change at any time.
+BloFin has two types of risk control strategies for APIs: rate limit, network firewall restrictions. 
 
 ### Network Firewall Restrictions
 Currently, we do not provide explicit information about network firewall restrictions. 
