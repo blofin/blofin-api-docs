@@ -20,6 +20,9 @@ Error Code | HTTP Status Code | Error Message
 152007 | 200 | Batch orders can only be placed with the same instId and marginMode.
 152008 | 200 | Only the same field is allowed for bulk cancellation of orders, orderId is preferred.
 152009 | 200 | {} must be a combination of numbers, letters, or underscores, and the maximum length of characters is 32.
+152011 | 200 | Transaction API Key does not support brokerId
+152012 | 200 | BrokerId is required
+152013 | 200 | Unmatched brokerId, please check your API key's bound broker
 150003 | 200 | clientId already exist
 150004 | 200 | Insufficient balance. please adjust the amount and try again.
 542 | 200 | Exceeded the maximum order size limit
