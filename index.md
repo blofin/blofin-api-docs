@@ -2602,7 +2602,7 @@ positionSide | String | Position side<br>`long`<br>`short`<br>`net`
 
 ### GET Order History
 
-Get completed orders which are placed in the last 3 months
+Get completed order history
 
 #### HTTP Request
 
@@ -2728,7 +2728,7 @@ brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensi
 
 ### GET TPSL Order History
 
-Retrieve a list of all TP/SL orders under the current account in the last 3 months.
+Retrieve a list of all TP/SL orders under the current account.
 
 #### HTTP Request
 
