@@ -3483,3 +3483,304 @@ data | Array | Subscribed data
 `>>equityUsd` | String | Equity in USD of the currency
 `>>isolatedUnrealizedPnl` | String | Isolated unrealized profit and loss of the currency
 `>>bonus` | String | Bonus balance
+
+
+
+ # Affiliate
+
+ ## REST API
+
+ ### GET Affiliate Info
+
+This API is used for affiliate to get their affiliate basic info.
+
+#### HTTP Request
+
+`GET /api/v1/affiliate/basic`
+
+> Request Example:
+```shell
+https://openapi.blofin.com/api/v1/affiliate/basic
+```
+
+> Response Example:
+
+```json
+{
+    "code": 200,
+    "msg": "success",
+    "data": {
+        "commissionRate": "0.6",
+        "cashbackRate": "0.05",
+        "totalCommission": "0",
+        "referralCode": "hero2",
+        "referralLink": "https://dev-partner.blofin.com/d/hero2",
+        "directInvitees": 0,
+        "subInvitees": 0,
+        "tradedInvitees": 0,
+        "updateTime": 1691049629676,
+        "totalTradingVolume": "0",
+        "directCommission7d": "0",
+        "directCommission30d": "0",
+        "subCommission7d": "0",
+        "subCommission30d": "0",
+        "directInvitee7d": "0",
+        "directInvitee30d": "0",
+        "subInvitee7d": "0",
+        "subInvitee30d": "0"
+    }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+commissionRate | String | Total commission rate
+cashbackRate | String | Cashback rate
+totalCommission | String | Cumulative commission of all-level sub-invitees.<br>Updated every 6 hours.
+referralCode | String | Default referral code
+referralLink | String | Default referral link
+directInvitees | String | Total invitees invited by user.
+subInvitees | String | Total invitees invited by sub-affiliates.
+tradedInvitees | String | Number of traded users of invitees invited both by user and sub-affiliates.
+updateTime | String | Update time of currency balance information, Unix timestamp format in milliseconds, e.g. `1597026383085`
+totalTradingVolume | String | Cumulative total trading volume of all-level sub-invitees and direct invitees.
+directCommission7d | String | Total Commission from direct invitees in the last 7 days.
+directCommission30d | String | Total Commission from direct invitees in the last 30 days.
+subCommission7d | String | Total Commission from sub-invitees in the last 7 days.
+subCommission30d | String | Total Commission from sub-invitees in the last 30 days.
+directInvitee7d | String | Number of direct invitees in the last 7 days
+directInvitee30d | String | Number of direct invitees in the last 30 days
+subInvitee7d | String | Number of sub-invitees in the last 7 days
+subInvitee30d | String | Number of sub-invitees in the last 30 days
+
+### GET Referral Code 
+
+This API is used for affiliate to get their referral code list.
+
+#### HTTP Request
+
+`GET /api/v1/affiliate/referral-code`
+
+> Request Example:
+```shell
+https://openapi.blofin.com/api/v1/affiliate/referral-code
+```
+
+> Response Example:
+
+```json
+{
+    "code": 200,
+    "msg": "success",
+    "data": [
+        {
+            "referralCode": "blofin",
+            "commissionRate": "0.55",
+            "cashbackRate": "0.05",
+            "invitees": 0,
+            "remark": "",
+            "isDefaultReferralCode": true,
+            "makerFeeRate": "0.0002",
+            "takerFeeRate": "0.0006",
+            "referralLink": "https://partner.blofin.com/d/blofin"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+referralCode | String | Referral code
+commissionRate | String | Total commission rate
+cashbackRate | String | Cashback rate for invitees
+invitees | String | Total invitees invited with this referral code
+remark | String | Remark
+isDefaultReferralCode | String | Whether this referral code is the default code.<br>`true`<br>`false`
+makerFeeRate | String | Futures maker fee rate for invitees
+takerFeeRate | String | Futures taker fee rate for invitees
+referralLink | String | Referral link
+
+### GET Direct Invitees
+
+Retrieve the direct invitees info of affiliates.
+
+#### HTTP Request
+
+`GET /api/v1/affiliate/invitees`
+
+> Request Example:
+```shell
+https://openapi.blofin.com/api/v1/affiliate/invitees
+```
+
+#### Query Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+uid | String | No | Invitee's UID
+after | String | No | Pagination of data to return records earlier than the requested `id`
+before | String | No | Pagination of data to return records newer than the requested `id`
+limit | String | No | Number of results per request. <br>The maximum is `30`; <br>The default is `10`
+
+> Response Example:
+
+```json
+{
+    "code": 200,
+    "msg": "success",
+    "data": [
+        {
+            "id": 181,
+            "uid": 30285086315,
+            "registerTime": 1706861990475,
+            "totalTradingVolume": "3136.78",
+            "totalTradingFee": "0.4918",
+            "totalCommision": "0.1475",
+            "totalDeposit": "0",
+            "totalWithdrawal": "100"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+id | Long | ID
+uid | String | UID of invitee
+registerTime | String | Register time of invitee
+totalTradingVolume | String | Total futures trading amount of invitee
+totalTradingFee | String | Total futures trading fee of invitee
+totalCommision | String | Total commission of invitee
+totalDeposit | String | Total deposit amount of invitee
+totalWithdrawal | String | Total withdrawal amount of invitee
+
+
+
+
+### GET Sub Invitees
+
+Retrieve the invitees info of sub affiliates.
+
+#### HTTP Request
+
+`GET /api/v1/affiliate/sub-invitees`
+
+> Request Example:
+```shell
+https://openapi.blofin.com/api/v1/affiliate/sub-invitees
+```
+
+#### Query Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+uid | String | No | Invitee's UID
+after | String | No | Pagination of data to return records earlier than the requested `orderId`
+before | String | No | Pagination of data to return records newer than the requested `orderId`
+subAffiliateUid | String | No | Sub affiliate's UID
+subAffiliateLevel | String | No | Sub affiliate's UID <br>`2` <br>`3` <br>`4`
+limit | String | No | Number of results per request. <br>The maximum is `30`; <br>The default is `10`
+
+> Response Example:
+
+```json
+{
+    "code": 200,
+    "msg": "success",
+    "data": [
+        {
+            "id": 181,
+            "uid": 30285086315,
+            "subAffiliateUid": 30285102093,
+            "subAffiliateLevel": 2,
+            "registerTime": 1706861990475,
+            "totalTradingVolume": "3136.78",
+            "totalTradingFee": "0.4918",
+            "totalCommision": "0.1475",
+            "totalDeposit": "0",
+            "totalWithdrawal": "100"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+id | Long | ID
+uid | String | UID of invitee
+subAffiliateUid | String | UID of sub affiliate
+subAffiliateLevel | String | Level of invitee
+registerTime | String | Register time of invitee
+totalTradingVolume | String | Total futures trading amount of invitee
+totalTradingFee | String | Total futures trading fee of invitee
+totalCommision | String | Total commission of invitee
+totalDeposit | String | Total deposit amount of invitee
+totalWithdrawal | String | Total withdrawal amount of invitee
+
+### GET Sub Affiliates
+
+Retrieve the info of sub affiliates.
+
+#### HTTP Request
+
+`GET /api/v1/affiliate/sub-affiliates`
+
+> Request Example:
+```shell
+https://openapi.blofin.com/api/v1/affiliate/sub-affiliates
+```
+
+#### Query Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+after | String | No | Pagination of data to return records earlier than the requested `orderId`
+before | String | No | Pagination of data to return records newer than the requested `orderId`
+subAffiliateUid | String | No | Sub affiliate's UID
+subAffiliateLevel | String | No | Sub affiliate's UID <br>`2` <br>`3` <br>`4`
+limit | String | No | Number of results per request. <br>The maximum is `100`; <br>The default is `10`
+
+> Response Example:
+
+```json
+{
+    "code": 200,
+    "msg": "success",
+    "data": [
+        {
+            "id": 123,
+            "uid": 30285143170,
+            "commissionRate": "0.1",
+            "createTime": 1707018797957,
+            "upperAffiliate": 30285102093,
+            "invitees": 1,
+            "totalTradedUsers": 1,
+            "totalTradingVolume": "3120",
+            "totalTradingFee": "0.624",
+            "totalCommision": "0.0624",
+            "myCommision": "0.0104",
+            "tag": ""
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+id | Long | ID
+uid | String | UID of sub affiliate
+commissionRate | String | Commission rate of sub affiliate
+createTime | String | Create time of sub affiliate
+upperAffiliate | String | Upper affiliate of sub affiliate
+invitees | String | Total invitees of sub affiliate
+totalTradedUsers | String | Total traded invitees of sub affiliate
+totalTradingVolume | String | Total futures trading volume of sub affiliate's invitees
+totalTradingFee | String | Total fututres trading fee of sub affiliate's invitees
+totalCommision | String | Total commission of sub affiliate
+myCommision | String | My commission got from sub affiliate
+tag | String | Tag
