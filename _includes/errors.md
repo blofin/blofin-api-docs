@@ -39,6 +39,8 @@ Error Code | HTTP Status Code | Error Message
 102048 | 200 | stop loss trigger price must be higher than the best bid price
 102049 | 200 | Take profit trigger price should be lower than the order price
 102050 | 200 | stop loss trigger price must be lower than the best ask price
+80001 | 200 | Parameters error
+80006 | 200 | Affiliate do not exit. Please apply to be affiliate first.
 102051 | 200 | stop loss trigger price should be lower than the order price
 102052 | 200 | take profit trigger price should be higher than the order price
 102053 | 200 | take profit trigger price should be lower than the best bid price
