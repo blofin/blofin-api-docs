@@ -3543,7 +3543,7 @@ referralLink | String | Default referral link
 directInvitees | String | Total invitees invited by user.
 subInvitees | String | Total invitees invited by sub-affiliates.
 tradedInvitees | String | Number of traded users of invitees invited both by user and sub-affiliates.
-updateTime | String | Update time of currency balance information, Unix timestamp format in milliseconds, e.g. `1597026383085`
+updateTime | String | Update time of data. Unix timestamp format in milliseconds, e.g. `1597026383085`
 totalTradingVolume | String | Cumulative total trading volume of all-level sub-invitees and direct invitees.
 directCommission7d | String | Total Commission from direct invitees in the last 7 days.
 directCommission30d | String | Total Commission from direct invitees in the last 30 days.
@@ -3650,7 +3650,7 @@ Parameter | Type | Description
 ----------------- | ----- | -----------
 id | Long | ID
 uid | String | UID of invitee
-registerTime | String | Register time of invitee
+registerTime | String | Register time of invitee. Unix timestamp format in milliseconds, e.g. `1597026383085`
 totalTradingVolume | String | Total futures trading amount of invitee
 totalTradingFee | String | Total futures trading fee of invitee
 totalCommision | String | Total commission of invitee
@@ -3714,7 +3714,7 @@ id | Long | ID
 uid | String | UID of invitee
 subAffiliateUid | String | UID of sub affiliate
 subAffiliateLevel | String | Level of invitee
-registerTime | String | Register time of invitee
+registerTime | String | Register time of invitee. Unix timestamp format in milliseconds, e.g. `1597026383085`
 totalTradingVolume | String | Total futures trading amount of invitee
 totalTradingFee | String | Total futures trading fee of invitee
 totalCommision | String | Total commission of invitee
@@ -3775,7 +3775,7 @@ Parameter | Type | Description
 id | Long | ID
 uid | String | UID of sub affiliate
 commissionRate | String | Commission rate of sub affiliate
-createTime | String | Create time of sub affiliate
+createTime | String | Create time of sub affiliate. Unix timestamp format in milliseconds, e.g. `1597026383085`
 upperAffiliate | String | Upper affiliate of sub affiliate
 invitees | String | Total invitees of sub affiliate
 totalTradedUsers | String | Total traded invitees of sub affiliate
