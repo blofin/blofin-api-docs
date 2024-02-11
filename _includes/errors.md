@@ -11,6 +11,8 @@ Error Code | HTTP Status Code | Error Message
 405 | 200 | Method Not Allowed
 406 | 200 | Not Acceptable
 429 | 429 | Too Many Requests
+1   | 200 | All operations failed
+2   | 200 | Batch operation partially succeeded.
 152001 | 200 | Parameter {} cannot be empty.
 152002 | 200 | Parameter {} error.
 152003 | 200 | Either parameter {} or {} is required.
@@ -49,4 +51,5 @@ Error Code | HTTP Status Code | Error Message
 102064 | 200 | Buy price is not within the price limit (Minimum: 310.40; Maximum:1,629.40)
 102065 | 200 | Sell price is not within the price limit 
 102068 | 200 | Cancel failed as the order has been filled, triggered, canceled or does not exist.
+103003 | 200 | Order failed. Insufficient USDT margin in account
 103013 | 200 | Internal error; unable to process your request. Please try again.
