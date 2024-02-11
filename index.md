@@ -2198,7 +2198,7 @@ body
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
-orderId | String | No | Margin mode<br>`cross`<br>`isolated`
+orderId | String | Yes | Order ID
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 
 > Response Example:
@@ -2253,7 +2253,7 @@ body
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
-orderId | String | No | Margin mode<br>`cross`<br>`isolated`
+orderId | String | Yes | Order ID
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 
 > Response Example:
