@@ -21,8 +21,8 @@ BloFin provides REST and WebSocket APIs to access market data, trading, and acco
 
 ## General Info
 * Root URL for REST access: `https://openapi.blofin.com`
-* Public WebSocket：wss://openapi.blofin.com/ws/public
-* Private WebSocket：wss://openapi.blofin.com/ws/private
+* Public WebSocket：`wss://openapi.blofin.com/ws/public`
+* Private WebSocket：`wss://openapi.blofin.com/ws/private`
 * All time and timestamp related fields are in **milliseconds**.
 * All endpoints return either a JSON object or array.
 * Data is returned in **descending** order. Newest first, oldest last.
