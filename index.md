@@ -1914,6 +1914,52 @@ instId | String | Instrument ID
 leverage | String | Leverage
 marginMode | String | Margin mode
 
+
+### GET Multiple Leverage
+
+#### HTTP Request
+`GET /api/v1/account/batch-leverage-info`
+
+> Request Example:
+```shell
+https://openapi.blofin.com/api/v1/account/batch-leverage-info?instId=BTC-USDT,ETH-USDT&marginMode=cross
+```
+
+#### Query Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID<br>Single instrument ID or multiple instrument IDs (no more than 20) separated with comma
+marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        {
+            "leverage": "50",
+            "marginMode": "cross",
+            "instId": "BTC-USDT"
+        },
+        {
+            "leverage": "3",
+            "marginMode": "cross",
+            "instId": "ETH-USDT"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+instId | String | Instrument ID
+leverage | String | Leverage
+marginMode | String | Margin mode
+
 ### Set Leverage
 
 #### HTTP Request
