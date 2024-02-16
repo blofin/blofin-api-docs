@@ -25,6 +25,8 @@ Error Code | HTTP Status Code | Error Message
 152011 | 200 | Transaction API Key does not support brokerId
 152012 | 200 | BrokerId is required
 152013 | 200 | Unmatched brokerId, please check your API key's bound broker
+152014 | 200 | Instrument ID does not exist
+152015 | 200 | Number of instId values exceeds the maximum limit of 20
 150003 | 200 | clientId already exist
 150004 | 200 | Insufficient balance. please adjust the amount and try again.
 542 | 200 | Exceeded the maximum order size limit
