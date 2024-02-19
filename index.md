@@ -147,7 +147,7 @@ We recommend developers use WebSocket API to retrieve market data and order book
 }
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -250,7 +250,7 @@ Below is an example of subscription parameters. The requirement of subscription 
 }
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -312,7 +312,7 @@ Unsubscribe from one or more channels.
 }
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -405,7 +405,7 @@ Retrieve a list of instruments with open contracts.
 https://openapi.blofin.com/api/v1/market/instruments?instId=BTC-USDT
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -472,7 +472,7 @@ Retrieve the latest price snapshot, best bid/ask price, and trading volume in th
 https://openapi.blofin.com/api/v1/market/tickers?instId=BTC-USDT
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -532,7 +532,7 @@ Retrieve order book of the instrument.
 https://openapi.blofin.com/api/v1/market/books?instId=BTC-USDT
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -609,7 +609,7 @@ Retrieve the recent transactions of an instrument.
 https://openapi.blofin.com/api/v1/market/trades?instId=BTC-USDT&limit=50
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -659,7 +659,7 @@ Retrieve index and mark price.
 https://openapi.blofin.com/api/v1/market/mark-price?instId=BTC-USDT
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -703,7 +703,7 @@ Retrieve funding rate.
 https://openapi.blofin.com/api/v1/market/funding-rate?instId=BTC-USDT
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -745,7 +745,7 @@ Retrieve funding rate history.
 https://openapi.blofin.com/api/v1/market/funding-rate-history?instId=BTC-USDT
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -790,7 +790,7 @@ Retrieve the candlestick charts.
 https://openapi.blofin.com/api/v1/market/candles?instId=BTC-USDT
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -1415,7 +1415,7 @@ Retrieve the balances of all the assets and the amount that is available or on h
 https://openapi.blofin.com/api/v1/asset/balances?accountType=funding
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -1472,7 +1472,7 @@ body
 }
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -1514,7 +1514,7 @@ Query the funds transfer records.
 https://openapi.blofin.com/api/v1/asset/bills
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -1569,7 +1569,7 @@ Retrieve the withdrawal records according to the currency, withdrawal status, an
 https://openapi.blofin.com/api/v1/asset/withdrawal-history
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -1655,7 +1655,7 @@ Retrieve the deposit records according to the currency, status, and time range i
 https://openapi.blofin.com/api/v1/asset/deposit-history
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -1794,7 +1794,7 @@ Retrieve information on your positions.
 https://openapi.blofin.com/api/v1/account/positions?instId=BTC-USDT
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -1886,7 +1886,7 @@ updateTime | String | Latest time position was adjusted, Unix timestamp format i
 https://openapi.blofin.com/api/v1/account/leverage-info?instId=BTC-USDT&marginMode=cross
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -1925,7 +1925,7 @@ marginMode | String | Margin mode
 https://openapi.blofin.com/api/v1/account/batch-leverage-info?instId=BTC-USDT,ETH-USDT&marginMode=cross
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -1977,7 +1977,7 @@ body
 }
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2025,7 +2025,7 @@ body
 }
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2114,7 +2114,7 @@ body
 ]
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2184,7 +2184,7 @@ body
 }
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2239,7 +2239,7 @@ body
 }
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2294,7 +2294,7 @@ body
 ]
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2360,7 +2360,7 @@ body
 ]
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2412,7 +2412,7 @@ Retrieve all incomplete orders under the current account.
 https://openapi.blofin.com/api/v1/trade/orders-pending
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2533,7 +2533,7 @@ Retrieve a list of untriggered TP/SL orders under the current account.
 https://openapi.blofin.com/api/v1/trade/orders-tpsl-pending
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2617,13 +2617,14 @@ body
 }
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 > Response Example:
 
@@ -2659,7 +2660,7 @@ Get completed order history
 https://openapi.blofin.com/api/v1/trade/orders-history
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2785,7 +2786,7 @@ Retrieve a list of all TP/SL orders under the current account.
 https://openapi.blofin.com/api/v1/trade/orders-tpsl-history
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -2890,7 +2891,7 @@ Retrieve recently-filled transaction details.
 https://openapi.blofin.com/api/v1/trade/fills-history
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -3661,7 +3662,7 @@ Retrieve the direct invitees info of affiliates.
 https://openapi.blofin.com/api/v1/affiliate/invitees
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -3719,7 +3720,7 @@ Retrieve the invitees info of sub affiliates.
 https://openapi.blofin.com/api/v1/affiliate/sub-invitees
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
@@ -3780,7 +3781,7 @@ Retrieve the info of sub affiliates.
 https://openapi.blofin.com/api/v1/affiliate/sub-affiliates
 ```
 
-#### Query Parameters
+#### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
