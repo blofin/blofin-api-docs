@@ -3831,3 +3831,53 @@ totalTradingFee | String | Total fututres trading fee of sub affiliate's invitee
 totalCommision | String | Total commission of sub affiliate
 myCommision | String | My commission got from sub affiliate
 tag | String | Tag
+
+# User
+
+ ## REST API
+
+ ### GET API Key Info
+Get the information of the api key. Use the api key pending to be checked to call the endpoint. 
+#### HTTP Request
+
+`GET /api/v1/user/query-apikey`
+
+> Request Example:
+```shell
+https://openapi.blofin.com/api/v1/user/query-apikey
+```
+
+> Response Example:
+
+```json
+{
+  "code": "0",
+  "msg": "success",
+  "data": {
+    "apiName": "read_test",
+    "apiKey": "ddc12acf367c4395a54d7b51269c759b",
+    "readOnly": 0,
+    "ips": [
+      "127.0.0.1",
+      "192.168.50.100",
+      
+    ],
+    "type": 1,
+    "expireTime": "1713451704769",
+    "createTime": "1705675704615",
+    "referralCode": "blofin"
+  }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+referralCode | String | Referral code
+apiName | String | API key name
+apiKey | String | API key
+readOnly | Integer | 0：Read and Write. 1：Read only
+type | Integer | 1: Transaction, 2. Connect to third-party
+expireTime | String | Expiration time, Unix timestamp format in milliseconds, e.g. 1597026383085
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. 1597026383085
+ips | Array | IP bound
