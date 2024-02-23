@@ -1412,7 +1412,7 @@ Retrieve the balances of all the assets and the amount that is available or on h
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/asset/balances?accountType=funding
+GET /api/v1/asset/balances?accountType=funding
 ```
 
 #### Request Parameters
@@ -1511,7 +1511,7 @@ Query the funds transfer records.
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/asset/bills
+GET /api/v1/asset/bills
 ```
 
 #### Request Parameters
@@ -1566,7 +1566,7 @@ Retrieve the withdrawal records according to the currency, withdrawal status, an
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/asset/withdrawal-history
+GET /api/v1/asset/withdrawal-history
 ```
 
 #### Request Parameters
@@ -1652,7 +1652,7 @@ Retrieve the deposit records according to the currency, status, and time range i
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/asset/deposit-history
+GET /api/v1/asset/deposit-history
 ```
 
 #### Request Parameters
@@ -1728,7 +1728,7 @@ Retrieve a list of assets (with non-zero balance), remaining balance, and availa
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/account/balance
+GET /api/v1/account/balance
 ```
 
 > Response Example:
@@ -1791,7 +1791,7 @@ Retrieve information on your positions.
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/account/positions?instId=BTC-USDT
+GET /api/v1/account/positions?instId=BTC-USDT
 ```
 
 #### Request Parameters
@@ -1875,6 +1875,73 @@ maintenanceMargin | String | Maintenance margin requirement
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 updateTime | String | Latest time position was adjusted, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
+### GET Margin Mode
+
+#### HTTP Request
+
+`GET /api/v1/account/margin-mode`
+
+> Request Example:
+```shell
+GET /api/v1/account/margin-mode
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+marginMode | String | Margin mode
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "marginMode": "isolated"
+    }
+}
+```
+
+### Set Margin Mode
+
+#### HTTP Request
+
+`POST /api/v1/account/set-margin-mode`
+
+> Request Example:
+```shell
+GET /api/v1/account/set-margin-mode
+body
+{
+    "marginMode": "isolated"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+marginMode | String | Margin mode
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "marginMode": "isolated"
+    }
+}
+```
+
+
 ### GET Leverage
 
 #### HTTP Request
@@ -1883,7 +1950,7 @@ updateTime | String | Latest time position was adjusted, Unix timestamp format i
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/account/leverage-info?instId=BTC-USDT&marginMode=cross
+GET /api/v1/account/leverage-info?instId=BTC-USDT&marginMode=cross
 ```
 
 #### Request Parameters
@@ -1922,7 +1989,7 @@ marginMode | String | Margin mode
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/account/batch-leverage-info?instId=BTC-USDT,ETH-USDT&marginMode=cross
+GET /api/v1/account/batch-leverage-info?instId=BTC-USDT,ETH-USDT&marginMode=cross
 ```
 
 #### Request Parameters
@@ -2409,7 +2476,7 @@ Retrieve all incomplete orders under the current account.
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/trade/orders-pending
+GET /api/v1/trade/orders-pending
 ```
 
 #### Request Parameters
@@ -2530,7 +2597,7 @@ Retrieve a list of untriggered TP/SL orders under the current account.
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/trade/orders-tpsl-pending
+GET /api/v1/trade/orders-tpsl-pending
 ```
 
 #### Request Parameters
@@ -2657,7 +2724,7 @@ Get completed order history
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/trade/orders-history
+GET /api/v1/trade/orders-history
 ```
 
 #### Request Parameters
@@ -2783,7 +2850,7 @@ Retrieve a list of all TP/SL orders under the current account.
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/trade/orders-tpsl-history
+GET /api/v1/trade/orders-tpsl-history
 ```
 
 #### Request Parameters
@@ -2888,7 +2955,7 @@ Retrieve recently-filled transaction details.
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/trade/fills-history
+GET /api/v1/trade/fills-history
 ```
 
 #### Request Parameters
@@ -3611,7 +3678,7 @@ This API is used for affiliate to get their referral code list.
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/affiliate/referral-code
+GET /api/v1/affiliate/referral-code
 ```
 
 > Response Example:
@@ -3659,7 +3726,7 @@ Retrieve the direct invitees info of affiliates.
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/affiliate/invitees
+GET /api/v1/affiliate/invitees
 ```
 
 #### Request Parameters
@@ -3717,7 +3784,7 @@ Retrieve the invitees info of sub affiliates.
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/affiliate/sub-invitees
+GET /api/v1/affiliate/sub-invitees
 ```
 
 #### Request Parameters
@@ -3778,7 +3845,7 @@ Retrieve the info of sub affiliates.
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/affiliate/sub-affiliates
+GET /api/v1/affiliate/sub-affiliates
 ```
 
 #### Request Parameters
@@ -3844,7 +3911,7 @@ Get the information of the api key. Use the api key pending to be checked to cal
 
 > Request Example:
 ```shell
-https://openapi.blofin.com/api/v1/user/query-apikey
+GET /api/v1/user/query-apikey
 ```
 
 > Response Example:
