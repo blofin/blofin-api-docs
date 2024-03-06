@@ -1519,10 +1519,10 @@ GET /api/v1/asset/bills
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | No | Transfer currency, e.g. `USDT`
-fromAccount | String | No | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`
-toAccount | String | No | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`
-after | String | No | Amount to be transferred
-before | String | No | Client-supplied ID<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
+fromAccount | String | No | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`
+toAccount | String | No | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`
+before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
+after | String | No | Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. `1654041600000`
 limit | String | No | Number of results per request. The maximum is `100`; The default is `100`
 
 > Response Example:
@@ -1549,8 +1549,8 @@ limit | String | No | Number of results per request. The maximum is `100`; The d
 Parameter | Type | Description
 ----------------- | ----- | -----------
 currency | String | Transfer currency
-fromAccount | String | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`
-toAccount | String | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`
+fromAccount | String | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`
+toAccount | String | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`
 amount | String | Balance at the account level
 ts | String | Creation time, Unix timestamp format in milliseconds, e.g.`1597026383085`
 clientId | String | Client-supplied ID for transfer
@@ -1576,7 +1576,7 @@ Parameter | Type | Required | Description
 currency | String | No | Currency, e.g. `USDT`
 withdrawId | String | No | Withdrawal ID
 txId | String | No | Hash record of the deposit
-state | String | No | Status of withdrawal <br> `0`: waiting mannual review  <br> `1`: withdrawing  <br> `2`: failed  <br> `3`: approved <br> `4`: canceled
+state | String | No | Status of withdrawal <br> `0`: waiting mannual review  <br> `1`: withdrawing  <br> `2`: failed  <br> `3`: approved <br> `4`: canceled<br> `6`: kyt<br> `7`: processing
 before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
 after | String | No | Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. `1654041600000`
 limit | String | No | Number of results per request. <br>The maximum is `100`; The default is `20`
@@ -1635,7 +1635,7 @@ txId | String | Hash record of the withdrawal.
 amount | String | Withdrawal amount
 fee | String | Withdrawal fee amount
 feeCurrency | String | Withdrawal fee currency, e.g. `USDT`
-state | String | Status of withdrawal <br> `0`: waiting mannual review  <br> `1`: withdrawing  <br> `2`: failed  <br> `3`: approved <br> `4`: canceled
+state | String | Status of withdrawal <br> `0`: waiting mannual review  <br> `1`: withdrawing  <br> `2`: failed  <br> `3`: approved <br> `4`: canceled<br> `6`: kyt<br> `7`: processing
 clientId | String | Client-supplied ID
 ts | String | Time the withdrawal request was submitted, Unix timestamp format in milliseconds, e.g. `1655251200000`.
 tag | String | Some currencies require a tag for withdrawals. This is not returned if not required.
@@ -1662,7 +1662,7 @@ Parameter | Type | Required | Description
 currency | String | No | Currency, e.g. `USDT`
 depositId | String | No | Deposit ID
 txId | String | No | Hash record of the deposit
-state | String | No | Status of deposit <br> `0`: pending  <br> `1`: done  <br> `2`: failed  <br> `3`: pending due to temporary deposit suspension on this crypto currency
+state | String | No | Status of deposit <br> `0`: pending  <br> `1`: done  <br> `2`: failed  <br> `3`: kyt
 before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
 after | String | No | Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. `1654041600000`
 limit | String | No | Number of results per request. <br>The maximum is `100`; The default is `100`
@@ -1711,7 +1711,7 @@ address | String | Deposit address
 type | String | Deposit type <br>`0`: blockchain deposit <br>`1`: internal transfers
 txId | String | Hash record of the deposit.
 amount | String | Deposit amount
-state | String | Status of deposit <br> `0`: pending  <br> `1`: done  <br> `2`: failed  <br> `3`: pending due to temporary deposit suspension on this crypto currency
+state | String | Status of deposit <br> `0`: pending  <br> `1`: done  <br> `2`: failed  <br> `3`: kyt
 confirm | String | Confirmations
 ts | String | Time the deposit request was submitted, Unix timestamp format in milliseconds, e.g. `1656633600000` 
 depositId | String | Deposit ID
