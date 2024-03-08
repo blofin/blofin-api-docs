@@ -3037,7 +3037,7 @@ Retrieve position information. Initial snapshot will be pushed according to subs
     "op":"subscribe",
     "args":[
         {
-            "channel":"positons",
+            "channel":"positions",
             "instId":"ETH-USDT"
         }
     ]
@@ -3049,7 +3049,7 @@ Retrieve position information. Initial snapshot will be pushed according to subs
     "op":"subscribe",
     "args":[
         {
-            "channel":"positons"
+            "channel":"positions"
         }
     ]
 }
@@ -3060,7 +3060,7 @@ Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `subscribe` `unsubscribe`
 args | Array | Yes | List of subscribed channels
-`>channel` | String | Yes | Channel name, `positons`
+`>channel` | String | Yes | Channel name, `positions`
 `>instId` | String | No | Instrument ID
 
 
@@ -3070,7 +3070,7 @@ args | Array | Yes | List of subscribed channels
 {
     "event": "subscribe",
     "arg": {
-        "channel": "positons",
+        "channel": "positions",
         "instId": "ETH-USDT"
     }
 }
@@ -3081,7 +3081,7 @@ args | Array | Yes | List of subscribed channels
 {
     "event": "subscribe",
     "arg": {
-        "channel": "positons"
+        "channel": "positions"
     }
 }
 ```
@@ -3092,7 +3092,7 @@ args | Array | Yes | List of subscribed channels
 {
     "event": "error",
     "code": "60012",
-    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"positons\", \"instId\" : \"ETH-USDT\"}]}"
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"positions\", \"instId\" : \"ETH-USDT\"}]}"
 }
 ```
 
