@@ -1836,7 +1836,7 @@ instId | String | No | Instrument ID, e.g. `BTC-USDT`
             "positionSide": "net",
             "adl": "5",
             "positions": "-290",
-            "availablePositions": "290",
+            "availablePositions": "-290",
             "averagePrice": "1890.000000000000000000",
             "markPrice": "1889",
             "marginRatio": "172426.851188979265788635",
@@ -1860,7 +1860,7 @@ positionId | String | Position ID
 instId | String | Instrument ID, e.g. `BTC-USDT`
 instType | String | Instrument type
 marginMode | String | Margin mode<br>`cross`<br>`isolated`
-positionSide | String | Position side<br>`long`<br>`short`<br>`net` (Positive `position` means long position and negative `position` means short position.)
+positionSide | String | Position side<br>`long`: `positions` is positive<br>`short`: `positions` is positive<br>`net` (Positive `positions` means long position and negative `positions` means short position.)
 leverage | String | Leverage
 positions | String | Quantity of positions
 availablePositions | String | Position that can be closed
@@ -1941,6 +1941,35 @@ marginMode | String | Margin mode
 }
 ```
 
+### GET Position Mode
+Get user's position mode (Hedge Mode or One-way Mode) on every symbol
+
+#### HTTP Request
+
+`GET /api/v1/account/position-mode`
+
+> Request Example:
+```shell
+GET /api/v1/account/position-mode
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+positionMode | String | Position mode <br> `net_mode`:   net<br> `long_short_mode`: long/short
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "positionMode": "net_mode"
+    }
+}
+```
+
 
 ### GET Leverage
 
@@ -2009,12 +2038,14 @@ marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
         {
             "leverage": "50",
             "marginMode": "cross",
-            "instId": "BTC-USDT"
+            "instId": "BTC-USDT",
+            "positionSide":"net"
         },
         {
             "leverage": "3",
             "marginMode": "cross",
-            "instId": "ETH-USDT"
+            "instId": "ETH-USDT",
+            "positionSide":"net"
         }
     ]
 }
@@ -2026,6 +2057,7 @@ Parameter | Type | Description
 instId | String | Instrument ID
 leverage | String | Leverage
 marginMode | String | Margin mode
+positionSide | String | Position side<br>`long`<br>`short`<br>`net`
 
 ### Set Leverage
 
@@ -2039,8 +2071,9 @@ POST /api/v1/account/set-leverage
 body
 {
     "instId":"BTC-USDT",
-    "leverage":"20",
-    "marginmode":"cross"
+    "leverage":"100",
+    "marginmode":"cross",
+    "positionSide":"long"
 }
 ```
 
@@ -2051,6 +2084,7 @@ Parameter | Type | Required | Description
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 leverage | String | Yes | Leverage
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | No | Position side <br>`long` `short`<br>Only required when margin mode is `isolated` in `long/short` mode 
 
 > Response Example:
 
@@ -2059,9 +2093,10 @@ marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
     "code": "0",
     "msg": "success",
     "data": {
-        "leverage": "121",
+        "leverage": "100",
         "marginMode": "cross",
-        "instId": "BTC-USDT"
+        "instId": "BTC-USDT",
+        "positionSide":"long"
     }
 }
 ```
@@ -2072,6 +2107,7 @@ Parameter | Type | Description
 instId | String | Instrument ID
 leverage | String | Leverage
 marginMode | String | Margin mode
+positionSide | String | Position side<br>`long`<br>`short`<br>`net`
 
 ### Place Order
 
@@ -2086,6 +2122,7 @@ body
 {
     "instId":"BTC-USDT",
     "marginMode":"20",
+    "positionSide":"long",
     "side":"cross",
     "price":"23212.2",
     "size":"2"
@@ -2098,6 +2135,7 @@ Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
 side | String | Yes | Order side, `buy` `sell`
 orderType | String | Yes | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
 price | String | Yes | Order price. Not applicable to `market`
@@ -2187,6 +2225,7 @@ Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
 side | String | Yes | Order side, `buy` `sell`
 orderType | String | Yes | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
 price | String | Yes | Order price. Not applicable to `market`
@@ -2257,7 +2296,7 @@ Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
-positionSide | String | Yes | Position side<br>`long`<br>`short`<br>`net`
+positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
 side | String | Yes | Order side, `buy` `sell`
 tpTriggerPrice | String | Yes | Take-profit trigger price<br>If you fill in this parameter, you should fill in the `tpOrderPrice` as well.
 tpOrderPrice | String | No | Take-profit order price.<br>If you fill in this parameter, you should fill in the `tpTriggerPrice` as well.<br>If the price is -1, take-profit will be executed at the market price.
@@ -2680,6 +2719,7 @@ body
 {
     "instId":"BTC-USDT",
     "marginMode":"20",
+    "positionSide":"long",
     "clientOrderId":""
 }
 ```
@@ -2690,6 +2730,7 @@ Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
@@ -2987,7 +3028,6 @@ The `before` and `after` parameters cannot be used simultaneously.
             "fillSize": "2.000000000000000000",
             "fillPnl": "0.000000000000000000",
             "side": "buy",
-            "positionSide": "net",
             "fee": "0.190536000000000000",
             "ts": "1696853354238",
             "brokerId": ""
@@ -3000,7 +3040,6 @@ The `before` and `after` parameters cannot be used simultaneously.
             "fillSize": "1.000000000000000000",
             "fillPnl": "0.000000000000000000",
             "side": "buy",
-            "positionSide": "net",
             "fee": "0.095268000000000000",
             "ts": "1696853354224",
             "brokerId": ""
@@ -3019,7 +3058,6 @@ fillPrice | String | filled price
 fillSize | String | Filled quantity
 fillPnl | String | Last filled profit and loss, applicable to orders which have a trade and aim to close position.
 side | String | Order side
-positionSide | String | Position side<br>`long` `short`<br>it returns `net` in net mode.
 fee | String | Fee
 ts | String | Data generation time, Unix timestamp format in milliseconds, e.g. `1597026383085`.
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
