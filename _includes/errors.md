@@ -53,5 +53,8 @@ Error Code | HTTP Status Code | Error Message
 102064 | 200 | Buy price is not within the price limit (Minimum: 310.40; Maximum:1,629.40)
 102065 | 200 | Sell price is not within the price limit 
 102068 | 200 | Cancel failed as the order has been filled, triggered, canceled or does not exist.
+102089 | 200 | Position mode mismatch
 103003 | 200 | Order failed. Insufficient USDT margin in account
 103013 | 200 | Internal error; unable to process your request. Please try again.
+110006 | 200 | You have pending cross orders. Please cancel them before adjusting your leverage.
+110019 | 200 | Setting failed. Cancel any open orders, and close positions first.
