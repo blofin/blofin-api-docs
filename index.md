@@ -1911,7 +1911,7 @@ marginMode | String | Margin mode
 
 > Request Example:
 ```shell
-GET /api/v1/account/set-margin-mode
+POST /api/v1/account/set-margin-mode
 body
 {
     "marginMode": "isolated"
@@ -1970,8 +1970,48 @@ positionMode | String | Position mode <br> `net_mode`:   net<br> `long_short_mod
 }
 ```
 
+### Set Position Mode
+Change user's position mode (Hedge Mode or One-way Mode) on every symbol
 
-### GET Leverage
+#### HTTP Request
+
+`POST /api/v1/account/set-position-mode`
+
+> Request Example:
+```shell
+POST /api/v1/account/set-position-mode
+body
+{
+    "positionMode": "net_mode"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+positionMode | String | Yes | Position mode <br> `net_mode`:   net<br> `long_short_mode`: long/short
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+positionMode | String | Position mode <br> `net_mode`:   net<br> `long_short_mode`: long/short
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "positionMode": "net_mode"
+    }
+}
+```
+
+
+### GET Leverage (Deprecated)
+Deprecated,  if you are using it, please use  `GET Multiple Leverage` instead. 
 
 #### HTTP Request
 
