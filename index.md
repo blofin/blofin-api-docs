@@ -44,7 +44,7 @@ There are two permissions below that can be associated with an API Key. One or m
 
 * `READ` - Can request and view account info such as bills and order history.
 * `TRADE` - Can place and cancel orders, and request and view account info such as bills and history.
-* `TRADE` - Can make funding transfers between different accounts
+* `TRANSFER` - Can make funding transfers between different accounts
 
 <aside class="notice">
 Each API Key can be linked with up to 20 IP addresses. API Keys that are not bound to IPs will expire after 90 days of inactivity.
