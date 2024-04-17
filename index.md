@@ -42,8 +42,9 @@ Create an API Key on the website before signing any requests. After creating an 
 
 There are two permissions below that can be associated with an API Key. One or more permission can be assigned to any Key.
 
-* Read - Can request and view account info such as bills and order history.
-* Trade - Can place and cancel orders, and request and view account info such as bills and history.
+* `READ` - Can request and view account info such as bills and order history.
+* `TRADE` - Can place and cancel orders, and request and view account info such as bills and history.
+* `TRANSFER` - Can make funding transfers between different accounts
 
 <aside class="notice">
 Each API Key can be linked with up to 20 IP addresses. API Keys that are not bound to IPs will expire after 90 days of inactivity.
@@ -78,11 +79,11 @@ Example:
 
 * JS
 
-`sign = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(CryptoJS.HmacSHA256('/api/v1/account/balances?accountType=futures' + 'GET' + timestamp + nonce + '', SecretKey)))`
+`sign = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(CryptoJS.HmacSHA256('/api/v1/asset/balances?accountType=futures' + 'GET' + timestamp + nonce + '', SecretKey)))`
 
 * JAVA
 
-`sign = java.util.Base64.getEncoder().encodeToString((new HmacUtils(HmacAlgorithms.HMAC_SHA_256, SecretKey)).hmacHex("/api/v1/account/balances?accountType=futures" + "GET" + timestamp + nonce + "").getBytes());`
+`sign = java.util.Base64.getEncoder().encodeToString((new HmacUtils(HmacAlgorithms.HMAC_SHA_256, SecretKey)).hmacHex("/api/v1/asset/balances?accountType=futures" + "GET" + timestamp + nonce + "").getBytes());`
 
 * Python
 
@@ -103,7 +104,7 @@ The request method should be in UPPERCASE: e.g. `GET` and `POST`.
 
 The `requestPath` is the path of requesting an endpoint.
 
-Example: `/api/v1/account/balances?accountType=futures`
+Example: `/api/v1/asset/balances?accountType=futures`
 
 The `body` refers to the String of the request body. It can be omitted if there is no request body (frequently the case for `GET` requests).
 
@@ -488,6 +489,7 @@ instId | String | No | Instrument ID, e.g. `BTC-USDT`
         {
             "instId": "BTC-USDT",
             "last": "27187",
+            "lastSize": "1",
             "askPrice": "27187.5",
             "askSize": "20",
             "bidPrice": "27187",
@@ -508,6 +510,7 @@ Parameter | Type | Description
 --------- | ------- | -----------
 instId | String | Instrument ID, e.g. `BTC-USDT`
 last | String | Last traded price
+lastSize | String | Last traded size
 askPrice | String | Best ask price
 askSize | String | Best ask size
 bidPrice | String | Best bid price
@@ -1467,7 +1470,7 @@ body
     "currency":"USDT",
     "amount":"1.5",
     "fromAccount":"funding",
-    "toAmount":"futures",
+    "toAccount":"futures",
     "clientId":"1211211"
 }
 ```
@@ -2878,7 +2881,7 @@ The `before` and `after` parameters cannot be used simultaneously.
             "fee": "0.000000000000000000",
             "createTime": "1697010193531",
             "updateTime": "1697010227577",
-            "orderCategory": "unknown",
+            "orderCategory": "normal",
             "tpTriggerPrice": "1666.000000000000000000",
             "tpOrderPrice": null,
             "slTriggerPrice": "1100.000000000000000000",

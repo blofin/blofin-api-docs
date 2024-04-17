@@ -16,7 +16,7 @@ Error Code | HTTP Status Code | Error Message
 152001 | 200 | Parameter {} cannot be empty.
 152002 | 200 | Parameter {} error.
 152003 | 200 | Either parameter {} or {} is required.
-152004 | 200 | JSON syntax error
+152004 | 200 | JSON syntax error, Please check if the parameter should be an array or an object.
 152005 | 200 | Parameter error: wrong or empty
 152006 | 200 | Batch orders can be placed for up to 20 at once.
 152007 | 200 | Batch orders can only be placed with the same instId and marginMode.
@@ -27,6 +27,7 @@ Error Code | HTTP Status Code | Error Message
 152013 | 200 | Unmatched brokerId, please check your API key's bound broker
 152014 | 200 | Instrument ID does not exist
 152015 | 200 | Number of instId values exceeds the maximum limit of 20
+152404 | 200 | This operation is not supported, Please check the requestPath or API key permissions.
 150003 | 200 | clientId already exist
 150004 | 200 | Insufficient balance. please adjust the amount and try again.
 542 | 200 | Exceeded the maximum order size limit
