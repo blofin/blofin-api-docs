@@ -117,6 +117,27 @@ The SecretKey is generated when you create an APIKey.
 
 Example: `22582BD0CFF14C41EDBF1AB98506286D`
 
+### Signature Verification Failed
+If you encounter a "Signature verification failed" error, please follow the steps below to troubleshoot:
+* The JSON string of the body should not contain any extra spaces. Incorrect example: `{ "instId" : "BTC-USDT" , "leverage":"5","marginMode":"isolated"}`
+* The code for signing can be directly copied from the example above for comparison, and the following is the explanation of the signing steps(on the right side).
+<aside class="notice">
+After obtaining the result of `HMAC SHA256`, it needs to be converted to a hexadecimal string first, and then the string should be converted to bytes. Please note that it is not hex2bytes, but rather string2bytes.
+</aside>
+
+
+```python
+def create_signature_blofin(secret_key, nonce, method, timestamp, path, body):
+   prehash_string = f"{path}{method}{timestamp}{nonce}{json.dumps(body)}"
+   encoded_string = prehash_string.encode()
+   signature = hmac.new(secret_key.encode(), encoded_string, hashlib.sha256)
+   #The implementation here differs slightly from the signature used by other exchanges. It needs to be converted to a hexadecimal string and then converted to bytes. Please note that it is not hex2bytes, but rather string2bytes.
+   hexdigest = signature.hexdigest() #Convert the signature result into a hexadecimal string.
+   hexdigest_to_bytes = hexdigest.encode()#Convert this string into bytes.
+   base64_encoded = base64.b64encode(hexdigest_to_bytes).decode() #Base64 encoding
+   return base64_encoded
+```
+
 ## WebSocket 
 ### Overview
 WebSocket is a new HTML5 protocol that achieves full-duplex data transmission between the client and server, allowing data to be transferred effectively in both directions. A connection between the client and server can be established with just one handshake. The server will then be able to push data to the client according to preset rules. Its advantages include:
@@ -1578,7 +1599,7 @@ Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | No | Currency, e.g. `USDT`
 withdrawId | String | No | Withdrawal ID
-txId | String | No | Hash record of the deposit
+txId | String | No | Hash record of the withdrawal
 state | String | No | Status of withdrawal <br> `0`: waiting mannual review  <br> `1`: withdrawing  <br> `2`: failed  <br> `3`: approved <br> `4`: canceled<br> `6`: kyt<br> `7`: processing
 before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
 after | String | No | Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. `1654041600000`
@@ -1638,7 +1659,7 @@ txId | String | Hash record of the withdrawal.
 amount | String | Withdrawal amount
 fee | String | Withdrawal fee amount
 feeCurrency | String | Withdrawal fee currency, e.g. `USDT`
-state | String | Status of withdrawal <br> `0`: waiting mannual review  <br> `1`: withdrawing  <br> `2`: failed  <br> `3`: approved <br> `4`: canceled<br> `6`: kyt<br> `7`: processing
+state | String | Status of withdrawal <br> `0`: waiting mannual review  <br> `2`: failed  <br> `3`: success <br> `4`: canceled<br> `6`: kyt<br> `7`: processing
 clientId | String | Client-supplied ID
 ts | String | Time the withdrawal request was submitted, Unix timestamp format in milliseconds, e.g. `1655251200000`.
 tag | String | Some currencies require a tag for withdrawals. This is not returned if not required.
@@ -1668,7 +1689,7 @@ txId | String | No | Hash record of the deposit
 state | String | No | Status of deposit <br> `0`: pending  <br> `1`: done  <br> `2`: failed  <br> `3`: kyt
 before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
 after | String | No | Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. `1654041600000`
-limit | String | No | Number of results per request. <br>The maximum is `100`; The default is `100`
+limit | String | No | Number of results per request. <br>The maximum is `100`; The default is `20`
 
 > Response Example:
 
@@ -2164,9 +2185,9 @@ POST /api/v1/trade/order
 body
 {
     "instId":"BTC-USDT",
-    "marginMode":"20",
+    "marginMode":"cross",
     "positionSide":"long",
-    "side":"cross",
+    "side":"sell",
     "price":"23212.2",
     "size":"2"
 }

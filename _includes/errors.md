@@ -27,7 +27,15 @@ Error Code | HTTP Status Code | Error Message
 152013 | 200 | Unmatched brokerId, please check your API key's bound broker
 152014 | 200 | Instrument ID does not exist
 152015 | 200 | Number of instId values exceeds the maximum limit of 20
+152401 | 200 | Access key does not exist, Please go to the API Management page and check if it exists and is in an active state.
+152402 | 200 | Access key has expired, Please go to the API Management page and check if it exists and is in an active state.
 152404 | 200 | This operation is not supported, Please check the requestPath or API key permissions.
+152405 | 200 | Timestamp in header or signature has expired, need to be within 60s
+152406 | 200 | Your IP is not included in your API key's IP whitelist
+152407 | 200 | Repeated nonce, Reusing within 60 seconds is not allowed.
+152408 | 200 | Passphrase error
+152409 | 200 | Signature verification failed, Please refer to [Signature Verification Failed](https://docs.blofin.com/index.html#signature-verification-failed)
+152410 | 200 | The value of ACCESS-TIMESTAMP needs to be a millisecond timestamp, e.g: 1704038400000.
 150003 | 200 | clientId already exist
 150004 | 200 | Insufficient balance. please adjust the amount and try again.
 542 | 200 | Exceeded the maximum order size limit
