@@ -127,15 +127,19 @@ After obtaining the result of `HMAC SHA256`, it needs to be converted to a hexad
 
 
 ```python
-def create_signature_blofin(secret_key, nonce, method, timestamp, path, body):
-   prehash_string = f"{path}{method}{timestamp}{nonce}{json.dumps(body)}"
-   encoded_string = prehash_string.encode()
-   signature = hmac.new(secret_key.encode(), encoded_string, hashlib.sha256)
-   #The implementation here differs slightly from the signature used by other exchanges. It needs to be converted to a hexadecimal string and then converted to bytes. Please note that it is not hex2bytes, but rather string2bytes.
-   hexdigest = signature.hexdigest() #Convert the signature result into a hexadecimal string.
-   hexdigest_to_bytes = hexdigest.encode()#Convert this string into bytes.
-   base64_encoded = base64.b64encode(hexdigest_to_bytes).decode() #Base64 encoding
-   return base64_encoded
+def create_signature_blofin(secret_key, nonce, method, timestamp, path, body=None):
+    # If it is a GET request, the body must be "".
+    if body:
+        prehash_string = f"{path}{method}{timestamp}{nonce}{json.dumps(body)}"
+    else:
+        prehash_string = f"{path}{method}{timestamp}{nonce}"
+    encoded_string = prehash_string.encode()
+    signature = hmac.new(secret_key.encode(), encoded_string, hashlib.sha256)
+    #The implementation here differs slightly from the signature used by other exchanges. It needs to be converted to a hexadecimal string and then converted to bytes. Please note that it is not hex2bytes, but rather string2bytes.
+    hexdigest = signature.hexdigest() #Convert the signature result into a hexadecimal string.
+    hexdigest_to_bytes = hexdigest.encode() #Convert this string into bytes.
+    base64_encoded = base64.b64encode(hexdigest_to_bytes).decode() #Base64 encoding
+    return base64_encoded
 ```
 
 ## WebSocket 
