@@ -140,6 +140,11 @@ def create_signature_blofin(secret_key, nonce, method, timestamp, path, body=Non
     hexdigest_to_bytes = hexdigest.encode() #Convert this string into bytes.
     base64_encoded = base64.b64encode(hexdigest_to_bytes).decode() #Base64 encoding
     return base64_encoded
+
+
+# If you are using python's `requests` library, for a POST request, the code would be: 
+# response = requests.post(url, headers=headers, json=body) 
+# Please note that the parameter name is `json` not `data`
 ```
 
 ## WebSocket 
@@ -3655,29 +3660,28 @@ msg | String | Error message
   "arg": {
     "channel": "account"
   },
-  "data": [
-    {
-      "ts": "1597026383085",
-      "totalEquity": "41624.32",
-      "isolatedEquity": "3624.32",
-      "details": [
-        {
-          "currency": "USDT",
-          "equity": "1",
-          "balance": "1",
-          "ts": "1617279471503",
-          "isolatedEquity": "0",
-          "equityUsd": "45078.3790756226851775",
-          "availableEquity": "1",
-          "available": "0",
-          "frozen": "0",
-          "orderFrozen": "0",
-          "unrealizedPnl": "0",
-          "isolatedUnrealizedPnl": "0",
-        }
-      ]
-    }
-  ]
+  "data": {
+    "ts": "1597026383085",
+    "totalEquity": "41624.32",
+    "isolatedEquity": "3624.32",
+    "details": [
+      {
+        "currency": "USDT",
+        "equity": "1",
+        "balance": "1",
+        "ts": "1617279471503",
+        "isolatedEquity": "0",
+        "equityUsd": "45078.3790756226851775",
+        "availableEquity": "1",
+        "available": "0",
+        "frozen": "0",
+        "orderFrozen": "0",
+        "unrealizedPnl": "0",
+        "isolatedUnrealizedPnl": "0",
+        
+      }
+    ]
+  }
 }
 ```
 
@@ -3686,7 +3690,7 @@ Parameter | Type | Description
 ----------------- | ----- | -----------
 arg | Object | Successfully subscribed channel
 `>channel` | String | Channel name
-data | Array | Subscribed data
+data | Object | Subscribed data
 `>ts` | String |  Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>totalEquity` | String | The total amount of equity in USD
 `>isolatedEquity` | String | Isolated margin equity in USD
@@ -3737,7 +3741,7 @@ https://openapi.blofin.com/api/v1/affiliate/basic
         "referralLink": "https://partner.blofin.com/d/blofin",
         "directInvitees": "0",
         "subInvitees": "0",
-        "tradedInvitees": "0",
+        "tradeInvitees": "0",
         "updateTime": "1691049629676",
         "totalTradingVolume": "0",
         "directCommission7d": "0",
@@ -3762,7 +3766,7 @@ referralCode | String | Default referral code
 referralLink | String | Default referral link
 directInvitees | String | Total invitees invited by user.
 subInvitees | String | Total invitees invited by sub-affiliates.
-tradedInvitees | String | Number of traded users of invitees invited both by user and sub-affiliates.
+tradeInvitees | String | Number of traded users of invitees invited both by user and sub-affiliates.
 updateTime | String | Update time of data. Unix timestamp format in milliseconds, e.g. `1597026383085`
 totalTradingVolume | String | Cumulative total trading volume of all-level sub-invitees and direct invitees.
 directCommission7d | String | Total Commission from direct invitees in the last 7 days.
@@ -3898,8 +3902,8 @@ GET /api/v1/affiliate/sub-invitees
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 uid | String | No | Invitee's UID
-after | String | No | Pagination of data to return records earlier than the requested `orderId`
-before | String | No | Pagination of data to return records newer than the requested `orderId`
+after | String | No | Pagination of data to return records earlier than the requested `id`
+before | String | No | Pagination of data to return records newer than the requested `id`
 subAffiliateUid | String | No | Sub affiliate's UID
 subAffiliateLevel | String | No | Sub affiliate's UID <br>`2` <br>`3` <br>`4`
 limit | String | No | Number of results per request. <br>The maximum is `30`; <br>The default is `10`
@@ -3958,8 +3962,8 @@ GET /api/v1/affiliate/sub-affiliates
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-after | String | No | Pagination of data to return records earlier than the requested `orderId`
-before | String | No | Pagination of data to return records newer than the requested `orderId`
+after | String | No | Pagination of data to return records earlier than the requested `id`
+before | String | No | Pagination of data to return records newer than the requested `id`
 subAffiliateUid | String | No | Sub affiliate's UID
 subAffiliateLevel | String | No | Sub affiliate's UID <br>`2` <br>`3` <br>`4`
 limit | String | No | Number of results per request. <br>The maximum is `100`; <br>The default is `10`
