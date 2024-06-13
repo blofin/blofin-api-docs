@@ -2270,8 +2270,7 @@ body
     "tpTriggerPrice": "",
     "tpOrderPrice": "",
     "slTriggerPrice": "",
-    "slOrderPrice": "",
-    "triggerPriceType": ""
+    "slOrderPrice": ""
   },
   {
     "instId": "ETH-USDT",
@@ -2286,8 +2285,7 @@ body
     "tpTriggerPrice": "",
     "tpOrderPrice": "",
     "slTriggerPrice": "",
-    "slOrderPrice": "",
-    "triggerPriceType": ""
+    "slOrderPrice": ""
   }
 ]
 ```
@@ -2633,7 +2631,6 @@ The `before` and `after` parameters cannot be used simultaneously.
             "updateTime": "1697031292788",
             "orderCategory": "normal",
             "tpTriggerPrice": "1688.000000000000000000",
-            "triggerPriceType": "last",
             "slTriggerPrice": "1299.000000000000000000",
             "slOrderPrice": null,
             "tpOrderPrice": null,
@@ -2661,7 +2658,6 @@ The `before` and `after` parameters cannot be used simultaneously.
             "updateTime": "1697031251430",
             "orderCategory": "normal",
             "tpTriggerPrice": null,
-            "triggerPriceType": null,
             "slTriggerPrice": null,
             "slOrderPrice": null,
             "tpOrderPrice": null,
@@ -2692,7 +2688,7 @@ fee | String | Fee and rebate
 pnl | String | Profit and loss, Applicable to orders which have a trade and aim to close position.
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 updateTime | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
-orderCategory | String | Order category<br>`nomal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
+orderCategory | String | Order category<br>`normal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
 tpTriggerPrice | String | Take-profit trigger price
 tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
 slTriggerPrice | String | Stop-loss trigger price
@@ -2847,7 +2843,7 @@ Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | No | Instrument ID, e.g. `BTC-USDT`
 orderType | String | No | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
-state | String | No | State<br>`canceled`<br>`filled`
+state | String | No | State<br>`canceled`<br>`filled`<br>`partially_canceled`  partially_canceled is the final state, if it is a closing order, pnl has value
 after | String | No | Pagination of data to return records earlier than the requested `orderId`
 before | String | No | Pagination of data to return records newer than the requested `orderId`
 begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
@@ -2883,7 +2879,6 @@ The `before` and `after` parameters cannot be used simultaneously.
             "createTime": "1697010303781",
             "updateTime": "1697014607770",
             "orderCategory": "normal",
-            "triggerPriceType": null,
             "tpTriggerPrice": null,
             "tpOrderPrice": null,
             "slTriggerPrice": null,
@@ -2945,7 +2940,7 @@ averagePrice | String | Average filled price. If none is filled, it will return 
 fee | String | Fee and rebate
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 updateTime | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
-orderCategory | String | Order category<br>`nomal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
+orderCategory | String | Order category<br>`normal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
 tpTriggerPrice | String | Take-profit trigger price
 tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
 slTriggerPrice | String | Stop-loss trigger price
@@ -3004,7 +2999,6 @@ The `before` and `after` parameters cannot be used simultaneously.
             "actualSize": null,
             "triggerType": null,
             "orderCategory": "normal",
-            "triggerPriceType": "last",
             "tpTriggerPrice": "1661.100000000000000000",
             "tpOrderPrice": null,
             "slTriggerPrice": null,
@@ -3025,7 +3019,6 @@ The `before` and `after` parameters cannot be used simultaneously.
             "state": "canceled",
             "actualSize": null,
             "orderCategory": "normal",
-            "triggerPriceType": "last",
             "tpTriggerPrice": "1661.100000000000000000",
             "tpOrderPrice": null,
             "slTriggerPrice": null,
@@ -3051,7 +3044,7 @@ reduceOnly | String | Whether orders can only reduce in position size.<br>Valid 
 leverage | String | Leverage
 state | String | State,`live`, `effective`, `canceled`, `order_failed`
 actualSize | String | Actual order quantity
-orderCategory | String | Order category<br>`nomal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
+orderCategory | String | Order category<br>`normal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
 tpTriggerPrice | String | Take-profit trigger price
 tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
 slTriggerPrice | String | Stop-loss trigger price
@@ -3433,7 +3426,7 @@ data | Array | Subscribed data
 `>fee` | String | Fee and rebate
 `>pnl` | String | Profit and loss, Applicable to orders which have a trade and aim to close position.
 `>cancelSource` | String | 
-`>orderCategory` | String | Order category<br>`nomal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
+`>orderCategory` | String | Order category<br>`normal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
 `>createTime` | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>updateTime` | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>reduceOnly` | String | Whether orders can only reduce in position size.
@@ -4031,6 +4024,7 @@ GET /api/v1/user/query-apikey
   "code": "0",
   "msg": "success",
   "data": {
+    "uid": "30009591122",
     "apiName": "read_test",
     "apiKey": "ddc12acf367c4395a54d7b51269c759b",
     "readOnly": 0,
@@ -4051,6 +4045,7 @@ GET /api/v1/user/query-apikey
 Parameter | Type | Description
 ----------------- | ----- | -----------
 referralCode | String | Referral code
+uid | String | UID
 apiName | String | API key name
 apiKey | String | API key
 readOnly | Integer | 0：Read and Write. 1：Read only
