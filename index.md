@@ -1223,11 +1223,11 @@ An example of the array of asks and bids values: ["411.8", "10"]
 </aside>
 
 #### Sequence ID
-SeqId is the sequence ID of the market data published. The set of sequence ID received by users is the same if users are connecting to the same channel through multiple websocket connections. Each instId has an unique set of sequence ID. Users can use prevSeqId and seqId to build the message sequencing for incremental order book updates. Generally the value of seqId is larger than prevSeqId. The prevSeqId in the new message matches with seqId of the previous message. The smallest possible sequence ID value is 0, except in snapshot messages where the prevSeqId is always -1.
+SeqId is the sequence ID of the market data published. The set of sequence ID received by users is the same if users are connecting to the same channel through multiple websocket connections. Each instId has an unique set of sequence ID. Users can use prevSeqId and seqId to build the message sequencing for incremental order book updates. Generally the value of seqId is larger than prevSeqId. The prevSeqId in the new message matches with seqId of the previous message. In snapshot messages the prevSeqId is always 0.
 
 **Example**
 
-1. Snapshot message: prevSeqId = -1, seqId = 10
+1. Snapshot message: prevSeqId = 0, seqId = 10
 2. Incremental message 1 (normal update): prevSeqId = 10, seqId = 15
 
 
