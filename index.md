@@ -2374,7 +2374,7 @@ tpOrderPrice | String | No | Take-profit order price.<br>If you fill in this par
 slTriggerPrice | String | No | Stop-loss trigger price<br>If you fill in this parameter, you should fill in the `slOrderPrice` as well.
 slOrderPrice | String | No | Stop-loss order price.<br>If you fill in this parameter, you should fill in the `slTriggerPrice` as well.<br>If the price is -1, stop-loss will be executed at the market price.
 size | String | Yes | Quantity to take-profit or stop-loss <br> If the quantity is -1, it means entire positions
-reduceOnly | String | No | Whether orders can only reduce in position size.<br>Valid options: `true` or `false`. The default value is `false`.
+reduceOnly | String | No | Whether orders can only reduce in position size. <br>Valid options: `true` or `false`. The default value is `false`.<br>When `reduceOnly = true` and the opposite order size exceeds the position size. The position will be fully closed, and no new position will be opened.
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
