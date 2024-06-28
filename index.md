@@ -3036,7 +3036,7 @@ tpslId | String | TP/SL order ID
 clientOrderId | String | Client Order ID as assigned by the client.
 instId | String | Instrument ID
 marginMode | String | Margin mode
-positionSide | String | Position side
+positionSide | String | Position side, `long`,`short`,`net`
 side | String | Order side
 orderType | String | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
 size | String | Quantity to buy or sell.
@@ -3093,6 +3093,7 @@ The `before` and `after` parameters cannot be used simultaneously.
             "fillPrice": "1587.800000000000000000",
             "fillSize": "2.000000000000000000",
             "fillPnl": "0.000000000000000000",
+            "positionSide": "long",
             "side": "buy",
             "fee": "0.190536000000000000",
             "ts": "1696853354238",
@@ -3105,6 +3106,7 @@ The `before` and `after` parameters cannot be used simultaneously.
             "fillPrice": "1587.800000000000000000",
             "fillSize": "1.000000000000000000",
             "fillPnl": "0.000000000000000000",
+            "positionSide": "short",
             "side": "buy",
             "fee": "0.095268000000000000",
             "ts": "1696853354224",
@@ -3123,6 +3125,7 @@ orderId | String | Order ID
 fillPrice | String | filled price
 fillSize | String | Filled quantity
 fillPnl | String | Last filled profit and loss, applicable to orders which have a trade and aim to close position.
+positionSide | String | Position side, `long`,`short`,`net`
 side | String | Order side
 fee | String | Fee
 ts | String | Data generation time, Unix timestamp format in milliseconds, e.g. `1597026383085`.
