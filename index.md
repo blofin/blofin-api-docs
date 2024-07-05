@@ -3842,6 +3842,8 @@ Parameter | Type | Required | Description
 uid | String | No | Invitee's UID
 after | String | No | Pagination of data to return records earlier than the requested `id`
 before | String | No | Pagination of data to return records newer than the requested `id`
+begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
+end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 limit | String | No | Number of results per request. <br>The maximum is `30`; <br>The default is `10`
 
 > Response Example:
@@ -3859,7 +3861,8 @@ limit | String | No | Number of results per request. <br>The maximum is `30`; <b
             "totalTradingFee": "0.4918",
             "totalCommision": "0.1475",
             "totalDeposit": "0",
-            "totalWithdrawal": "100"
+            "totalWithdrawal": "100",
+            "kycLevel": "0"
         }
     ]
 }
@@ -3876,6 +3879,7 @@ totalTradingFee | String | Total futures trading fee of invitee
 totalCommision | String | Total commission of invitee
 totalDeposit | String | Total deposit amount of invitee
 totalWithdrawal | String | Total withdrawal amount of invitee
+kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
 
 
 
@@ -3902,6 +3906,8 @@ after | String | No | Pagination of data to return records earlier than the requ
 before | String | No | Pagination of data to return records newer than the requested `id`
 subAffiliateUid | String | No | Sub affiliate's UID
 subAffiliateLevel | String | No | Sub affiliate's UID <br>`2` <br>`3` <br>`4`
+begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
+end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 limit | String | No | Number of results per request. <br>The maximum is `30`; <br>The default is `10`
 
 > Response Example:
@@ -3921,7 +3927,8 @@ limit | String | No | Number of results per request. <br>The maximum is `30`; <b
             "totalTradingFee": "0.4918",
             "totalCommision": "0.1475",
             "totalDeposit": "0",
-            "totalWithdrawal": "100"
+            "totalWithdrawal": "100",
+            "kycLevel": "0"
         }
     ]
 }
@@ -3940,6 +3947,7 @@ totalTradingFee | String | Total futures trading fee of invitee
 totalCommision | String | Total commission of invitee
 totalDeposit | String | Total deposit amount of invitee
 totalWithdrawal | String | Total withdrawal amount of invitee
+kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
 
 ### GET Sub Affiliates
 
@@ -3962,6 +3970,8 @@ after | String | No | Pagination of data to return records earlier than the requ
 before | String | No | Pagination of data to return records newer than the requested `id`
 subAffiliateUid | String | No | Sub affiliate's UID
 subAffiliateLevel | String | No | Sub affiliate's UID <br>`2` <br>`3` <br>`4`
+begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
+end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 limit | String | No | Number of results per request. <br>The maximum is `100`; <br>The default is `10`
 
 > Response Example:
@@ -3983,7 +3993,8 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; <
             "totalTradingFee": "0.624",
             "totalCommision": "0.0624",
             "myCommision": "0.0104",
-            "tag": ""
+            "tag": "",
+            "kycLevel": "0"
         }
     ]
 }
@@ -4004,6 +4015,67 @@ totalTradingFee | String | Total fututres trading fee of sub affiliate's invitee
 totalCommision | String | Total commission of sub affiliate
 myCommision | String | My commission got from sub affiliate
 tag | String | Tag
+kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
+
+### GET Daily Commission of Direct Invitees
+
+
+Retrieve the daily commission data of direct invitees.
+
+
+#### HTTP Request
+
+
+`GET /api/v1/affiliate/invitees/daily`
+
+
+> Request Example:
+```shell
+GET /api/v1/affiliate/invitees/daily
+```
+
+
+#### Request Parameters
+
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+uid | String | No | Invitee’s UID
+begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
+end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
+limit | String | No | Number of results per request. <br>The maximum is `30`; <br>The default is `10`
+
+
+> Response Example:
+
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        {
+            "uid": "30292758476",
+            "commission": "0.032035434",
+            "commissionTime": "1716912000000",
+            "cashback": "0.288318906",
+            "fee": "3.2035434",
+            "kycLevel": "0"
+        }
+    ]
+}
+```
+
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+uid | String | Invitee’s UID
+commission | String | Daily Commission of invitee
+commissionTime | String | Commission time. Unix timestamp format in milliseconds, e.g. `1597026383085`
+cashback | String | Cashback of invitee
+fee | String | Daily trading fee of invitee
+kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
 
 # User
 
