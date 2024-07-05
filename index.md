@@ -4043,7 +4043,7 @@ Parameter | Type | Required | Description
 uid | String | No | Invitee’s UID
 begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
-limit | String | No | Number of results per request. <br>The maximum is `30`; <br>The default is `10`
+limit | String | No | Number of results per request. <br>The maximum is `100`; <br>The default is `10`
 
 
 > Response Example:
