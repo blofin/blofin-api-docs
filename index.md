@@ -1753,7 +1753,7 @@ depositId | String | Deposit ID
 ## REST API
 ### GET Futures Account Balance
 
-Retrieve a list of assets (with non-zero balance), remaining balance, and available amount in the future account.
+Retrieve a list of assets (with non-zero balance), remaining balance, and available amount in the futures account.
 
 #### HTTP Request
 
