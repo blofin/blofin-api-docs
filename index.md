@@ -4040,7 +4040,9 @@ GET /api/v1/affiliate/invitees/daily
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-uid | String | No | Invitee’s UID
+uid | String | No | Invitee’s UID，<br>Required if only `begin`/`end` paging is used, otherwise the data will be inaccurate if only `begin`/`end` is used.
+after | String | No | Pagination of data to return records earlier than the requested `id`
+before | String | No | Pagination of data to return records newer than the requested `id`
 begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 limit | String | No | Number of results per request. <br>The maximum is `100`; <br>The default is `10`
@@ -4055,6 +4057,7 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; <
     "msg": "success",
     "data": [
         {
+            "id": "9999",
             "uid": "30292758476",
             "commission": "0.032035434",
             "commissionTime": "1716912000000",
@@ -4070,6 +4073,7 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; <
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
+id | String | ID
 uid | String | Invitee’s UID
 commission | String | Daily Commission of invitee
 commissionTime | String | Commission time. Unix timestamp format in milliseconds, e.g. `1597026383085`
