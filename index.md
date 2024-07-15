@@ -1452,7 +1452,7 @@ GET /api/v1/asset/balances?accountType=funding
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-accountType | String | Yes | Account type <br> `funding`/`futures`/`copy_trading`/`earn`
+accountType | String | Yes | Account type <br> `funding`/`futures`/`copy_trading`/`earn`/`spot`
 currency | String | No | Currency
 
 > Response Example:
@@ -1510,8 +1510,8 @@ body
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | Yes | Transfer currency, e.g. `USDT`
-fromAccount | String | Yes | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`
-toAccount | String | Yes | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`
+fromAccount | String | Yes | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`
+toAccount | String | Yes | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`
 amount | String | Yes | Amount to be transferred
 clientId | String | No | Client-supplied ID<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 
@@ -3605,7 +3605,7 @@ Retrieve account information. Data will be pushed when triggered by events such 
 #### Request Parameters
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-op | String | Yes | Operation, `subscribe` `unsubscribe``error`
+op | String | Yes | Operation, `subscribe` `unsubscribe` `error`
 args | Array | Yes | List of subscribed channels
 `>channel` | String | Yes | Channel name, `account`
 
