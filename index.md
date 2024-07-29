@@ -1609,7 +1609,7 @@ Parameter | Type | Required | Description
 currency | String | No | Currency, e.g. `USDT`
 withdrawId | String | No | Withdrawal ID
 txId | String | No | Hash record of the withdrawal
-state | String | No | Status of withdrawal <br> `0`: waiting mannual review  <br> `1`: withdrawing  <br> `2`: failed  <br> `3`: approved <br> `4`: canceled<br> `6`: kyt<br> `7`: processing
+state | String | No | Status of withdrawal <br> `0`: waiting mannual review  <br> `2`: failed  <br> `3`: success <br> `4`: canceled<br> `6`: kyt<br> `7`: processing
 before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
 after | String | No | Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. `1654041600000`
 limit | String | No | Number of results per request. <br>The maximum is `100`; The default is `20`
