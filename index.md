@@ -3862,7 +3862,8 @@ limit | String | No | Number of results per request. <br>The maximum is `30`; <b
             "totalCommision": "0.1475",
             "totalDeposit": "0",
             "totalWithdrawal": "100",
-            "kycLevel": "0"
+            "kycLevel": "0",
+            "equity": "0.1"
         }
     ]
 }
@@ -3880,6 +3881,7 @@ totalCommision | String | Total commission of invitee
 totalDeposit | String | Total deposit amount of invitee
 totalWithdrawal | String | Total withdrawal amount of invitee
 kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
+equity | String | The total amount of equity from all accounts in USDT
 
 
 
@@ -3928,7 +3930,8 @@ limit | String | No | Number of results per request. <br>The maximum is `30`; <b
             "totalCommision": "0.1475",
             "totalDeposit": "0",
             "totalWithdrawal": "100",
-            "kycLevel": "0"
+            "kycLevel": "0",
+            "equity": "0.1"
         }
     ]
 }
@@ -3948,6 +3951,7 @@ totalCommision | String | Total commission of invitee
 totalDeposit | String | Total deposit amount of invitee
 totalWithdrawal | String | Total withdrawal amount of invitee
 kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
+equity | String | The total amount of equity from all accounts in USDT
 
 ### GET Sub Affiliates
 
