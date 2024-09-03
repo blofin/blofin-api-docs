@@ -27,6 +27,10 @@ BloFin provides REST and WebSocket APIs to access market data, trading, and acco
 * All endpoints return either a JSON object or array.
 * Data is returned in **descending** order. Newest first, oldest last.
 
+### Demo Trading
+* Root URL for demo-trading REST access: `https://demo-trading-openapi.blofin.com`
+* Public WebSocket for demo-trading：`wss://demo-trading-openapi.blofin.com/ws/public`
+* Private WebSocket  for demo-trading：`wss://demo-trading-openapi.blofin.com/ws/private`
 ### General Information on Endpoints
 * For `GET` endpoints, parameters must be sent as a query string.
 * Parameters may be sent in any order.
@@ -271,11 +275,11 @@ Below is an example of subscription parameters. The requirement of subscription 
     "args":[
         {
             "channel":"books5",
-            "instId":"LTC-USDT"
+            "instId":"BTC-USDT"
         },
         {
             "channel":"candle1m",
-            "instId":"LTC-USDT"
+            "instId":"BTC-USDT"
         }
     ]
 }
@@ -298,7 +302,7 @@ args | Array | Yes | List of subscribed channels
     "event": "subscribe",
     "arg": {
         "channel": "books5",
-        "instId": "LTC-USDT"
+        "instId": "BTC-USDT"
     }
 }
 ```
@@ -333,11 +337,11 @@ Unsubscribe from one or more channels.
     "args":[
         {
             "channel":"books5",
-            "instId":"LTC-USDT"
+            "instId":"BTC-USDT"
         },
         {
             "channel":"candle1m",
-            "instId":"LTC-USDT"
+            "instId":"BTC-USDT"
         }
     ]
 }
@@ -360,7 +364,7 @@ args | Array | Yes | List of subscribed channels
     "event": "unsubscribe",
     "arg": {
         "channel": "books5",
-        "instId": "LTC-USDT"
+        "instId": "BTC-USDT"
     }
 }
 ```
