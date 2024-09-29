@@ -2638,6 +2638,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "slTriggerPrice": "1299.000000000000000000",
             "slOrderPrice": null,
             "tpOrderPrice": null,
+            "algoClientOrderId": "aaa",
+            "algoId": "11756185",
             "brokerId": ""
         },
         {
@@ -2665,6 +2667,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "slTriggerPrice": null,
             "slOrderPrice": null,
             "tpOrderPrice": null,
+            "algoClientOrderId": "",
+            "algoId": "",
             "brokerId": ""
         }
     ]
@@ -2697,6 +2701,8 @@ tpTriggerPrice | String | Take-profit trigger price
 tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
 slTriggerPrice | String | Stop-loss trigger price
 slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
+algoClientOrderId | String | There will be a value when algo order attaching `clientOrderId` is triggered, or it will be "".
+algoId | String | Algo ID. There will be a value when algo order is triggered, or it will be "".
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 ### GET Active TPSL Orders
@@ -2791,7 +2797,7 @@ POST /api/v1/trade/close-position
 body
 {
     "instId":"BTC-USDT",
-    "marginMode":"20",
+    "marginMode":"cross",
     "positionSide":"long",
     "clientOrderId":""
 }
@@ -2889,6 +2895,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "slOrderPrice": null,
             "cancelSource": "user_canceled",
             "cancelSourceReason": "Order canceled by user",
+            "algoClientOrderId": "aaa",
+            "algoId": "11756185",
             "brokerId": ""
         },
         {
@@ -2917,6 +2925,8 @@ The `before` and `after` parameters cannot be used simultaneously.
             "slOrderPrice": null,
             "cancelSource": "user_canceled",
             "cancelSourceReason": "Order canceled by user",
+            "algoClientOrderId": "",
+            "algoId": "",
             "brokerId": ""
         }
     ]
@@ -2951,6 +2961,8 @@ slTriggerPrice | String | Stop-loss trigger price
 slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
 cancelSource | String | Type of the cancellation source.
 cancelSourceReason | String | Reason for the cancellation.
+algoClientOrderId | String | There will be a value when algo order attaching `clientOrderId` is triggered, or it will be "".
+algoId | String | Algo ID. There will be a value when algo order is triggered, or it will be "".
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 ### GET TPSL Order History
