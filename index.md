@@ -3147,6 +3147,50 @@ fee | String | Fee
 ts | String | Data generation time, Unix timestamp format in milliseconds, e.g. `1597026383085`.
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
+
+
+### GET Trade Order Price Range
+
+todo:
+
+#### HTTP Request
+
+`GET /api/v1/trade/order/price-range`
+
+> Request Example:
+```shell
+GET /api/v1/trade/order/price-range
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+side | String | Yes | Order side, `buy` `sell`
+
+
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data":  {
+            "maxPrice": "1587.800000000000000000",
+            "minPrice": "1187.000000000000000000"
+        }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+maxPrice | String | Maximum Price
+minPrice | String | Minimum Price
+
+
 ## WebSocket
 ### WS Positions Channel
 
