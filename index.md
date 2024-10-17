@@ -3151,7 +3151,7 @@ brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensi
 
 ### GET Trade Order Price Range
 
-todo:
+Query price limit range
 
 #### HTTP Request
 
