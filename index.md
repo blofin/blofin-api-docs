@@ -2717,7 +2717,7 @@ clientOrderId | String | No | Client Order ID as assigned by the client<br>A com
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-algoId | String | Order ID
+algoId | String | Algo order ID
 clientOrderId | String | Client Order ID as assigned by the client
 code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
@@ -3006,7 +3006,7 @@ orderType | String |  Algo type, `trigger`
 size | String | Quantity to buy or sell.
 reduceOnly| String | Whether the order can only reduce the position size. Valid options: true or false. The default value is false.
 leverage | String | Leverage
-state | String | State,`live`, `effective`, `canceled`, `order_failed`
+state | String | State, `live`, `effective`, `canceled`, `order_failed`
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085` 
 triggerPrice | String | Trigger price
 triggerPriceType | String | Trigger price type `last`: last price
