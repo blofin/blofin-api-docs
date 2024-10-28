@@ -2377,7 +2377,7 @@ tpTriggerPrice | String | Yes | Take-profit trigger price<br>If you fill in this
 tpOrderPrice | String | No | Take-profit order price.<br>If you fill in this parameter, you should fill in the `tpTriggerPrice` as well.<br>If the price is -1, take-profit will be executed at the market price.
 slTriggerPrice | String | No | Stop-loss trigger price<br>If you fill in this parameter, you should fill in the `slOrderPrice` as well.
 slOrderPrice | String | No | Stop-loss order price.<br>If you fill in this parameter, you should fill in the `slTriggerPrice` as well.<br>If the price is -1, stop-loss will be executed at the market price.
-size | String | Yes | Quantity to take-profit or stop-loss <br> If the quantity is -1, it means entire positions
+size | String | Yes | Quantity  <br> If the quantity is -1, it means entire positions
 reduceOnly | String | No | Whether orders can only reduce in position size. <br>Valid options: `true` or `false`. The default value is `false`.<br>When `reduceOnly = true` and the opposite order size exceeds the position size. The position will be fully closed, and no new position will be opened.
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
@@ -2404,6 +2404,96 @@ tpslId | String | TP/SL order ID
 clientOrderId | String | Client Order ID as assigned by the client
 code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
+
+
+
+### Place Algo Order
+
+#### HTTP Request
+
+`POST /api/v1/trade/order-algo`
+
+> Request Example:
+```shell
+POST /api/v1/trade/order-algo
+body
+{
+  "instId": "ETH-USDT",
+  "marginMode": "cross",
+  "positionSide": "short",
+  "side": "sell",
+  "size": "1",
+  "clientOrderId":""
+  "orderPrice": "-1",
+  "orderType": "trigger",
+  "triggerPrice": "3000",
+  "triggerPriceType": "last",
+  "attachAlgoOrders": [{
+        "tpTriggerPrice":"3500",
+        "tpOrderPrice":"3600",
+        "tpTriggerPriceType":"last",
+        "slTriggerPrice":"2600",
+        "slOrderPrice":"2500",
+        "slTriggerPriceType":"last"
+    }]
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- |----------| -----------
+instId | String | Yes      | Instrument ID, e.g. `BTC-USDT`
+marginMode | String | Yes      | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Yes      | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
+side | String | Yes      | Order side, `buy` `sell`
+size | String | Yes      | Quantity  <br>If the quantity is `-1`, it means entire positions
+clientOrderId | String | No       | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
+orderType | String | Yes      |  Algo type, `trigger` 
+orderPrice | String | No       | Order Price<br>If the price is `-1`, the order will be executed at the market price.
+reduceOnly| String | No        | Whether the order can only reduce the position size. Valid options: true or false. The default value is false.
+
+
+Trigger Order
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+triggerPrice | String | Yes | Trigger price
+triggerPriceType | String | No | Trigger price type `last`: last price
+attachAlgoOrders | Array of object | No | Attached SL/TP orders info Applicable to Spot and futures mode/Multi-currency margin/Portfolio margin
+`>`tpTriggerPrice | String |No | Take-profit trigger price
+`>`tpOrderPrice | String |No | Take-profit order price <br>If the price is `-1`, take-profit will be executed at the market price.
+`>`tpTriggerPriceType | String |No | Trigger price type last: last price
+`>`slTriggerPrice | String |No | Stop-loss trigger price 
+`>`slOrderPrice | String |No |  Stop-loss order price <br>If the price is `-1`, stop-loss will be executed at the market price.
+`>`slTriggerPriceType | String |No |  Stop-loss order trigger price type last: last price
+
+
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "algoId": "1012",
+        "clientOrderId": null,
+        "code": "0",
+        "msg": null
+    }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+algoId | String | Algo order ID
+clientOrderId | String | Client Order ID as assigned by the client
+code | String | The code of the event execution result, `0` means success.
+msg | String | Rejection or success message of event execution.
+
+
 
 ### Cancel Order
 
@@ -2580,6 +2670,60 @@ clientOrderId | String | Client Order ID as assigned by the client
 code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
 
+
+
+
+### Cancel Algo Order
+
+#### HTTP Request
+
+`POST /api/v1/trade/cancel-algo`
+
+> Request Example:
+```shell
+POST /api/v1/trade/cancel-algo
+body
+  {
+    "instId": "ETH-USDT",
+    "algoId": "22619976",
+    "clientOrderId": ""
+  }
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
+algoId | String | No | Algo order ID
+clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": 
+        {
+            "algoId": "1009",
+            "clientOrderId": null,
+            "code": "500",
+            "msg": "Cancel failed as the order has been filled, triggered, canceled or does not exist."
+        }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+algoId | String | Order ID
+clientOrderId | String | Client Order ID as assigned by the client
+code | String | The code of the event execution result, `0` means success.
+msg | String | Rejection or success message of event execution.
+
+
+
 ### GET Active Orders
 
 Retrieve all incomplete orders under the current account.
@@ -2698,9 +2842,9 @@ createTime | String | Creation time, Unix timestamp format in milliseconds, e.g.
 updateTime | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 orderCategory | String | Order category<br>`normal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
 tpTriggerPrice | String | Take-profit trigger price
-tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
+tpOrderPrice | String | Take-profit order price. <br>If the price is `-1`, take-profit will be executed at the market price.
 slTriggerPrice | String | Stop-loss trigger price
-slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
+slOrderPrice | String | Stop-loss order price. <br>If the price is `-1`, stop-loss will be executed at the market price.
 algoClientOrderId | String | There will be a value when algo order attaching `clientOrderId` is triggered, or it will be "".
 algoId | String | Algo ID. There will be a value when algo order is triggered, or it will be "".
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
@@ -2782,6 +2926,99 @@ reduceOnly | String | Whether orders can only reduce in position size.<br>Valid 
 actualSize | String | Actual order quantity
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
+
+
+### GET Active Algo Orders
+
+Retrieve a list of untriggered algo orders under the current account.
+
+#### HTTP Request
+
+`GET /api/v1/trade/orders-algo-pending`
+
+> Request Example:
+```shell
+GET /api/v1/trade/orders-algo-pending
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
+algoId | String | No | Algo order ID
+clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
+after | String | No | Pagination of data to return records earlier than the requested `algoId`
+before | String | No | Pagination of data to return records newer than the requested `algoId`
+limit | String | No | Number of results per request. The maximum is `100`; The default is `20`
+orderType | String | Yes |  Algo type, `trigger` 
+
+
+
+The `before` and `after` parameters cannot be used simultaneously.
+
+> Response Example:
+
+```json
+{
+  "code": "0",
+  "msg": "success",
+  "data": [
+    {
+      "algoId": "2101",
+      "clientOrderId": "BBBBqqqq",
+      "instId": "ETH-USDT",
+      "marginMode": "cross",
+      "positionSide": "net",
+      "side": "sell",
+      "orderType": "trigger",
+      "size": "1",
+      "leverage": "3",
+      "state": "canceled",
+      "triggerPrice": "1661.100000000000000000",
+      "triggerPriceType": "last",
+      "attachAlgoOrders": [
+        {
+          "tpTriggerPrice": "1666.000000000000000000",
+          "tpOrderPrice": "-1",
+          "tpTriggerPriceType": "last",
+          "slTriggerPrice": "1222.000000000000000000",
+          "slOrderPrice": "-1",
+          "slTriggerPriceType": "last"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+algoId | String | Algo order ID
+clientOrderId | String | Client Order ID as assigned by the client.
+instId | String | Instrument ID
+marginMode | String | Margin mode
+positionSide | String | Position side, `long`,`short`,`net`
+side | String | Order side
+orderType | String |  Algo type, `trigger` 
+size | String | Quantity to buy or sell.
+reduceOnly| String | Whether the order can only reduce the position size. Valid options: true or false. The default value is false.
+leverage | String | Leverage
+state | String | State,`live`, `effective`, `canceled`, `order_failed`
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085` 
+triggerPrice | String | Trigger price
+triggerPriceType | String | Trigger price type `last`: last price
+attachAlgoOrders | Array of object | Attached SL/TP orders info Applicable to Spot and futures mode/Multi-currency margin/Portfolio margin 
+`>`tpTriggerPrice | String | Take-profit trigger price
+`>`tpOrderPrice | String | Take-profit order price <br>If the price is `-1`, take-profit will be executed at the market price.
+`>`tpTriggerPriceType | String | Trigger price type last: last price
+`>`slTriggerPrice | String | Stop-loss trigger price 
+`>`slOrderPrice | String |  Stop-loss order price <br>If the price is `-1`, stop-loss will be executed at the market price.
+`>`slTriggerPriceType | String |  Stop-loss order trigger price type last: last price
+
+
 
 ### Close Positions
 
@@ -3067,6 +3304,103 @@ slTriggerPrice | String | Stop-loss trigger price
 slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
+
+
+
+
+### GET Algo Order History
+
+Retrieve a list of all Algo orders under the current account.
+
+#### HTTP Request
+
+`GET /api/v1/trade/orders-algo-history`
+
+> Request Example:
+```shell
+GET /api/v1/trade/orders-algo-history
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
+algoId | String | No | Algo order ID
+clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
+state | String | No | State,`live`, `effective`, `canceled`, `order_failed`
+after | String | No | Pagination of data to return records earlier than the requested `algoId`
+before | String | No | Pagination of data to return records newer than the requested `algoId`
+limit | String | No | Number of results per request. The maximum is `100`; The default is `20`
+orderType | String | Yes |  Algo type, `trigger` 
+
+
+The `before` and `after` parameters cannot be used simultaneously.
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        {
+            "algoId": "2101",
+            "clientOrderId": "BBBBqqqq",
+            "instId": "ETH-USDT",
+            "marginMode": "cross",
+            "positionSide": "net",
+            "side": "sell",
+            "orderType": "trigger",
+            "size": "1",
+            "actualSize": "1",
+            "leverage": "3",
+            "state": "canceled", 
+            "triggerPrice": "1661.100000000000000000",
+            "triggerPriceType": "last",
+            "attachAlgoOrders": [
+                {
+                    "tpTriggerPrice": "1666.000000000000000000",
+                    "tpOrderPrice": "-1",
+                    "tpTriggerPriceType": "last",
+                    "slTriggerPrice": "1222.000000000000000000",
+                    "slOrderPrice": "-1",
+                    "slTriggerPriceType": "last"
+                }
+            ]
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type   | Description                          
+----------------- |--------|--------------------------------------
+algoId | String | Algo order ID                        
+clientOrderId | String | Client Order ID as assigned by the client. 
+instId | String | Instrument ID                        
+marginMode | String | Margin mode                          
+positionSide | String | Position side, `long`,`short`,`net`  
+side | String | Order side                           
+reduceOnly| String | Whether the order can only reduce the position size. Valid options: true or false. The default value is false.
+orderType | String |  Algo type, `trigger` 
+size | String | Quantity to buy or sell.
+leverage | String | Leverage
+state | String | State,`live`, `effective`, `canceled`, `order_failed`
+actualSize | String | Actual order quantity
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085` 
+triggerPrice | String | Trigger price
+triggerPriceType | String | Trigger price type `last`: last price
+attachAlgoOrders | Array of object | Attached SL/TP orders info Applicable to Spot and futures mode/Multi-currency margin/Portfolio margin
+`>`tpTriggerPrice | String | Take-profit trigger price
+`>`tpOrderPrice | String | Take-profit  order price <br>If the price is `-1`, stop-loss will be executed at the market price.
+`>`tpTriggerPriceType | String | Trigger price type last: last price
+`>`slTriggerPrice | String | Stop-loss trigger price 
+`>`slOrderPrice | String |  Stop-loss order price  <br>If the price is `-1`, stop-loss will be executed at the market price.
+`>`slTriggerPriceType | String |  Stop-loss order trigger price type last: last price
+
+
 
 ### GET Trade History
 
