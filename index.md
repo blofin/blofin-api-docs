@@ -743,8 +743,8 @@ https://openapi.blofin.com/api/v1/market/funding-rate?instId=BTC-USDT
 #### Request Parameters
 
 Parameter | Type | Required | Description
------------------ | ----- | ------- | -----------
-instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+----------------- | ----- |------| -----------
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
 
 > Response Example:
 
