@@ -2428,6 +2428,7 @@ body
   "orderType": "trigger",
   "triggerPrice": "3000",
   "triggerPriceType": "last",
+  "brokerId": "",
   "attachAlgoOrders": [{
         "tpTriggerPrice":"3500",
         "tpOrderPrice":"3600",
@@ -2452,6 +2453,7 @@ clientOrderId | String | No       | Client Order ID as assigned by the client<br
 orderType | String | Yes      |  Algo type, `trigger` 
 orderPrice | String | No       | Order Price<br>If the price is `-1`, the order will be executed at the market price.
 reduceOnly| String | No        | Whether the order can only reduce the position size. Valid options: true or false. The default value is false.
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters. 
 
 
 Trigger Order
@@ -2978,6 +2980,7 @@ The `before` and `after` parameters cannot be used simultaneously.
       "state": "canceled",
       "triggerPrice": "1661.100000000000000000",
       "triggerPriceType": "last",
+      "brokerId": null,
       "attachAlgoOrders": [
         {
           "tpTriggerPrice": "1666.000000000000000000",
@@ -2995,7 +2998,7 @@ The `before` and `after` parameters cannot be used simultaneously.
 
 #### Response Parameters
 Parameter | Type | Description
------------------ | ----- | -----------
+----------------- | ----- | ----------
 algoId | String | Algo order ID
 clientOrderId | String | Client Order ID as assigned by the client.
 instId | String | Instrument ID
@@ -3009,7 +3012,8 @@ leverage | String | Leverage
 state | String | State, `live`, `effective`, `canceled`, `order_failed`
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085` 
 triggerPrice | String | Trigger price
-triggerPriceType | String | Trigger price type `last`: last price
+triggerPriceType | String | Trigger price type `last`: last price 
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters. 
 attachAlgoOrders | Array of object | Attached SL/TP orders info Applicable to Spot and futures mode/Multi-currency margin/Portfolio margin 
 `>`tpTriggerPrice | String | Take-profit trigger price
 `>`tpOrderPrice | String | Take-profit order price <br>If the price is `-1`, take-profit will be executed at the market price.
@@ -3359,6 +3363,7 @@ The `before` and `after` parameters cannot be used simultaneously.
             "state": "canceled", 
             "triggerPrice": "1661.100000000000000000",
             "triggerPriceType": "last",
+            "brokerId": null,
             "attachAlgoOrders": [
                 {
                     "tpTriggerPrice": "1666.000000000000000000",
@@ -3392,6 +3397,7 @@ actualSize | String | Actual order quantity
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085` 
 triggerPrice | String | Trigger price
 triggerPriceType | String | Trigger price type `last`: last price
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 attachAlgoOrders | Array of object | Attached SL/TP orders info Applicable to Spot and futures mode/Multi-currency margin/Portfolio margin
 `>`tpTriggerPrice | String | Take-profit trigger price
 `>`tpOrderPrice | String | Take-profit  order price <br>If the price is `-1`, stop-loss will be executed at the market price.
