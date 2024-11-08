@@ -1948,8 +1948,6 @@ marginMode | String | Margin mode
 
 > Request Example:
 ```shell
-POST /api/v1/account/set-margin-mode
-body
 {
     "marginMode": "isolated"
 }
@@ -2016,8 +2014,6 @@ Change user's position mode (Hedge Mode or One-way Mode) on every symbol
 
 > Request Example:
 ```shell
-POST /api/v1/account/set-position-mode
-body
 {
     "positionMode": "net_mode"
 }
@@ -2144,8 +2140,6 @@ positionSide | String | Position side<br>`long`<br>`short`<br>`net`
 
 > Request Example:
 ```shell
-POST /api/v1/account/set-leverage
-body
 {
     "instId":"BTC-USDT",
     "leverage":"100",
@@ -2194,8 +2188,6 @@ positionSide | String | Position side<br>`long`<br>`short`<br>`net`
 
 > Request Example:
 ```shell
-POST /api/v1/trade/order
-body
 {
     "instId":"BTC-USDT",
     "marginMode":"cross",
@@ -2258,8 +2250,6 @@ msg | String | Rejection or success message of event execution.
 
 > Request Example:
 ```shell
-POST /api/v1/trade/batch-orders
-body
 [
   {
     "instId": "ETH-USDT",
@@ -2348,8 +2338,6 @@ msg | String | Rejection or success message of event execution.
 
 > Request Example:
 ```shell
-POST /api/v1/trade/order-tpsl
-body
 {
   "instId": "ETH-USDT",
   "marginMode": "cross",
@@ -2453,7 +2441,7 @@ clientOrderId | String | No       | Client Order ID as assigned by the client<br
 orderType | String | Yes      |  Algo type, `trigger` 
 orderPrice | String | No       | Order Price<br>If the price is `-1`, the order will be executed at the market price.
 reduceOnly| String | No        | Whether the order can only reduce the position size. Valid options: true or false. The default value is false.
-brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters. 
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 
 Trigger Order
@@ -2980,7 +2968,7 @@ The `before` and `after` parameters cannot be used simultaneously.
       "state": "canceled",
       "triggerPrice": "1661.100000000000000000",
       "triggerPriceType": "last",
-      "brokerId": null,
+      "brokerId": "",
       "attachAlgoOrders": [
         {
           "tpTriggerPrice": "1666.000000000000000000",
@@ -2998,7 +2986,7 @@ The `before` and `after` parameters cannot be used simultaneously.
 
 #### Response Parameters
 Parameter | Type | Description
------------------ | ----- | ----------
+----------------- | ----- | -----------
 algoId | String | Algo order ID
 clientOrderId | String | Client Order ID as assigned by the client.
 instId | String | Instrument ID
@@ -3012,8 +3000,8 @@ leverage | String | Leverage
 state | String | State, `live`, `effective`, `canceled`, `order_failed`
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085` 
 triggerPrice | String | Trigger price
-triggerPriceType | String | Trigger price type `last`: last price 
-brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters. 
+triggerPriceType | String | Trigger price type `last`: last price
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 attachAlgoOrders | Array of object | Attached SL/TP orders info Applicable to Spot and futures mode/Multi-currency margin/Portfolio margin 
 `>`tpTriggerPrice | String | Take-profit trigger price
 `>`tpOrderPrice | String | Take-profit order price <br>If the price is `-1`, take-profit will be executed at the market price.
@@ -3363,7 +3351,7 @@ The `before` and `after` parameters cannot be used simultaneously.
             "state": "canceled", 
             "triggerPrice": "1661.100000000000000000",
             "triggerPriceType": "last",
-            "brokerId": null,
+            "brokerId": "",
             "attachAlgoOrders": [
                 {
                     "tpTriggerPrice": "1666.000000000000000000",
@@ -3836,11 +3824,11 @@ data | Array | Subscribed data
 `>brokerId` | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 
-### WS TPSL Channel
+### WS Algo Orders Channel
 
 This channel uses private WebSocket and authentication is required.
 
-Retrieve tp/sl order information. Data will not be pushed when first subscribed. Data will only be pushed when there are order updates.
+Retrieve algo orders (includes `trigger` order, `TP/SL` order). Data will not be pushed when first subscribed. Data will only be pushed when there are order updates.
 
 > Request Example: Single
 ```json
@@ -3922,33 +3910,75 @@ msg | String | Error message
 ```json
 {
     "action": "snapshot",
-    "arg":{
-        "channel":"orders-algo"
+    "arg": {
+        "channel": "orders-algo"
     },
-    "data":[
+    "data": [
         {
-            "instType":"SWAP",
-            "instId":"BTC-USDT",
-            "orderId":"1313",
-            "clientOrderId":null,
-            "size":"19",
-            "orderType":"conditional",
-            "side":"sell",
-            "positionSide":"net",
-            "marginMode":"cross",
-            "leverage":"2",
-            "state":"live",
-            "tpTriggerPrice":"28500.000000000000000000",
-            "tpOrderPrice":"-1",
-            "slTriggerPrice":null,
-            "slOrderPrice":null,
-            "actualSize":"0",
-            "actualSide":"",
-            "reduceOnly":"true",
-            "cancelType":"not_canceled",
-            "createTime":"1696760848240",
-            "updateTime":"1696760848240",
-            "brokerId":""
+            "instType": "SWAP",
+            "instId": "BTC-USDT",
+            "tpslId": "11779982",
+            "algoId": "11779982",
+            "clientOrderId": "",
+            "size": "100",
+            "orderType": "conditional",
+            "side": "buy",
+            "positionSide": "long",
+            "marginMode": "cross",
+            "leverage": "10",
+            "state": "live",
+            "tpTriggerPrice": "73000.000000000000000000",
+            "tpOrderPrice": "-1",
+            "slTriggerPrice": null,
+            "slOrderPrice": null,
+            "triggerPrice": null,
+            "triggerPriceType": "last",
+            "orderPrice": null,
+            "actualSize": "",
+            "actualSide": "",
+            "reduceOnly": "false",
+            "cancelType": "not_canceled",
+            "createTime": "1731056529341",
+            "updateTime": "1731056529341",
+            "brokerId": ""
+        },
+        {
+            "instType": "SWAP",
+            "instId": "BTC-USDT",
+            "tpslId": "11779984",
+            "algoId": "11779984",
+            "clientOrderId": "",
+            "size": "100",
+            "orderType": "trigger",
+            "side": "buy",
+            "positionSide": "long",
+            "marginMode": "cross",
+            "leverage": "10",
+            "state": "live",
+            "tpTriggerPrice": null,
+            "tpOrderPrice": null,
+            "slTriggerPrice": null,
+            "slOrderPrice": null,
+            "triggerPrice": "73000.000000000000000000",
+            "triggerPriceType": "last",
+            "orderPrice": "-1",
+            "actualSize": "",
+            "actualSide": null,
+            "reduceOnly": "false",
+            "cancelType": "not_canceled",
+            "createTime": "1731057086771",
+            "updateTime": "1731057086771",
+            "brokerId": "",
+            "attachAlgoOrders": [
+                {
+                    "tpTriggerPrice": "75000",
+                    "tpTriggerPriceType": "market",
+                    "tpOrderPrice": "-1",
+                    "slTriggerPriceType": null,
+                    "slTriggerPrice": null,
+                    "slOrderPrice": null
+                }
+            ]
         }
     ]
 }
@@ -3963,26 +3993,37 @@ arg | Object | Successfully subscribed channel
 data | Array | Subscribed data
 `>instId` | String | Instrument ID, e.g. `BTC-USDT`
 `>instType` | String | Instrument type
-`>orderId` | String | Order ID
+`>algoId` | String | Algo ID
 `>clientOrderId` | String | Client Order ID as assigned by the client.
 `>size` | String | Quantity to buy or sell
-`>orderType` | String | Order type
-`>side` | String | Order side
+`>orderType` | String | Order type<br>`conditional`: One-way stop order<br>`trigger`: Trigger order
+`>side` | String | Order side<br>`buy`<br>`sell`
 `>positionSide` | String | Position side
 `>marginMode` | String | Margin mode
-`>state` | String | State
 `>leverage` | String | Leverage
+`>state` | String | State<br>`live`: to be effective<br>`effective`: effective<br>`canceled`: canceled<br>`order_failed`: order failed
 `>tpTriggerPrice` | String | Take-profit trigger price
 `>tpOrderPrice` | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
 `>slTriggerPrice` | String | Stop-loss trigger price
 `>slOrderPrice` | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
+`>triggerPrice` | String | Trigger price
+`>triggerPriceType` | String | Trigger price type.<br>`last`: last price<br>`index`: index price<br>`mark`: mark price
+`orderPrice` | String | Order price for the trigger order
 `>actualSize` | String | Actual order quantity
-`>actualSide` | String | Actual order side
+`>actualSide` | String | Actual order side<br>`sl`: stop loss<br>`tp`: take profit<br>Only applicable to `conditional` order
 `>reduceOnly` | String | Whether orders can only reduce in position size.
-`>cancelType` | String | Type of the cancellation source.
+`>cancelType` | String | Type of the cancellation source.<br>`not_canceled` <br>`user_canceled` <br>`system_canceled`
 `>createTime` | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>updateTime` | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>tag` | String | Order tag
 `>brokerId` | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+`>attachAlgoOrds` | String | Attached TP/SL orders info
+`>> tpTriggerPrice` | String | Take-profit trigger price<br>If you fill in this parameter, you should fill in the take-profit order price as well.
+`>> tpTriggerPriceType` | String | Take-profit trigger price type<br>`last`: last price<br>`index`: index price<br>`mark`: mark price
+`>> tpOrderPrice` | String | Take-profit order price<br>If you fill in this parameter, you should fill in the take-profit trigger price as well.<br>If the price is `-1`, take-profit will be executed at the market price.
+`>> slTriggerPrice` | String | Stop-loss trigger price<br>If you fill in this parameter, you should fill in the stop-loss order price as well.
+`>> slTriggerPriceType` | String | Stop-loss trigger price type<br>`last`: last price<br>`index`: index price<br>`mark`: mark price
+`>> slOrderPrice` | String | Stop-loss order price<br>If you fill in this parameter, you should fill in the stop-loss trigger price.<br>If the price is `-1`, stop-loss will be executed at the market price.
 
 ### WS Account Channel
 
