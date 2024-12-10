@@ -31,10 +31,13 @@ BloFin provides REST and WebSocket APIs to access market data, trading, and acco
 * Root URL for demo-trading REST access: `https://demo-trading-openapi.blofin.com`
 * Public WebSocket for demo-trading：`wss://demo-trading-openapi.blofin.com/ws/public`
 * Private WebSocket  for demo-trading：`wss://demo-trading-openapi.blofin.com/ws/private`
+
 ### General Information on Endpoints
 * For `GET` endpoints, parameters must be sent as a query string.
 * Parameters may be sent in any order.
 
+### Copy Trading
+* Private WebSocket：`wss://openapi.blofin.com/ws/copytrading/private`
 ## API Key Creation
 Please refer to [my API page](https://blofin.com/account/apis) regarding API Key creation. 
 
@@ -5686,6 +5689,502 @@ size | String | Yes | Contracts when you choose to close `by pnl`.<br>Close rati
 
 
 ## WEBSOCKET
+### WS Positions(By Contract) Channel
+
+This channel uses private WebSocket and authentication is required.
+
+Retrieve position information. Initial snapshot will be pushed according to subscription granularity. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
+
+> Request Example:
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"copytrading-positions"
+        }
+    ]
+}
+```
+
+
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name, `copytrading-positions`
+
+
+
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "copytrading-positions"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"copytrading-positions\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | String | Event, `subscribe` `unsubscribe` `error`
+arg | Object | Subscribed channel
+`>channel` | String | Channel name
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+    "arg":{
+        "channel":"copytrading-positions"
+    },
+    "data":[
+        {
+            "instType":"SWAP",
+            "instId":"BNB-USDT",
+            "marginMode":"cross",
+            "positionId":"8138",
+            "positionSide":"net",
+            "positions":"-100",
+            "availablePositions":"-100",
+            "averagePrice":"130.06",
+            "unrealizedPnl":"-77.1",
+            "unrealizedPnlRatio":"-1.778409964631708442",
+            "leverage":"3",
+            "liquidationPrice":"107929.699398660166170462",
+            "markPrice":"207.16",
+            "initialMargin":"69.053333333333333333",
+            "margin":"",
+            "marginRatio":"131.337873621866389829",
+            "maintenanceMargin":"1.0358",
+            "adl":"3",
+            "createTime":"1695795726481",
+            "updateTime":"1695795726484"
+        }
+    ]
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+arg | Object | Successfully subscribed channel
+`>channel` | String | Channel name
+data | Array | Subscribed data
+`>instId` | String | Instrument ID, e.g. `BTC-USDT`
+`>instType` | String | Instrument type
+`>marginMode` | String | Margin mode<br>`cross`<br>`isolated`
+`>positionId` | String | Position ID
+`>positionSide` | String | Position side<br>`long`<br>`short`<br>`net` (Positive `position` means long position and negative `position` means short position.)
+`>positions` | String | Quantity of positions
+`>availablePositions` | String | Position that can be closed
+`>averagePrice` | String | Average open price
+`>unrealizedPnl` | String | Unrealized profit and loss calculated by mark price.
+`>unrealizedPnlRatio` | String | Unrealized profit and loss ratio calculated by mark price.
+`>leverage` | String | Leverage
+`>liquidationPrice` | String | Estimated liquidation price
+`>markPrice` | String | Latest Mark price
+`>initialMargin` | String | Initial margin requirement, only applicable to `cross`.
+`>margin` | String | Margin, can be added or reduced.
+`>marginRatio` | String | Margin ratio
+`>maintenanceMargin` | String | Maintenance margin requirement
+`>adl` | String | Auto decrease line, signal area<br>Divided into 5 levels, from 1 to 5, the smaller the number, the weaker the adl intensity.
+`>createTime` | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>updateTime` | String | Latest time position was adjusted, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>attachTpsls` | String | Attached TP/SL order
+`>> tpTriggerPrice` | String | Take-profit trigger price
+`>> tpTriggerPriceType` | String | Take-profit trigger price type `last`
+`>> tpOrderPrice` | String | Take-profit order price. <br>If the price is `-1`, take-profit will be executed at the market price.
+`>> slTriggerPrice` | String | Stop-loss trigger price
+`>> slTriggerPriceType` | String | Stop-loss trigger price type `last`
+`>> slOrderPrice` | String | Stop-loss order price. <br>If the price is `-1`, stop-loss will be executed at the market price.
+`>> size` | String | Quantity<br>If the quantity is `-1`, it means entire positions
+
+
+
+
+### WS Positions(By Order) Channel
+
+This channel uses private WebSocket and authentication is required.
+
+Retrieve position information. Initial snapshot will be pushed according to subscription granularity. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
+
+> Request Example:
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"copytrading-sub-positions"
+        }
+    ]
+}
+```
+
+
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name, `copytrading-sub-positions`
+
+
+
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "copytrading-sub-positions"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"copytrading-sub-positions\", \"instType\" : \"SWAP\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | String | Event, `subscribe` `unsubscribe` `error`
+arg | Object | Subscribed channel
+`>channel` | String | Channel name
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+    "arg":{
+        "channel":"copytrading-sub-positions"
+    },
+    "data":[
+        {
+            "instType":"SWAP",
+            "instId":"BNB-USDT",
+            "marginMode":"cross",
+            "positionId":"8138",
+            "positionSide":"net",
+            "positions":"-100",
+            "availablePositions":"-100",
+            "averagePrice":"130.06",
+            "unrealizedPnl":"-77.1",
+            "unrealizedPnlRatio":"-1.778409964631708442",
+            "leverage":"3",
+            "liquidationPrice":"107929.699398660166170462",
+            "markPrice":"207.16",
+            "initialMargin":"69.053333333333333333",
+            "margin":"",
+            "marginRatio":"131.337873621866389829",
+            "maintenanceMargin":"1.0358",
+            "adl":"3",
+            "createTime":"1695795726481",
+            "updateTime":"1695795726484"
+        }
+    ]
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+arg | Object | Successfully subscribed channel
+`>channel` | String | Channel name
+data | Array | Subscribed data
+`>instId` | String | Instrument ID, e.g. `BTC-USDT`
+`>instType` | String | Instrument type
+`>marginMode` | String | Margin mode<br>`cross`<br>`isolated`
+`>positionId` | String | Position ID
+`>positionSide` | String | Position side<br>`long`<br>`short`<br>`net` (Positive `position` means long position and negative `position` means short position.)
+`>positions` | String | Quantity of positions
+`>availablePositions` | String | Position that can be closed
+`>averagePrice` | String | Average open price
+`>unrealizedPnl` | String | Unrealized profit and loss calculated by mark price.
+`>unrealizedPnlRatio` | String | Unrealized profit and loss ratio calculated by mark price.
+`>leverage` | String | Leverage
+`>liquidationPrice` | String | Estimated liquidation price
+`>markPrice` | String | Latest Mark price
+`>initialMargin` | String | Initial margin requirement, only applicable to `cross`.
+`>margin` | String | Margin, can be added or reduced.
+`>marginRatio` | String | Margin ratio
+`>maintenanceMargin` | String | Maintenance margin requirement
+`>adl` | String | Auto decrease line, signal area<br>Divided into 5 levels, from 1 to 5, the smaller the number, the weaker the adl intensity.
+`>createTime` | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>updateTime` | String | Latest time position was adjusted, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>attachTpsls` | String | Attached TP/SL order
+`>> tpTriggerPrice` | String | Take-profit trigger price
+`>> tpTriggerPriceType` | String | Take-profit trigger price type `last`
+`>> tpOrderPrice` | String | Take-profit order price. <br>If the price is `-1`, take-profit will be executed at the market price.
+`>> slTriggerPrice` | String | Stop-loss trigger price
+`>> slTriggerPriceType` | String | Stop-loss trigger price type `last`
+`>> slOrderPrice` | String | Stop-loss order price. <br>If the price is `-1`, stop-loss will be executed at the market price.
+`>> size` | String | Quantity<br>If the quantity is `-1`, it means entire positions
+
+### WS Order Channel
+
+This channel uses private WebSocket and authentication is required.
+
+Retrieve order information. Data will not be pushed when first subscribed. Data will only be pushed when there are order updates.
+
+
+> Request Example: 
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"copytrading-orders"
+        }
+    ]
+}
+```
+
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name, `copytrading-orders`
+
+
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "copytrading-orders"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"copytrading-orders\", \"instType\" : \"SWAP\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | String | Event, `subscribe` `unsubscribe` `error`
+args | Object | Subscribed channel
+`>channel` | String | Channel name
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+    "arg":{
+        "channel":"copytrading-orders"
+    },
+    "data":[
+        {
+            "instType":"SWAP",
+            "instId":"BTC-USDT",
+            "orderId":"28334314",
+            "price":"28000.000000000000000000",
+            "size":"10",
+            "orderType":"limit",
+            "side":"sell",
+            "positionSide":"net",
+            "marginMode":"cross",
+            "filledSize":"0",
+            "filledAmount":"0.000000000000000000",
+            "averagePrice":"0.000000000000000000",
+            "state":"live",
+            "leverage":"2",
+            "tpTriggerPrice":"27000.000000000000000000",
+            "tpOrderPrice":"-1",
+            "slTriggerPrice":null,
+            "slOrderPrice":null,
+            "fee":"0.000000000000000000",
+            "pnl":"0.000000000000000000",
+            "cancelSource":"",
+            "orderCategory":"pre_tp_sl",
+            "createTime":"1696760245931",
+            "updateTime":"1696760245973"
+        }
+    ]
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+action | String | Push data action, incremental data or full snapshot.<br>`snapshot`: full<br>`update`: incremental
+arg | Object | Successfully subscribed channel
+`>channel` | String | Channel name
+data | Array | Subscribed data
+`>instId` | String | Instrument ID, e.g. `BTC-USDT`
+`>instType` | String | Instrument type
+`>orderId` | String | Order ID
+`>price` | String | Price
+`>size` | String | Quantity to buy or sell
+`>orderType` | String | Order type
+`>side` | String | Order side
+`>positionSide` | String | Position side
+`>marginMode` | String | Margin mode
+`>filledSize` | String | Accumulated fill quantity
+`>filledAmount` | String | 
+`>averagePrice` | String | Average filled price. If none is filled, it will return "".
+`>state` | String | State
+`>leverage` | String | Leverage
+`>tpTriggerPrice` | String | Take-profit trigger price
+`>tpOrderPrice` | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
+`>slTriggerPrice` | String | Stop-loss trigger price
+`>slOrderPrice` | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
+`>fee` | String | Fee and rebate
+`>pnl` | String | Profit and loss, Applicable to orders which have a trade and aim to close position.
+`>cancelSource` | String | 
+`>orderCategory` | String | Order category<br>`normal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
+`>createTime` | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>updateTime` | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+
+### WS Account Channel
+
+This channel uses private WebSocket and authentication is required.
+
+Retrieve account information. Data will be pushed when triggered by events such as placing order, canceling order, transaction execution, etc. It will also be pushed in regular interval according to subscription granularity.
+
+> Request Example: 
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"copytrading-account"
+        }
+    ]
+}
+```
+
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe` `error`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name, `copytrading-account`
+
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "copytrading-account"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"copytrading-account\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | String | Event, `subscribe` `unsubscribe` `error`
+args | Object | Subscribed channel
+`>channel` | String | Channel name
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+  "arg": {
+    "channel": "copytrading-account"
+  },
+  "data": {
+    "ts": "1597026383085",
+    "totalEquity": "41624.32",
+    "isolatedEquity": "3624.32",
+    "details": [
+      {
+        "currency": "USDT",
+        "equity": "1",
+        "balance": "1",
+        "ts": "1617279471503",
+        "isolatedEquity": "0",
+        "equityUsd": "45078.3790756226851775",
+        "availableEquity": "1",
+        "available": "0",
+        "frozen": "0",
+        "orderFrozen": "0",
+        "unrealizedPnl": "0",
+        "isolatedUnrealizedPnl": "0"
+        
+      }
+    ]
+  }
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+arg | Object | Successfully subscribed channel
+`>channel` | String | Channel name
+data | Object | Subscribed data
+`>ts` | String |  Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>totalEquity` | String | The total amount of equity in USD
+`>isolatedEquity` | String | Isolated margin equity in USD
+`>details` | String | Detailed asset information in all currencies
+`>>currency` | String | Currency
+`>>equity` | String | Equity of the currency
+`>>balance` | String | Cash balance
+`>>ts` | String | Update time of currency balance information, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>>isolatedEquity` | String | Isolated margin equity of the currency
+`>>available` | String | Available balance of the currency
+`>>availableEquity` | String | Available equity of the currency
+`>>frozen` | String | Frozen balance of the currency
+`>>orderFrozen` | String | Margin frozen for open orders
+`>>equityUsd` | String | Equity in USD of the currency
+`>>isolatedUnrealizedPnl` | String | Isolated unrealized profit and loss of the currency
+
+
+
+
 
 # User
 
