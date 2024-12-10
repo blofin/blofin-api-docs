@@ -4526,6 +4526,1167 @@ cashback | String | Cashback of invitee
 fee | String | Daily trading fee of invitee
 kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
 
+# Copy Trading
+## REST
+### GET Instruments
+Retrieve a list of available instruments for copy trading.
+
+#### HTTP Request
+`GET /api/v1/copytrading/instruments`
+
+
+> Request Example:
+```shell
+GET /api/v1/copytrading/instruments
+```
+
+
+
+> Response Example:
+
+
+```json
+{
+    "code": 200,
+    "msg": "success",
+    "data": {
+       instIdList:["BTC-USDT","ETH-USDT"]
+    }
+}
+```
+
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+instIdList | ARRAY | List of Instruments, e.g. `BTC-USDT`
+
+
+### GET Copy Trading Account Balance
+Retrieve a list of assets (with non-zero balance), remaining balance, and available amount in the Copy Trading Account.
+#### HTTP Request
+`GET /api/v1/copytrading/account/balance`
+> Request Example:
+
+```shell
+GET /api/v1/copytrading/account/balance
+```
+
+> Response Example:
+
+
+```json
+{
+"code": "0",
+"msg": "success",
+"data": {
+        "ts": "1697021343571",
+        "totalEquity": "10011254.077985990315787910",
+        "isolatedEquity": "861.763132108800000000",
+        "details": [{
+                    "currency": "USDT",
+                    "equity": "10014042.988958415234430699548",
+                    "balance": "10013119.885958415234430699",
+                    "ts": "1697021343571",
+                    "isolatedEquity": "862.003200000000000000048",
+                    "available": "9996399.4708691159703362725",
+                    "availableEquity": "9996399.4708691159703362725",
+                    "frozen": "15805.149672632597427761",
+                    "orderFrozen": "14920.994472632597427761",
+                    "equityUsd": "10011254.077985990315787910",
+                    "isolatedUnrealizedPnl": "-22.151999999999999999952",
+                    "bonus": "0"
+                }]
+        }
+}
+```
+
+#### Response Paremeters
+Parameter | Type | Description
+----------------- | ----- | -----------
+ts | String | Update time. Unix timestamp format in milliseconds, e.g. `1597026383085`
+totalEquity | String | The total amount of equity in USD
+isolatedEquity | String | Daily Isolated margin equity in USD
+details | Array | Detailed asset information in all currencies
+`>currency` | String | Currency
+`>equity` | String | Equity of currency
+`>balance` | String | Cash balance
+`>ts` | String | Update time. Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>isolatedEquity` | String | Isolated margin equity of the currency
+`>available` | String | Available balance of currency
+`>availableEquity` | String | Available equity of currency
+`>frozen` | String | Frozen balance of currency
+`>orderFrozen` | String | Margin frozen for open orders
+`>equityUsd` | String | Equity in USD of currency
+`>isolatedUnrealizedPnl` | String | Isolated unrealized profit and loss of currency
+`>bonus` | String | Bonus balance
+
+
+### GET Positions (By Order)
+Retrieve information on your positions in by order mode.
+#### HTTP Request
+`GET /api/v1/copytrading/account/positions-by-order`
+
+> Request Example:
+
+```shell
+GET /api/v1/copytrading/account/balance
+```
+
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+orderId | String | No | Order ID
+limit | String | No | Number of results per request. The maximum is `20`; The default is `20`
+after | String | No | Pagination of data to return records earlier than the requested `orderId`
+before | String | No | Pagination of data to return records newer than the requested `orderId`
+
+> Response Example
+```json
+{
+    "code": "0",
+    "msg": "succeed",
+    "data": [
+        {
+            "orderId": "254098",
+            "instId": "GMT-USDT",
+            "marginMode": "cross",
+            "positionSide": "net",
+            "leverage": "3",
+            "positions": "825",
+            "availablePositions": "825",
+            "averagePrice": "1.212",
+            "markPrice": "1.21",
+            "realizedPnl": "0",
+            "unrealizedPnl": "-1.65",
+            "unrealizedPnlRatio": "-0.004868571595271319",
+            "createTime": "1733472937600",
+            "updateTime": "1733472937712"
+        }
+    ]
+}
+```
+
+#### Response Paremeters
+Parameter | Type | Description
+----------------- | ----- | -----------
+orderId | String | Order ID
+instId | String | Instrument ID, e.g. `BTC-USDT`
+instType | String | Instrument type
+marginMode | String | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Position side.<br>`long`: positions are positive<br>`short`: positions are positive<br>`net` (Positive `positions` means long position and negative `positions` means short position.)
+leverage | String | Leverage
+positions | String | Quantity of positions
+availablePositions | Position that can be closed
+averagePrice | String | Average open price
+markPrice | String | Latest Mark price
+unrealizedPnl | String | Unrealized profit and loss calculated by mark price
+unrealizedPnlRatio | String | Unrealized profit and loss ratio calculated by mark price
+realizedPnl | String | Realized profit and loss
+createTime | String | Order create time. Unix timestamp format in milliseconds, e.g. `1597026383085`
+updateTime | String | Update time. Unix timestamp format in milliseconds, e.g. `1597026383085`
+
+### GET Position Close Details (By Order)
+Retrieve the close History of the position(By Order)
+
+#### HTTP Request
+`GET /api/v1/copytrading/account/positions-details-by-order`
+
+> Request Example:
+
+```shell
+GET /api/v1/copytrading/account/positions-details-by-order
+```
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+orderId | String | Yes | Order ID
+
+> Response Example
+```json
+{
+    "code": "0",
+    "msg": "succeed",
+    "data": {
+        "orderList": [
+            {
+                "closeOrderId": "1216365",
+                "instId": "BNB-USDT",
+                "positionSide": "net",
+                "closeType": "close",
+                "side": "sell",
+                "orderTime": "1733495157425",
+                "size": "8.82",
+                "price": "market",
+                "filledAmount": "0.0882",
+                "averagePrice": "999.97",
+                "fee": "0.0529184124",
+                "realizedPnl": "0",
+                "realizedPnlRatio": "0"
+            },
+            {
+                "closeOrderId": "1216366",
+                "instId": "BNB-USDT",
+                "positionSide": "net",
+                "closeType": "close",
+                "side": "sell",
+                "orderTime": "1733495157959",
+                "size": "7.94",
+                "price": "market",
+                "filledAmount": "0.0794",
+                "averagePrice": "999.97",
+                "fee": "0.0476385708",
+                "realizedPnl": "0",
+                "realizedPnlRatio": "0"
+            }
+        ]
+    }
+}
+```
+
+#### Request Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+closeOrderId | String | Close order ID
+instId | String | Instrument ID, e.g. `BTC-USDT`
+positionSide | String | Position side.<br>`long`: positions are positive<br>`short`: positions are positive<br>`net` (Positive `positions` means long position and negative `positions` means short position.)
+closeType | String | Close type<br>`close`<br>`liquidation`<br>`adl`<br>`tp`<br>`sl`
+side | String | Order side<br>`buy`<br>`sell`
+orderTime | String | Order create time. Unix timestamp format in milliseconds, e.g. `1597026383085`
+size | String | Order amount
+filledAmount | String | Filled amount
+averagePrice | String | Average open price
+fee | String | Fee
+realizedPnl | String | Realized PnL of this order
+realizedPnlRatio | String | Realized PnL ratio of this order
+
+### GET Positions (By Contract)
+Retrieve information on your positions in "By Contract" mode.
+
+#### HTTP Request
+`GET /api/v1/copytrading/account/positions-by-contract`
+
+> Request Example:
+
+```shell
+GET /api/v1/copytrading/account/positions-details-by-order
+```
+
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+
+> Response Example
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        {
+            "positionId": "68190",
+            "instId": "GMT-USDT",
+            "instType": "SWAP",
+            "marginMode": "cross",
+            "positionSide": "net",
+            "adl": "1",
+            "positions": "2935.2",
+            "availablePositions": "2935.2",
+            "averagePrice": "1.211999326885720075",
+            "markPrice": "1.21",
+            "marginRatio": "288116678144.563637857397712521",
+            "liquidationPrice": "",
+            "unrealizedPnl": "-5.86842427496556414",
+            "unrealizedPnlRatio": "-0.004948831673506182",
+            "initialMargin": "1183.864",
+            "maintenanceMargin": "23.085348",
+            "createTime": "1733467457267",
+            "updateTime": "1733473143056",
+            "leverage": "3"
+        }
+    ]
+}
+```
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+positionId | String | Position ID
+instId | String | Instrument ID, e.g. `BTC-USDT`
+instType | String | Instrument type
+marginMode | String | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Position side.<br>`long`: positions are positive<br>`short`: positions are positive<br>`net` (Positive `positions` means long position and negative `positions` means short position.)
+adl | String | ADL lever
+leverage | String | Leverage
+positions | String | Quantity of positions
+availablePositions | String | Position that can be closed
+averagePrice | String | Average open price
+markPrice | String | Mark Price
+marginRatio | String | Margin Ratio
+liquidationPrice | String | Estimated liquidation price.
+unrealizedPnl | String | Unrealized profit and loss calculated by mark price
+unrealizedPnlRatio | String | Unrealized profit and loss ratio calculated by mark price
+initialMargin | String | Initial margin requirement, only applicable to `cross`
+maintenanceMargin | String | Maintenance margin requirement
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+updateTime | String | The latest time position was adjusted, Unix timestamp format in milliseconds, e.g. `1597026383085`
+
+### GET Position Mode
+Get user's position mode (Hedge Mode or One-way Mode) on every symbol
+
+> Request Example:
+```shell
+GET /api/v1/copytrading/account/position-mode
+```
+
+#### HTTP Request
+
+`GET /api/v1/copytrading/account/position-mode`
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "positionMode": "net_mode"
+    }
+}
+```
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+positionMode | String | Position mode <br> `net_mode`:   net<br> `long_short_mode`: long/short
+
+
+### Set Position Mode
+Change user's position mode (Hedge Mode or One-way Mode) on every symbol
+
+#### HTTP Request
+
+`POST /api/v1/copytrading/account/set-position-mode`
+
+> Request Example:
+```shell
+POST /api/v1/copytrading/account/set-position-mode
+body
+{
+    "positionMode": "net_mode"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+positionMode | String | Yes | Position mode <br> `net_mode`: net<br> `long_short_mode`: long/short
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "positionMode": "net_mode"
+    }
+}
+```
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+positionMode | String | Position mode <br> `net_mode`:   net<br> `long_short_mode`: long/short
+
+### GET Leverage
+
+#### HTTP Request
+`GET /api/v1/copytrading/account/leverage-info`
+
+> Request Example:
+```shell
+GET /api/v1/copytrading/account/leverage-info?instId=BTC-USDT,ETH-USDT&marginMode=cross
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID<br>Single instrument ID or multiple instrument IDs (no more than 20) separated with comma
+marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        {
+            "leverage": "50",
+            "marginMode": "cross",
+            "instId": "BTC-USDT",
+            "positionSide":"net"
+        },
+        {
+            "leverage": "3",
+            "marginMode": "cross",
+            "instId": "ETH-USDT",
+            "positionSide":"net"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+instId | String | Instrument ID
+leverage | String | Leverage
+marginMode | String | Margin mode
+positionSide | String | Position side<br>`long`<br>`short`<br>`net`
+
+### Set Leverage
+
+#### HTTP Request
+
+`POST /api/v1/copytrading/account/set-leverage`
+
+> Request Example:
+```shell
+POST /api/v1/copytrading/account/set-leverage
+body
+{
+    "instId":"BTC-USDT",
+    "leverage":"100",
+    "marginmode":"cross",
+    "positionSide":"long"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+leverage | String | Yes | Leverage
+marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | No | Position side <br>`long` `short`<br>Only required when margin mode is `isolated` in `long/short` mode 
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "leverage": "100",
+        "marginMode": "cross",
+        "instId": "BTC-USDT",
+        "positionSide":"long"
+    }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+instId | String | Instrument ID
+leverage | String | Leverage
+marginMode | String | Margin mode
+positionSide | String | Position side<br>`long`<br>`short`<br>`net`
+
+### GET Active orders
+Retrieve all incomplete orders under the current account.
+
+#### HTTP Request
+`GET /api/v1/copytrading/trade/orders-pending`
+
+> Request Example:
+```shell
+GET /api/v1/copytrading/trade/orders-pending
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
+orderType | String | No | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
+state | String | No | State<br>`live`<br>`partially_filled`
+after | String | No | Pagination of data to return records earlier than the requested `orderId`
+before | String | No | Pagination of data to return records newer than the requested `orderId`
+limit | String | No | Number of results per request. The maximum is `100`; The default is `20`
+
+The `before` and `after` parameters cannot be used simultaneously.
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "succeed",
+    "data": [
+        {
+            "orderId": "254531",
+            "symbol": "BNB-USDT",
+            "marginMode": "cross",
+            "positionSide": "net",
+            "side": "buy",
+            "orderType": "limit",
+            "price": "900",
+            "size": "2.22",
+            "leverage": "3",
+            "state": "effective",
+            "filledSize": "0",
+            "averagePrice": "0",
+            "pnl": "0",
+            "createTime": "1733490858770",
+            "updateTime": "1733490888650",
+            "tpTriggerPrice": "1200",
+            "tpOrderPrice": "-1",
+            "slTriggerPrice": "800",
+            "slOrderPrice": "-1"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+orderId | String | Order ID
+instId | String | Instrument ID
+marginMode | String | Margin mode
+positionSide | String | Position side
+side | String | Order side
+orderType | String | Order type
+price | String | Price
+size | String | Quantity to buy or sell
+reduceOnly | String | Whether orders can only reduce in position size.
+leverage | String | Leverage
+state | String | State
+filledSize | String | Accumulated fill quantity.
+averagePrice | String | Average filled price. If none is filled, it will return "".
+pnl | String | Profit and loss, Applicable to orders which have a trade and aim to close position.
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+updateTime | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+tpTriggerPrice | String | Take-profit trigger price
+tpOrderPrice | String | Take-profit order price. <br>If the price is `-1`, take-profit will be executed at the market price.
+slTriggerPrice | String | Stop-loss trigger price
+slOrderPrice | String | Stop-loss order price. <br>If the price is `-1`, stop-loss will be executed at the market price.
+
+
+### Place Order
+
+#### HTTP Request
+
+`POST /api/v1/copytrading/trade/place-order`
+
+> Request Example:
+```shell
+POST /api/v1/copytrading/trade/place-order
+body
+{
+    "instId":"BTC-USDT",
+    "marginMode":"cross",
+    "positionSide":"long",
+    "side":"sell",
+    "price":"23212.2",
+    "size":"2"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
+side | String | Yes | Order side, `buy` `sell`
+orderType | String | Yes | Order type<br>`market`: market order<br>`limit`: limit order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
+price | String | Yes | Order price. Not applicable to `market`
+size | String | Yes | Quantity to buy or sell
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "",
+    "data": [
+        {
+            "orderId": "28150801",
+            "clientOrderId": "test1597321",
+            "msg": "",
+            "code": "0"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+orderId | String | Order ID
+code | String | The code of the event execution result, `0` means success.
+msg | String | Rejection or success message of event execution.
+
+### Cancel Order
+
+#### HTTP Request
+
+`POST /api/v1/copytrading/trade/cancel-order`
+
+> Request Example:
+```shell
+POST /api/v1/copytrading/trade/cancel-order
+body
+{
+  "orderId": "23209016"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+orderId | String | Yes | Order ID
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "code": "0",
+        "msg": null
+    }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+code | String | The code of the event execution result, `0` means success.
+msg | String | Rejection or success message of event execution.
+
+### Place TP/SL (By Contract)
+
+#### HTTP Request
+
+`POST /api/v1/copytrading/trade/place-tpsl-by-contract`
+
+> Request Example:
+```shell
+POST /api/v1/copytrading/trade/place-tpsl-by-contract
+body
+{
+  "instId": "BTC-USDT",
+  "marginMode": "cross",
+  "positionSide": "short",
+  "tpTriggerPrice": "80000",
+  "slTriggerPrice": "101000",
+  "size": "-1"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
+tpTriggerPrice | String | Yes | Take-profit trigger price
+slTriggerPrice | String | Yes | Stop-loss trigger price
+size | String | Yes | Quantity<br>If the quantity is `-1`, it means entire positions
+type | String | No | TP/SL Type<br>`pnl`:close by the order of pnl volume<br>`fixedRatio`:close all orders with same ratio<br>The default value is `pnl`
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "algoId": "1234543265637"
+    }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+algoId | String | TP/SL order ID
+code | String | The code of the event execution result, `0` means success.
+msg | String | Rejection or success message of event execution.
+
+
+### GET Active TP/SL (By Contract)
+
+#### HTTP Request
+`GET /api/v1/copytrading/trade/pending-tpsl-by-contract`
+
+> Request Example:
+```shell
+GET /api/v1/copytrading/trade/pending-tpsl-by-contract?instId=BTC-USDT
+```
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- |----------| -----------
+instId | String | No       | Instrument ID, e.g. `BTC-USDT`
+algoId | String | No       | Margin mode<br>`cross`<br>`isolated`
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "succeed",
+    "data": [
+        {
+            "algoId": "12101",
+            "instId": "BTC-USDT",
+            "marginMode": "cross",
+            "positionSide": "NET",
+            "tpTriggerPrice": "110000",
+            "tpOrderPrice": "-1",
+            "slTriggerPrice": "90000",
+            "slOrderPrice": "-1",
+            "size": "10",
+            "state": "effective",
+            "leverage": "1",
+            "actualSize": "0.0977",
+            "createTime": "1733493956808"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+algoId | String | TP/SL order ID
+instId | String | Instrument ID, e.g. `BTC-USDT`
+marginMode | String | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
+tpTriggerPrice | String | Take-profit trigger price
+tpOrderPrice | String | Take-profit order price. <br>If the price is `-1`, take-profit will be executed at the market price.
+slTriggerPrice | String | Stop-loss trigger price
+slOrderPrice | String | Stop-loss order price. <br>If the price is `-1`, stop-loss will be executed at the market price.
+size | String | Quantity<br>If the quantity is `-1`, it means entire positions
+state | String | State<br>`live`, `effective`, `canceled`, `order_failed`
+leverage | String | Leverage
+actualSize | String | Actual order quantity
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+
+### Cancel TP/SL (By Contract)
+
+#### HTTP Request
+`POST /api/v1/copytrading/trade/cancel-tpsl-by-contract`
+
+> Request Example:
+```shell
+POST /api/v1/copytrading/trade/cancel-tpsl-by-contract
+body
+{
+  "algoId": "23209016"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+algoId | String | Yes | TP/SL order ID
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+code | String | The code of the event execution result, `0` means success.
+msg | String | Rejection or success message of event execution.
+
+### GET Position History (By order)
+
+#### HTTP Request
+`GET /api/v1/copytrading/trade/position-history-by-order`
+
+> Request Example:
+```shell
+GET /api/v1/copytrading/trade/position-history-by-order?instId=BTC-USDT&limit=10
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
+before | String | No | Pagination of data to return records earlier than the requested `orderId`
+after | String | No | Pagination of data to return records newer than the requested `orderId`
+limit | String | No | Number of results per request. The maximum is `20`; The default is `20`
+
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        {
+            "orderId": "2411",
+            "instId": "ETH-USDT",
+            "leverage": "cross",
+            "positionSide": "net",
+            "orderSide": "buy",
+            "positions": "123",
+            "createTime": "1697016700775",
+            "openAveragePrice": "1666.000000000000000000",
+            "closeTime": "1697016700775",
+            "closeAveragePrice": "1666.000000000000000000",
+            "pnl": "2411.12",
+            "pnlRatio": "0.001587301587301587",
+            "copiers": "123",
+            "closeType": "tp",
+            "preSharing": "4816.12",
+            "size": "1"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+orderId | String | Order ID
+instId | String | Instrument ID, e.g. `BTC-USDT`
+leverage | String | Leverage
+positionSide | String | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
+side | String | Order side, `buy` `sell`
+positions | String | Positions amount
+createTime | String | Order create time. Unix timestamp format in milliseconds, e.g. `1597026383085`
+openAveragePrice | String | Average open price
+closeTime | String | Closing time. Unix timestamp format in milliseconds, e.g. `1597026383085`
+closeAveragePrice | String | Average closing price
+pnl | String | PnL
+pnlRatio | String | PnL ratio
+copiers | String | Number of copiers who have successfully copied this position
+closeType | String | Close type<br>`mannual`<br>`liquidation`<br>`adl`<br>`tp`<br>`sl`<br>`multiple`
+preSharing | String | Pre-sharing Amount
+
+### GET Order History
+
+#### HTTP Request
+`GET /api/v1/copytrading/trade/orders-history`
+
+> Request Example:
+```shell
+GET /api/v1/copytrading/trade/orders-history?instId=BTC-USDT&limit=10
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
+before | String | No | Pagination of data to return records earlier than the requested `orderId`
+after | String | No | Pagination of data to return records newer than the requested `orderId`
+limit | String | No | Number of results per request. The maximum is `20`; The default is `20`
+
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "succeed",
+    "data": [
+        {
+            "orderId": "254107",
+            "instId": "GMT-USDT",
+            "leverage": "3",
+            "marginMode": "cross",
+            "positionSide": "net",
+            "orderType": "market",
+            "price": "1.212",
+            "side": "sell",
+            "size": "825",
+            "createTime": "1733473143212",
+            "updateTime": "1733473143212",
+            "averagePrice": "1.21",
+            "fee": "0.2648448",
+            "pnl": "-0.7296",
+            "orderCategory": "normal",
+            "state": "partially_canceled",
+            "filledSize": "364.8"
+        },
+        {
+            "orderId": "254106",
+            "instId": "GMT-USDT",
+            "leverage": "3",
+            "marginMode": "cross",
+            "positionSide": "net",
+            "orderType": "market",
+            "price": "1.212",
+            "side": "sell",
+            "size": "825",
+            "createTime": "1733473143001",
+            "updateTime": "1733473143001",
+            "averagePrice": "1.210023006060606061",
+            "fee": "0.598961388",
+            "pnl": "-1.631019999999999675",
+            "orderCategory": "normal",
+            "state": "filled",
+            "filledSize": "825"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+orderId | String | Order ID
+instId | String | Instrument ID, e.g. `BTC-USDT`
+marginMode | String | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
+side | String | Order side, `buy` `sell`
+orderType | String | Order type
+price | String | Order price
+size | String | Quantity to buy or sell
+leverage | String | Leverage
+state | String | State
+filledSize | String | Accumulated fill quantity.
+pnl | String | PnL
+averagePrice | String | Average filled price. If none is filled, it will return “”.
+fee | String | Fee and rebate
+createTime | String | Order create time. Unix timestamp format in milliseconds, e.g. `1597026383085`
+updateTime | String | Update time. Unix timestamp format in milliseconds, e.g. `1597026383085`
+orderCategory | String | Order category.<br>`normal`<br>`liquidation`<br>`adl`<br>`tp`<br>`sl`
+
+### GET Active TP/SL (By Order)
+
+#### HTTP Request
+`GET /api/v1/copytrading/trade/pending-tpsl-by-order`
+
+> Request Example:
+```shell
+GET /api/v1/copytrading/trade/pending-tpsl-by-order?orderId=144265765
+```
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+orderId | String | Yes | Order ID
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "succeed",
+    "data": [
+        {
+            "orderId": "253085",
+            "instId": "BTC-USDT",
+            "marginMode": "cross",
+            "positionSide": "NET",
+            "tpTriggerPrice": "102761.4",
+            "tpOrderPrice": "-1",
+            "slTriggerPrice": "75281.40000000001",
+            "slOrderPrice": "-1",
+            "size": "0.0977",
+            "state": "effective",
+            "leverage": "1",
+            "createTime": "1733467498988"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+orderId | String | Order ID
+instId | String | Instrument ID, e.g. `BTC-USDT`
+marginMode | String | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
+tpTriggerPrice | String | Take-profit trigger price
+tpOrderPrice | String | Take-profit order price. <br>If the price is `-1`, take-profit will be executed at the market price.
+slTriggerPrice | String | Stop-loss trigger price
+slOrderPrice | String | Stop-loss order price. <br>If the price is `-1`, stop-loss will be executed at the market price.
+size | String | Quantity<br>If the quantity is `-1`, it means entire positions
+state | String | State<br>`live`, `effective`, `canceled`, `order_failed`
+leverage | String | Leverage
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+
+### Place TP/SL (By Order)
+
+#### HTTP Request
+`POST /api/v1/copytrading/trade/place-tpsl-by-order`
+
+> Request Example:
+```shell
+POST /api/v1/copytrading/trade/place-tpsl-by-order
+body
+{
+  "orderId": "23209016"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+orderId | String | Yes | Order ID
+tpTriggerPrice | String | Yes | Take-profit trigger price
+slTriggerPrice | String | Yes | Stop-loss trigger price
+size | String | Yes | Quantity<br>If the quantity is `-1`, it means entire positions
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success"
+    }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+code | String | The code of the event execution result, `0` means success.
+msg | String | Rejection or success message of event execution.
+
+
+### Cancel TP/SL (By Order)
+
+#### HTTP Request
+`POST /api/v1/copytrading/trade/cancel-tpsl-by-order`
+
+> Request Example:
+```shell
+POST /api/v1/copytrading/trade/cancel-tpsl-by-order
+body
+{
+  "orderId": "23209016"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+orderId | String | Yes | Order ID
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+code | String | The code of the event execution result, `0` means success.
+msg | String | Rejection or success message of event execution.
+
+
+### Close Position (By Order)
+
+#### HTTP Request
+`POST /api/v1/copytrading/trade/close-position-by-order`
+
+> Request Example:
+```shell
+POST /api/v1/copytrading/trade/close-position-by-order
+body
+{
+  "orderId": "23209016",
+  "size": "1214"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+orderId | String | Yes | Order ID
+size | String | Yes | Close amount
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success"
+}
+```
+
+
+### Close Position (By Contract)
+
+#### HTTP Request
+`POST /api/v1/copytrading/trade/close-position-by-contract`
+
+> Request Example:
+```shell
+POST /api/v1/copytrading/trade/close-position-by-contract
+body
+{
+    "instId":"BTC-USDT",
+    "marginMode":"cross",
+    "positionSide":"long",
+    "closeType":"pnl",
+    "size":"1234"
+}
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID
+marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
+closeType | String | Yes | Close type.<br>`pnl`: Close by PnL order<br>`fixedRatio`: All copy trading positions will close the same ratio
+size | String | Yes | Contracts when you choose to close `by pnl`.<br>Close ratio when you choose to close by `fixedRatio`
+
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success"
+}
+```
+
+
+
+
+
+
+
+## WEBSOCKET
+
 # User
 
  ## REST API
@@ -4574,6 +5735,6 @@ apiName | String | API key name
 apiKey | String | API key
 readOnly | Integer | 0：Read and Write. 1：Read only
 type | Integer | 1: Transaction, 2. Connect to third-party
-expireTime | String | Expiration time, Unix timestamp format in milliseconds, e.g. 1597026383085
-createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. 1597026383085
+expireTime | String | Expiration time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 ips | Array | IP bound
