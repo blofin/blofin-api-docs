@@ -5228,7 +5228,7 @@ code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
 
 
-### GET Active TP/SL (By Contract)
+### GET Active TPSL (By Contract)
 
 #### HTTP Request
 `GET /api/v1/copytrading/trade/pending-tpsl-by-contract`
