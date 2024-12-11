@@ -5176,7 +5176,7 @@ Parameter | Type | Description
 code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
 
-### Place TP/SL (By Contract)
+### Place TPSL (By Contract)
 
 #### HTTP Request
 
@@ -5287,7 +5287,7 @@ leverage | String | Leverage
 actualSize | String | Actual order quantity
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### Cancel TP/SL (By Contract)
+### Cancel TPSL (By Contract)
 
 #### HTTP Request
 `POST /api/v1/copytrading/trade/cancel-tpsl-by-contract`
@@ -5480,7 +5480,7 @@ createTime | String | Order create time. Unix timestamp format in milliseconds, 
 updateTime | String | Update time. Unix timestamp format in milliseconds, e.g. `1597026383085`
 orderCategory | String | Order category.<br>`normal`<br>`liquidation`<br>`adl`<br>`tp`<br>`sl`
 
-### GET Active TP/SL (By Order)
+### GET Active TPSL (By Order)
 
 #### HTTP Request
 `GET /api/v1/copytrading/trade/pending-tpsl-by-order`
@@ -5536,7 +5536,7 @@ state | String | State<br>`live`, `effective`, `canceled`, `order_failed`
 leverage | String | Leverage
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
-### Place TP/SL (By Order)
+### Place TPSL (By Order)
 
 #### HTTP Request
 `POST /api/v1/copytrading/trade/place-tpsl-by-order`
@@ -5576,7 +5576,7 @@ code | String | The code of the event execution result, `0` means success.
 msg | String | Rejection or success message of event execution.
 
 
-### Cancel TP/SL (By Order)
+### Cancel TPSL (By Order)
 
 #### HTTP Request
 `POST /api/v1/copytrading/trade/cancel-tpsl-by-order`
