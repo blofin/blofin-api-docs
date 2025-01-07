@@ -4681,7 +4681,7 @@ marginMode | String | Margin mode<br>`cross`<br>`isolated`
 positionSide | String | Position side.<br>`long`: positions are positive<br>`short`: positions are positive<br>`net` (Positive `positions` means long position and negative `positions` means short position.)
 leverage | String | Leverage
 positions | String | Quantity of positions
-availablePositions | Position that can be closed
+availablePositions |String | Position that can be closed
 averagePrice | String | Average open price
 markPrice | String | Latest Mark price
 unrealizedPnl | String | Unrealized profit and loss calculated by mark price
@@ -5670,7 +5670,7 @@ instId | String | Yes | Instrument ID
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
 positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
 closeType | String | Yes | Close type.<br>`pnl`: Close by PnL order<br>`fixedRatio`: All copy trading positions will close the same ratio
-size | String | Yes | Contracts when you choose to close `by pnl`.<br>Close ratio when you choose to close by `fixedRatio`
+size | String | Yes | Contracts when you choose to close `by pnl`.<br>Close ratio when you choose to close by `fixedRatio`, `0.1` represents 10% of total position.
 
 
 > Response Example:
