@@ -4680,8 +4680,8 @@ instType | String | Instrument type
 marginMode | String | Margin mode<br>`cross`<br>`isolated`
 positionSide | String | Position side.<br>`long`: positions are positive<br>`short`: positions are positive<br>`net` (Positive `positions` means long position and negative `positions` means short position.)
 leverage | String | Leverage
-positions | String | Quantity of positions
-availablePositions |String | Position that can be closed
+positions | String | Quantity of positions. The initial opening position remains unchanged by subsequent closing trades.
+availablePositions |String | Position that can be closed. Equals the `positions` less the cumulative closed position.
 averagePrice | String | Average open price
 markPrice | String | Latest Mark price
 unrealizedPnl | String | Unrealized profit and loss calculated by mark price
