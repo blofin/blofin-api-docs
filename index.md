@@ -4564,6 +4564,40 @@ Parameter | Type | Description
 ----------------- | ----- | -----------
 instIdList | ARRAY | List of Instruments, e.g. `BTC-USDT`
 
+### GET Account Configuration
+
+#### HTTP Request
+`GET /api/v1/copytrading/config`
+
+
+> Request Example:
+```shell
+GET /api/v1/copytrading/config
+```
+
+
+
+> Response Example:
+
+
+```json
+{
+"code": "0",
+"msg": "success",
+"data": {
+        "nickName": "BloFin_e2dd2d32f",
+        "roleType": "1"
+        }
+}
+```
+
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+nickName | String | Nickname
+roleType | String | Role type.<br>`0`: General user<br>`1`: Trader
+
 
 ### GET Copy Trading Account Balance
 Retrieve a list of assets (with non-zero balance), remaining balance, and available amount in the Copy Trading Account.
@@ -4639,7 +4673,7 @@ GET /api/v1/copytrading/account/balance
 #### Request Parameters
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
 orderId | String | No | Order ID
 limit | String | No | Number of results per request. The maximum is `20`; The default is `20`
 after | String | No | Pagination of data to return records earlier than the requested `orderId`
@@ -4748,7 +4782,7 @@ orderId | String | Yes | Order ID
 }
 ```
 
-#### Request Parameters
+#### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
 closeOrderId | String | Close order ID
@@ -4763,6 +4797,9 @@ averagePrice | String | Average open price
 fee | String | Fee
 realizedPnl | String | Realized PnL of this order
 realizedPnlRatio | String | Realized PnL ratio of this order
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
+
 
 ### GET Positions (By Contract)
 Retrieve information on your positions in "By Contract" mode.
@@ -4779,7 +4816,7 @@ GET /api/v1/copytrading/account/positions-details-by-order
 #### Request Parameters
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
 
 > Response Example
 ```json
@@ -5078,6 +5115,7 @@ tpTriggerPrice | String | Take-profit trigger price
 tpOrderPrice | String | Take-profit order price. <br>If the price is `-1`, take-profit will be executed at the market price.
 slTriggerPrice | String | Stop-loss trigger price
 slOrderPrice | String | Stop-loss order price. <br>If the price is `-1`, stop-loss will be executed at the market price.
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 
 ### Place Order
@@ -5111,6 +5149,8 @@ side | String | Yes | Order side, `buy` `sell`
 orderType | String | Yes | Order type<br>`market`: market order<br>`limit`: limit order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
 price | String | Yes | Order price. Not applicable to `market`
 size | String | Yes | Quantity to buy or sell
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
 
 > Response Example:
 
@@ -5206,7 +5246,9 @@ positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <b
 tpTriggerPrice | String | Yes | Take-profit trigger price
 slTriggerPrice | String | Yes | Stop-loss trigger price
 size | String | Yes | Quantity<br>If the quantity is `-1`, it means entire positions
-type | String | No | TP/SL Type<br>`pnl`:close by the order of pnl volume<br>`fixedRatio`:close all orders with same ratio<br>The default value is `pnl`
+type | String | No | TP/SL Type<br>`pnl`:close by the order of pnl volume<br>`fixedRatio`:close all orders with same ratio, `0.1` represents 10% of total position.<br>The default value is `pnl`
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
 
 > Response Example:
 
@@ -5286,6 +5328,8 @@ state | String | State<br>`live`, `effective`, `canceled`, `order_failed`
 leverage | String | Leverage
 actualSize | String | Actual order quantity
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
 
 ### Cancel TPSL (By Contract)
 
@@ -5479,6 +5523,8 @@ fee | String | Fee and rebate
 createTime | String | Order create time. Unix timestamp format in milliseconds, e.g. `1597026383085`
 updateTime | String | Update time. Unix timestamp format in milliseconds, e.g. `1597026383085`
 orderCategory | String | Order category.<br>`normal`<br>`liquidation`<br>`adl`<br>`tp`<br>`sl`
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
 
 ### GET Active TPSL (By Order)
 
@@ -5535,6 +5581,8 @@ size | String | Quantity<br>If the quantity is `-1`, it means entire positions
 state | String | State<br>`live`, `effective`, `canceled`, `order_failed`
 leverage | String | Leverage
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
 
 ### Place TPSL (By Order)
 
@@ -5558,6 +5606,8 @@ orderId | String | Yes | Order ID
 tpTriggerPrice | String | Yes | Take-profit trigger price
 slTriggerPrice | String | Yes | Stop-loss trigger price
 size | String | Yes | Quantity<br>If the quantity is `-1`, it means entire positions
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
 
 > Response Example:
 
@@ -5633,6 +5683,8 @@ Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 orderId | String | Yes | Order ID
 size | String | Yes | Close amount
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
 
 > Response Example:
 
@@ -5670,7 +5722,8 @@ instId | String | Yes | Instrument ID
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
 positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
 closeType | String | Yes | Close type.<br>`pnl`: Close by PnL order<br>`fixedRatio`: All copy trading positions will close the same ratio
-size | String | Yes | Contracts when you choose to close `by pnl`.<br>Close ratio when you choose to close by `fixedRatio`, `0.1` represents 10% of total position.
+size | String | Yes | Contracts when you choose to close by `pnl`.<br>Close ratio when you choose to close by `fixedRatio`, `0.1` represents 10% of total position.
+brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 
 > Response Example:
@@ -6072,6 +6125,8 @@ data | Array | Subscribed data
 `>orderCategory` | String | Order category<br>`normal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
 `>createTime` | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>updateTime` | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>brokerId` | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
 
 ### WS Account Channel
 
