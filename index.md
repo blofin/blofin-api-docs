@@ -143,7 +143,6 @@ body = {
     "size": "0.1"  # Minimum order size is 0.1 contracts
 }
 
-# Convert body to compact JSON string
 body_str = json.dumps(body)
 prehash = f"{path}{method}{timestamp}{nonce}{body_str}"
 hex_signature = hmac.new(
@@ -427,7 +426,6 @@ def sign_request(secret: str, method: str, path: str, body: dict | None = None) 
 - Both GET and POST requests require signatures
 - For GET requests, query parameters are part of the requestPath
 - For POST requests, include the JSON body in the signature
-- Use compact JSON encoding (no extra spaces) for the body
 
 <aside class="notice">
 The request will expire 1 minute after the timestamp.
