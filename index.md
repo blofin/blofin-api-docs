@@ -249,8 +249,8 @@ The signature (`sign`) parameter is generated using HMAC-SHA256 with fixed compo
    * `path`: Always "/users/self/verify"
    * `method`: Always "GET"
    * `body`: Always empty string
-   * `timestamp`: Current time in milliseconds (also used as nonce)
-   * `nonce`: Same as timestamp for consistency
+   * `timestamp`: Current time in milliseconds
+   * `nonce`: Random generated unique id
 
 2. Create signature string by concatenating: path + method + timestamp + nonce + body
 3. Generate HMAC-SHA256 hex digest using your SecretKey
@@ -262,7 +262,7 @@ Example parameters:
     "apiKey": "YOUR_API_KEY",
     "passphrase": "YOUR_PASSPHRASE",
     "timestamp": "1597026383085",
-    "nonce": "1597026383085"  // Same as timestamp
+    "nonce": "b86f4c19-3453-4595-b25c-3d26e78d7f31"
 }
 ```
 
