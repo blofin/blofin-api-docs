@@ -247,50 +247,27 @@ The signature (`sign`) parameter is generated using HMAC-SHA256 with fixed compo
 1. Fixed components for WebSocket authentication:
    * `path`: Always "/users/self/verify"
    * `method`: Always "GET"
-   * `body`: Always empty string
    * `timestamp`: Current time in milliseconds
    * `nonce`: Random generated unique id
 
-2. Create signature string by concatenating: path + method + timestamp + nonce + body
+2. Create signature string by concatenating: path + method + timestamp + nonce
 3. Generate HMAC-SHA256 hex digest using your SecretKey
 4. Encode the hex digest using Base64
 
-Example parameters:
-```json
-{
-    "apiKey": "YOUR_API_KEY",
-    "passphrase": "YOUR_PASSPHRASE",
-    "timestamp": "1597026383085",
-    "nonce": "b86f4c19-3453-4595-b25c-3d26e78d7f31"
-}
-```
-
 Example implementation:
 ```python
-def sign_websocket_login(secret: str, api_key: str, passphrase: str) -> tuple[str, str, str]:
-    """Generate WebSocket login signature.
+async def sign_websocket_login(secret: str, api_key: str, passphrase: str) -> tuple[str, str, str]:
+    """Generate WebSocket login signature."""
+    timestamp = str(int(time.time() * 1000))
+    nonce = timestamp
     
-    Args:
-        secret: API secret key
-        api_key: API access key
-        passphrase: API passphrase
-        
-    Returns:
-        tuple: (signature, timestamp, nonce)
-    """
-    timestamp = str(int(datetime.now().timestamp() * 1000))
-    nonce = str(uuid4())
+    # Fixed components for WebSocket auth
+    method = "GET"
+    path = "/users/self/verify"
+    body = ""
     
-    # Create login parameters
-    login_params = {
-        "apiKey": api_key,
-        "passphrase": passphrase,
-        "timestamp": timestamp,
-        "nonce": nonce
-    }
-    
-    # Generate signature
-    msg = json.dumps(login_params)
+    # Create signature string
+    msg = f"{path}{method}{timestamp}{nonce}{body}"
     hex_signature = hmac.new(
         secret.encode(),
         msg.encode(),
