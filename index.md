@@ -6563,11 +6563,11 @@ async def trading_example():
         # 3. Place limit buy order
         order_request = {
             "instId": "BTC-USDT",
-            "marginMode": "cross",  # Not "tdMode"
+            "marginMode": "cross",
             "side": "buy",
-            "orderType": "limit",   # Not "ordType"
-            "price": str(limit_price),  # Not "px"
-            "size": "0.1",  # Not "sz". See /api/v1/market/instruments for contract sizes
+            "orderType": "limit", 
+            "price": str(limit_price),
+            "size": "0.1",  # See /api/v1/market/instruments for contract sizes
             "leverage": "3",
             "positionSide": "net"
         }
