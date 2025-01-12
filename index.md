@@ -264,10 +264,9 @@ async def sign_websocket_login(secret: str, api_key: str, passphrase: str) -> tu
     # Fixed components for WebSocket auth
     method = "GET"
     path = "/users/self/verify"
-    body = ""
     
     # Create signature string
-    msg = f"{path}{method}{timestamp}{nonce}{body}"
+    msg = f"{path}{method}{timestamp}{nonce}"
     hex_signature = hmac.new(
         secret.encode(),
         msg.encode(),
