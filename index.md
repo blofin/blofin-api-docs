@@ -154,6 +154,59 @@ hex_signature = hmac.new(
 signature = base64.b64encode(hex_signature).decode()
 ```
 
+```python
+def sign_request(secret: str, method: str, path: str, body: dict | None = None) -> str:
+    """Generate BloFin API request signature.
+    
+    Args:
+        secret: API secret key
+        method: HTTP method (GET, POST, etc.)
+        path: API endpoint path (including query params)
+        body: Request body for POST/PUT requests (None for GET)
+        
+    Returns:
+        Base64-encoded signature string
+    
+    Example:
+        # GET request
+        sign = sign_request(
+            secret="YOUR_SECRET",
+            method="GET",
+            path="/api/v1/account/balance"
+        )
+        
+        # POST request
+        sign = sign_request(
+            secret="YOUR_SECRET",
+            method="POST",
+            path="/api/v1/trade/order",
+            body={
+                "instId": "BTC-USDT",
+                "marginMode": "isolated",
+                "side": "buy",
+                "orderType": "limit",
+                "price": "35000",
+                "size": "0.1"  # Minimum order size is 0.1 contracts
+            }
+        )
+    """
+    timestamp = str(int(datetime.now().timestamp() * 1000))
+    nonce = str(uuid4())
+    
+    # Create prehash string
+    msg = f"{path}{method}{timestamp}{nonce}"
+    if body:
+        msg += json.dumps(body)
+        
+    # Generate hex signature and convert to base64
+    hex_signature = hmac.new(
+        secret.encode(),
+        msg.encode(),
+        hashlib.sha256
+    ).hexdigest().encode()
+    
+    return base64.b64encode(hex_signature).decode()
+```
  
 
   
@@ -264,10 +317,9 @@ async def sign_websocket_login(secret: str, api_key: str, passphrase: str) -> tu
     # Fixed components for WebSocket auth
     method = "GET"
     path = "/users/self/verify"
-    body = ""
     
     # Create signature string
-    msg = f"{path}{method}{timestamp}{nonce}{body}"
+    msg = f"{path}{method}{timestamp}{nonce}"
     hex_signature = hmac.new(
         secret.encode(),
         msg.encode(),
@@ -344,59 +396,6 @@ msg | String | Error message
 3. Convert signature to hexadecimal format
 4. Encode the hex signature using Base64
 
-```python
-def sign_request(secret: str, method: str, path: str, body: dict | None = None) -> str:
-    """Generate BloFin API request signature.
-    
-    Args:
-        secret: API secret key
-        method: HTTP method (GET, POST, etc.)
-        path: API endpoint path (including query params)
-        body: Request body for POST/PUT requests (None for GET)
-        
-    Returns:
-        Base64-encoded signature string
-    
-    Example:
-        # GET request
-        sign = sign_request(
-            secret="YOUR_SECRET",
-            method="GET",
-            path="/api/v1/account/balance"
-        )
-        
-        # POST request
-        sign = sign_request(
-            secret="YOUR_SECRET",
-            method="POST",
-            path="/api/v1/trade/order",
-            body={
-                "instId": "BTC-USDT",
-                "marginMode": "isolated",
-                "side": "buy",
-                "orderType": "limit",
-                "price": "35000",
-                "size": "0.1"  # Minimum order size is 0.1 contracts
-            }
-        )
-    """
-    timestamp = str(int(datetime.now().timestamp() * 1000))
-    nonce = str(uuid4())
-    
-    # Create prehash string
-    msg = f"{path}{method}{timestamp}{nonce}"
-    if body:
-        msg += json.dumps(body)
-        
-    # Generate hex signature and convert to base64
-    hex_signature = hmac.new(
-        secret.encode(),
-        msg.encode(),
-        hashlib.sha256
-    ).hexdigest().encode()
-    
-    return base64.b64encode(hex_signature).decode()
-```
 
 **Important Notes**:
 - The signature is required for all authenticated endpoints
@@ -3335,7 +3334,7 @@ positionSide | String | Position side
 side | String | Order side
 orderType | String | Order type
 price | String | Price
-size | String | Number of contracts to buy or sell (minimum 0.1 contracts, where 1 contract = 0.001 BTC)
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 reduceOnly | String | Whether orders can only reduce in position size.
 leverage | String | Leverage
 state | String | State
