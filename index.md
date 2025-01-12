@@ -3358,7 +3358,7 @@ positionSide | String | Position side
 side | String | Order side
 orderType | String | Order type
 price | String | Price
-size | String | Number of contracts to buy or sell (minimum 0.1 contracts, where 1 contract = 0.001 BTC)
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 reduceOnly | String | Whether orders can only reduce in position size.
 leverage | String | Leverage
 state | String | State
@@ -6475,7 +6475,7 @@ expireTime | String | Expiration time, Unix timestamp format in milliseconds, e.
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 ips | Array | IP bound
 
-## Complete Trading Example
+# Complete Trading Example
 
 This section demonstrates a complete trading workflow that combines REST API calls with WebSocket updates. The example shows how to:
 1. Query the order book to get current price
@@ -6483,7 +6483,7 @@ This section demonstrates a complete trading workflow that combines REST API cal
 3. Receive order confirmation via WebSocket
 4. Cancel the order and clean up resources
 
-### Python Implementation
+## Python Implementation
 
 ```python
 import asyncio
