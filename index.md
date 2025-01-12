@@ -144,7 +144,7 @@ body = {
 }
 
 # Convert body to compact JSON string
-body_str = json.dumps(body, separators=(',', ':'))
+body_str = json.dumps(body)
 prehash = f"{path}{method}{timestamp}{nonce}{body_str}"
 hex_signature = hmac.new(
     secret_key.encode(),
@@ -291,7 +291,7 @@ def sign_websocket_login(secret: str, api_key: str, passphrase: str) -> tuple[st
     }
     
     # Generate signature
-    msg = json.dumps(login_params, separators=(',', ':'))
+    msg = json.dumps(login_params)
     hex_signature = hmac.new(
         secret.encode(),
         msg.encode(),
@@ -410,7 +410,7 @@ def sign_request(secret: str, method: str, path: str, body: dict | None = None) 
     # Create prehash string
     msg = f"{path}{method}{timestamp}{nonce}"
     if body:
-        msg += json.dumps(body, separators=(',', ':'))
+        msg += json.dumps(body)
         
     # Generate hex signature and convert to base64
     hex_signature = hmac.new(
@@ -6577,7 +6577,7 @@ async def trading_example():
         nonce = timestamp  # Use timestamp as nonce for consistency
         path = "/api/v1/trade/order"
         method = "POST"
-        msg = f"{path}{method}{timestamp}{nonce}{json.dumps(order_request, separators=(',', ':'), sort_keys=True)}"
+        msg = f"{path}{method}{timestamp}{nonce}{json.dumps(order_request)}"
         hex_signature = hmac.new(
             secret.encode('utf-8'),
             msg.encode('utf-8'),
