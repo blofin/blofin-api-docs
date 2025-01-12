@@ -6551,7 +6551,8 @@ async def trading_example():
                 "nonce": nonce
             }]
         }))
-        
+
+        await asyncio.sleep(1)
         # Subscribe to orders channel
         await ws.send(json.dumps({
             "op": "subscribe",
@@ -6619,7 +6620,7 @@ async def trading_example():
         async def listen_for_confirmation():
             while True:
                 data = json.loads(await ws.recv())
-                if data.get("event") == "update":
+                if data.get("action") == "update":
                     for order in data.get("data", []):
                         if order.get("orderId") == order_id:
                             return order
