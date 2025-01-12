@@ -580,9 +580,6 @@ When a request is rejected by our system due to rate limits, the system will ret
 * **Channel Types**: 
   - Public channels via public service endpoint
   - Private channels via private service endpoint
-* **Channel Types**: 
-  - Public channels via public service endpoint
-  - Private channels via private service endpoint
 
 <aside class="notice">
 
