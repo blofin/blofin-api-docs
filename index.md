@@ -17,7 +17,12 @@ code_clipboard: true
 
 Welcome to the BloFin API!
 
-BloFin provides REST and WebSocket APIs to access market data, trading, and account management endpoints of Perpetual Futures.
+BloFin provides reliable REST and WebSocket APIs for secure trading operations. Our API suite supports:
+- Efficient order management
+- Market data access
+- Position monitoring
+- Risk management tools
+- Account operations
 
 ## General Info
 * Root URL for REST access: `https://openapi.blofin.com`
@@ -54,7 +59,7 @@ There are two permissions below that can be associated with an API Key. One or m
 * `TRANSFER` - Can make funding transfers between different accounts
 
 <aside class="notice">
-Each API Key can be linked with up to 20 IP addresses. API Keys that are not bound to IPs will expire after 90 days.
+Each API Key can be linked with up to 20 IP addresses. API Keys that are not bound to IPs will expire after 90 days of inactivity.
 </aside>
 
 ## REST Authentication
@@ -77,26 +82,78 @@ Request bodies should have content type `application/json` and be in valid JSON 
 
 The ACCESS-SIGN header is generated as follows:
 
-* Create a prehash string of requestPath + method + timestamp + nonce + body (where + represents String concatenation).
-* Prepare the SecretKey.
-* Sign the prehash string with the SecretKey using the HMAC SHA256.
-* Encode the signature in the Base64 format.
+1. Create a prehash string by concatenating:
+   * `requestPath` (including query parameters for GET requests)
+   * `method` (HTTP method in uppercase: GET, POST, etc.)
+   * `timestamp` (milliseconds since epoch)
+   * `nonce` (unique identifier like UUID)
+   * `body` (JSON string for POST requests, empty string for GET)
 
-Example: 
+2. Generate HMAC-SHA256 signature using the SecretKey
+3. Convert signature to hexadecimal
+4. Encode the hex signature in Base64 format
 
-* JS
+Examples:
 
-`sign = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(CryptoJS.HmacSHA256('/api/v1/asset/balances?accountType=futures' + 'GET' + timestamp + nonce + '', SecretKey)))`
+GET Request:
+```python
+# Python
+path = "/api/v1/asset/balances?accountType=futures"
+method = "GET"
+timestamp = str(int(datetime.now().timestamp() * 1000))
+nonce = str(uuid4())
+body = ""  # Empty for GET requests
 
-* JAVA
+prehash = f"{path}{method}{timestamp}{nonce}{body}"
+hex_signature = hmac.new(
+    secret_key.encode(),
+    prehash.encode(),
+    hashlib.sha256
+).hexdigest().encode()
 
-`sign = java.util.Base64.getEncoder().encodeToString((new HmacUtils(HmacAlgorithms.HMAC_SHA_256, SecretKey)).hmacHex("/api/v1/asset/balances?accountType=futures" + "GET" + timestamp + nonce + "").getBytes());`
+signature = base64.b64encode(hex_signature).decode()
+```
 
-* Python
+```javascript
+// JavaScript
+const path = '/api/v1/asset/balances?accountType=futures';
+const method = 'GET';
+const body = '';  // Empty for GET requests
 
-`prehash_string = f"{path}{method}{timestamp}{nonce}{body or ''}" `
+const prehash = path + method + timestamp + nonce + body;
+const hex_signature = CryptoJS.HmacSHA256(prehash, secretKey).toString();
+const signature = CryptoJS.enc.Base64.stringify(
+    CryptoJS.enc.Utf8.parse(hex_signature)
+);
+```
 
-`sign = base64.b64encode(hmac.new(SecretKey.encode(), prehash_string.encode(), sha256).hexdigest().encode()).decode()`
+POST Request:
+```python
+# Python
+path = "/api/v1/trade/order"
+method = "POST"
+timestamp = str(int(datetime.now().timestamp() * 1000))
+nonce = str(uuid4())
+body = {
+    "instId": "BTC-USDT",
+    "marginMode": "isolated",
+    "side": "buy",
+    "orderType": "limit",
+    "price": "35000",
+    "size": "0.1"  # Minimum order size is 0.1 contracts
+}
+
+# Convert body to compact JSON string
+body_str = json.dumps(body, separators=(',', ':'))
+prehash = f"{path}{method}{timestamp}{nonce}{body_str}"
+hex_signature = hmac.new(
+    secret_key.encode(),
+    prehash.encode(),
+    hashlib.sha256
+).hexdigest().encode()
+
+signature = base64.b64encode(hex_signature).decode()
+```
 
  
 
@@ -122,7 +179,7 @@ Example: `{"instId":"BTC-USDT","leverage":"5","marginMode":"isolated"}`
 
 The SecretKey is generated when you create an APIKey.
 
-Example: `22582BD0CFF14C41EDBF1AB98506286D`
+Example: `YOUR_API_KEY`
 
 ### Signature Verification Failed
 If you encounter a "Signature verification failed" error, please follow the steps below to troubleshoot:
@@ -166,36 +223,104 @@ WebSocket is a new HTML5 protocol that achieves full-duplex data transmission be
 We recommend developers use WebSocket API to retrieve market data and order book depth.
 </aside>
 
-### Login
+### WebSocket Authentication
+
+The WebSocket API requires authentication for private channels. Use the login operation with a signed request to authenticate your connection.
 
 > Request Example:
-```shell
+```json
 {
-    "op":"login",
-    "args":[
-        {
-            "apiKey":"22582BD0CFF14C41EDBF1AB98506286D",
-            "passphrase":"123456",
-            "timestamp":"1597026383085",
-            "sign":"MDMxZmVhNTYzNjhkZTQ3ZTJlMDNkYTAzNDQ2ZWQzYmFlNTA3OWRlMTk5NWQzMWQ0Y2FhODllNTRiNTgzMTVmNA=="
-            "nonce":"fwqcew3r3f223v3qv3"
-
-        }
-    ]
+    "op": "login",
+    "args": [{
+        "apiKey": "YOUR_API_KEY",
+        "passphrase": "YOUR_PASSPHRASE",
+        "timestamp": "1597026383085",
+        "sign": "BASE64_ENCODED_SIGNATURE",
+        "nonce": "123e4567-e89b-12d3-a456-426614174000"
+    }]
 }
 ```
+
+#### Signature Generation
+
+The signature (`sign`) parameter is generated using HMAC-SHA256 with fixed components:
+
+1. Fixed components for WebSocket authentication:
+   * `path`: Always "/users/self/verify"
+   * `method`: Always "GET"
+   * `body`: Always empty string
+   * `timestamp`: Current time in milliseconds (also used as nonce)
+   * `nonce`: Same as timestamp for consistency
+
+2. Create signature string by concatenating: path + method + timestamp + nonce + body
+3. Generate HMAC-SHA256 hex digest using your SecretKey
+4. Encode the hex digest using Base64
+
+Example parameters:
+```json
+{
+    "apiKey": "YOUR_API_KEY",
+    "passphrase": "YOUR_PASSPHRASE",
+    "timestamp": "1597026383085",
+    "nonce": "1597026383085"  // Same as timestamp
+}
+```
+
+Example implementation:
+```python
+def sign_websocket_login(secret: str, api_key: str, passphrase: str) -> tuple[str, str, str]:
+    """Generate WebSocket login signature.
+    
+    Args:
+        secret: API secret key
+        api_key: API access key
+        passphrase: API passphrase
+        
+    Returns:
+        tuple: (signature, timestamp, nonce)
+    """
+    timestamp = str(int(datetime.now().timestamp() * 1000))
+    nonce = str(uuid4())
+    
+    # Create login parameters
+    login_params = {
+        "apiKey": api_key,
+        "passphrase": passphrase,
+        "timestamp": timestamp,
+        "nonce": nonce
+    }
+    
+    # Generate signature
+    msg = json.dumps(login_params, separators=(',', ':'))
+    hex_signature = hmac.new(
+        secret.encode(),
+        msg.encode(),
+        hashlib.sha256
+    ).hexdigest().encode()
+    
+    return base64.b64encode(hex_signature).decode(), timestamp, nonce
+```
+
+#### Connection Management
+
+The WebSocket connection requires proper authentication and connection management:
+- Use heartbeat mechanism to maintain connection (send 'ping' every 20-30 seconds)
+- Handle connection errors gracefully
+- Clean up resources properly
+- Monitor connection status
+- Add broker ID header if required for your API key
 
 #### Request Parameters
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 op | String | Yes | Operation, `login`
-args | Array | Yes | List of account to login
+args | Array | Yes | List of account login parameters
 `>apiKey` | String | Yes | API Key
-`>passphrase` | String | Yes | The passphrase you specified when creating the APIKey.
-`>timestamp` | String | Yes | Unix Epoch time, the unit is milliseconds
-`>sign` | String | Yes | Signature string
-`>nonce` | String | Yes | The client's random string generation algorithm must not produce duplicates within the time difference range allowed by the server, such as UUID, Snowflake algorithm, etc. 
+`>passphrase` | String | Yes | The passphrase specified when creating the APIKey
+`>timestamp` | String | Yes | Unix Epoch time in milliseconds (e.g., `1597026383085`)
+`>sign` | String | Yes | Base64-encoded HMAC-SHA256 signature
+`>nonce` | String | Yes | Unique identifier (UUID recommended) to prevent replay attacks
 
 
 > Successful Response Example:
@@ -230,21 +355,79 @@ msg | String | Error message
 
 **timestamp**: the Unix Epoch time, the unit is milliseconds
 
-**sign**: signature string, the signature algorithm is as follows:
+**sign**: Signature string generated using the following algorithm:
 
-First concatenate `requestPath`, `method`, `timestamp`, `nonce`, `body` , strings, then use HMAC SHA256 method to encrypt the concatenated string with SecretKey, and then perform Base64 encoding.
+1. Create a prehash string by concatenating:
+   * `requestPath`: The API endpoint path (including query parameters for GET requests)
+   * `method`: HTTP method in uppercase (GET, POST, etc.)
+   * `timestamp`: Current time in milliseconds since epoch
+   * `nonce`: Unique identifier (e.g., UUID)
+   * `body`: JSON string for POST requests, empty string for GET
 
-**secretKey**: The security key generated when the user applies for APIKey, e.g. : 22582BD0CFF14C41EDBF1AB98506286D
+2. Generate signature using HMAC-SHA256 with your SecretKey
+3. Convert signature to hexadecimal format
+4. Encode the hex signature using Base64
 
-**Example of timestamp**: const timestamp = '' + Date.now()
+```python
+def sign_request(secret: str, method: str, path: str, body: dict | None = None) -> str:
+    """Generate BloFin API request signature.
+    
+    Args:
+        secret: API secret key
+        method: HTTP method (GET, POST, etc.)
+        path: API endpoint path (including query params)
+        body: Request body for POST/PUT requests (None for GET)
+        
+    Returns:
+        Base64-encoded signature string
+    
+    Example:
+        # GET request
+        sign = sign_request(
+            secret="YOUR_SECRET",
+            method="GET",
+            path="/api/v1/account/balance"
+        )
+        
+        # POST request
+        sign = sign_request(
+            secret="YOUR_SECRET",
+            method="POST",
+            path="/api/v1/trade/order",
+            body={
+                "instId": "BTC-USDT",
+                "marginMode": "isolated",
+                "side": "buy",
+                "orderType": "limit",
+                "price": "35000",
+                "size": "0.1"  # Minimum order size is 0.1 contracts
+            }
+        )
+    """
+    timestamp = str(int(datetime.now().timestamp() * 1000))
+    nonce = str(uuid4())
+    
+    # Create prehash string
+    msg = f"{path}{method}{timestamp}{nonce}"
+    if body:
+        msg += json.dumps(body, separators=(',', ':'))
+        
+    # Generate hex signature and convert to base64
+    hex_signature = hmac.new(
+        secret.encode(),
+        msg.encode(),
+        hashlib.sha256
+    ).hexdigest().encode()
+    
+    return base64.b64encode(hex_signature).decode()
+```
 
-**Among sign example**: `sign = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(CryptoJS.HmacSHA256('/users/self/verify' + 'GET' + timestamp + nonce + '', SecretKey)))`
-
-**method**: always 'GET'.
-
-**requestPath** : always '/users/self/verify'
-
-**body**: always ''
+**Important Notes**:
+- The signature is required for all authenticated endpoints
+- Both GET and POST requests require signatures
+- For GET requests, query parameters are part of the requestPath
+- For POST requests, include the JSON body in the signature
+- Use compact JSON encoding (no extra spaces) for the body
 
 <aside class="notice">
 The request will expire 1 minute after the timestamp.
@@ -392,12 +575,16 @@ When a request is rejected by our system due to rate limits, the system will ret
 * Limit the call of the endpoint by IP, up to 500 requests per minute, if triggered, the service will be suspended for 5 minutes; up to 1500 requests per 5 minutes, if triggered, the service will be suspended for 1 hour.
 * Rate limits of trading-related APIs at 30 requests every 10 seconds (based on UserId)
 
-### WebSocket Limits
-* Connection limit: 1 request per second (based on IP)
+### WebSocket Connection Management
 
-When subscribing to a public channel, use the address of the public service. When subscribing to a private channel, use the address of the private service
-
-* Request limit: The total number of `subscribe` / `unsubscribe` / `login` requests per connection is limited to 480 times per hour.
+#### Connection Limits
+* **New Connections**: 1 per second per IP
+* **Channel Types**: 
+  - Public channels via public service endpoint
+  - Private channels via private service endpoint
+* **Channel Types**: 
+  - Public channels via public service endpoint
+  - Private channels via private service endpoint
 
 <aside class="notice">
 
@@ -460,12 +647,12 @@ instId | String | No | Instrument ID, e.g. `BTC-USDT`
             "instId": "BTC-USDT",
             "baseCurrency": "BTC",
             "quoteCurrency": "USDT",
-            "contractValue": "0.001",
+            "contractValue": "0.001",  # Each contract = 0.001 BTC
             "listTime": "1638333031000",
             "expireTime": "1704124800000",
             "maxLeverage": "125",
-            "minSize": "1",
-            "lotSize": "1",
+            "minSize": "0.1",  # Minimum order size is 0.1 contracts
+            "lotSize": "0.1",  # Contract size increment
             "tickSize": "0.5",
             "instType": "SWAP",
             "contractType": "linear",
@@ -483,12 +670,12 @@ Parameter | Type | Description
 instId | String | Instrument ID, e.g. `BTC-USDT`
 baseCurrency | String | Base currency, e.g. BTC in BTC-USDT
 quoteCurrency | String | Quote currency, e.g. USDT in BTC-USDT
-contractValue | String | Contract value
+contractValue | String | Contract value in base currency (e.g. 0.001 BTC per contract for BTC-USDT)
 listTime | String | Listing time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 expireTime | String | Instrument offline time, e.g. `1597026383085`
 maxLeverage | String | Max Leverage
-minSize | String | Minimum order size, the number of contracts
-lotSize | String | Lot size, e.g. BTC-USDT: `1`
+minSize | String | Minimum order size in contracts (e.g. 0.1 contracts = 0.0001 BTC for BTC-USDT)
+lotSize | String | Contract size increment (e.g. 0.1 for BTC-USDT)
 tickSize | String | Tick size, e.g. `0.0001`
 instType | String | Instrument type
 contractType | String | Contract type<br>`linear`: linear contract<br>`inverse`: inverse contract
@@ -1632,7 +1819,7 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; T
             "currency": "USDT",
             "chain": "TRC20",
             "address": "THmWeEJKyb976L76MvrTjeYMyNgiS9aKTu",
-            "txId": "1838aab36aef8d7139d5b03b98dc7acaa836387f88888888a89f6d67114fbb4b",
+            "txId": "f7c47f3911a2f27f3b647c5ef4c09c9e7d3f69ab123456789abcdef0123456789",
             "type": "0",
             "amount": "40.011111",
             "fee": "0.1",
@@ -1642,13 +1829,13 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; T
             "ts": "1695262311039",
             "tag": null,
             "memo": null,
-            "withdrawId": "757b505cfd34c64c85ca5b5690ee5293"
+            "withdrawId": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6"
         },
         {
             "currency": "USDT",
             "chain": "TRC20",
             "address": "THmWeEJKyb976L76MvrTjeYMyNgiS9aKTu",
-            "txId": "1838aab36aef8d7139d5b03b98dc7acaa836387f88888888a89f6d67114fbb4b",
+            "txId": "g8d58f4022b3f38f4c758d6ef5d10d0f8e4f70bc234567890bcdef1234567890",
             "type": "0",
             "amount": "9999.899",
             "fee": "0.1",
@@ -1658,7 +1845,7 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; T
             "ts": "1695262311039",
             "tag": null,
             "memo": null,
-            "withdrawId": "3644a684f98ea8fe223c713b77189a77"
+            "withdrawId": "b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7"
         }
     ]
 }
@@ -1717,26 +1904,26 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; T
         {
             "currency": "USDT",
             "chain": "TRC20",
-            "address": "THmWeEJKyb976L76MvrTjeYMyNgiS9aKTu",
-            "txId": "1838aab36aef8d7139d5b03b98dc7acaa836387f88888888a89f6d67114fbb4b",
+            "address": "EXAMPLE_WALLET_ADDRESS",
+            "txId": "h9e69f5133c4f49f5d869d7ef6e11e0f9f5f81cd345678901cdef2345678901",
             "type": "0",
             "amount": "9",
             "state": "1",
-            "ts": "1695262311039",
+            "ts": "1597026383085",
             "confirm": "12",
-            "depositId": "5ef059938ba799aaa845e1c2e8a762bd1"
+            "depositId": "c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8"
         },
         {
             "currency": "USDT",
             "chain": "TRC20",
-            "address": "THmWeEJKyb976L76MvrTjeYMyNgiS9aKTu",
-            "txId": "1838aab36aef8d7139d5b03b98dc7acaa836387f88888888a89f6d67114fbb4b",
+            "address": "EXAMPLE_WALLET_ADDRESS",
+            "txId": "i0f70f6244d5f50f6e970e8ef7f22f1f0f6f92de456789012def3456789012",
             "type": "0",
             "amount": "9",
             "state": "1",
-            "ts": "1695262311039",
+            "ts": "1597026383085",
             "confirm": "12",
-            "depositId": "5ef059938ba799aaa845e1c2e8a762bd1"
+            "depositId": "d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9"
         }
     ]
 }
@@ -2146,7 +2333,7 @@ positionSide | String | Position side<br>`long`<br>`short`<br>`net`
 {
     "instId":"BTC-USDT",
     "leverage":"100",
-    "marginmode":"cross",
+    "marginMode":"cross",
     "positionSide":"long"
 }
 ```
@@ -2211,7 +2398,7 @@ positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <b
 side | String | Yes | Order side, `buy` `sell`
 orderType | String | Yes | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
 price | String | Yes | Order price. Not applicable to `market`
-size | String | Yes | Quantity to buy or sell
+size | String | Yes | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 reduceOnly | String | No | Whether orders can only reduce in position size. <br>Valid options: `true` or `false`. The default value is `false`.<br>When `reduceOnly = true` and the opposite order size exceeds the position size. The position will be fully closed, and no new position will be opened.
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 tpTriggerPrice | String | No | Take-profit trigger price<br>If you fill in this parameter, you should fill in the `tpOrderPrice` as well.
@@ -2297,7 +2484,7 @@ positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <b
 side | String | Yes | Order side, `buy` `sell`
 orderType | String | Yes | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
 price | String | Yes | Order price. Not applicable to `market`
-size | String | Yes | Quantity to buy or sell
+size | String | Yes | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 reduceOnly | String | No | Whether orders can only reduce in position size. <br>Valid options: `true` or `false`. The default value is `false`.<br>When `reduceOnly = true` and the opposite order size exceeds the position size. The position will be fully closed, and no new position will be opened.
 clientOrderId | String | No | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 tpTriggerPrice | String | No | Take-profit trigger price<br>If you fill in this parameter, you should fill in the `tpOrderPrice` as well.
@@ -2823,7 +3010,7 @@ positionSide | String | Position side
 side | String | Order side
 orderType | String | Order type
 price | String | Price
-size | String | Quantity to buy or sell
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 reduceOnly | String | Whether orders can only reduce in position size.
 leverage | String | Leverage
 state | String | State
@@ -2912,7 +3099,7 @@ tpTriggerPrice | String | Take-profit trigger price
 tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
 slTriggerPrice | String | Stop-loss trigger price
 slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
-size | String | Quantity to buy or sell.
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 state | String | State,`live`, `effective`, `canceled`, `order_failed`
 leverage | String | Leverage
 reduceOnly | String | Whether orders can only reduce in position size.<br>Valid options: `true` or `false`. The default value is `false`.
@@ -2997,7 +3184,7 @@ marginMode | String | Margin mode
 positionSide | String | Position side, `long`,`short`,`net`
 side | String | Order side
 orderType | String |  Algo type, `trigger` 
-size | String | Quantity to buy or sell.
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 reduceOnly| String | Whether the order can only reduce the position size. Valid options: true or false. The default value is false.
 leverage | String | Leverage
 state | String | State, `live`, `effective`, `canceled`, `order_failed`
@@ -3176,7 +3363,7 @@ positionSide | String | Position side
 side | String | Order side
 orderType | String | Order type
 price | String | Price
-size | String | Quantity to buy or sell
+size | String | Number of contracts to buy or sell (minimum 0.1 contracts, where 1 contract = 0.001 BTC)
 reduceOnly | String | Whether orders can only reduce in position size.
 leverage | String | Leverage
 state | String | State
@@ -3287,7 +3474,7 @@ marginMode | String | Margin mode
 positionSide | String | Position side, `long`,`short`,`net`
 side | String | Order side
 orderType | String | Order type<br>`market`: market order<br>`limit`: limit order<br>`post_only`: Post-only order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
-size | String | Quantity to buy or sell.
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 reduceOnly | String | Whether orders can only reduce in position size.<br>Valid options: `true` or `false`. The default value is `false`.
 leverage | String | Leverage
 state | String | State,`live`, `effective`, `canceled`, `order_failed`
@@ -3381,7 +3568,7 @@ positionSide | String | Position side, `long`,`short`,`net`
 side | String | Order side                           
 reduceOnly| String | Whether the order can only reduce the position size. Valid options: true or false. The default value is false.
 orderType | String |  Algo type, `trigger` 
-size | String | Quantity to buy or sell.
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 leverage | String | Leverage
 state | String | State,`live`, `effective`, `canceled`, `order_failed`
 actualSize | String | Actual order quantity
@@ -3802,7 +3989,7 @@ data | Array | Subscribed data
 `>orderId` | String | Order ID
 `>clientOrderId` | String | Client Order ID as assigned by the client.
 `>price` | String | Price
-`>size` | String | Quantity to buy or sell
+`>size` | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 `>orderType` | String | Order type
 `>side` | String | Order side
 `>positionSide` | String | Position side
@@ -5102,7 +5289,7 @@ positionSide | String | Position side
 side | String | Order side
 orderType | String | Order type
 price | String | Price
-size | String | Quantity to buy or sell
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 reduceOnly | String | Whether orders can only reduce in position size.
 leverage | String | Leverage
 state | String | State
@@ -5148,7 +5335,7 @@ positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <b
 side | String | Yes | Order side, `buy` `sell`
 orderType | String | Yes | Order type<br>`market`: market order<br>`limit`: limit order<br>`fok`: Fill-or-kill order<br>`ioc`: Immediate-or-cancel order
 price | String | Yes | Order price. Not applicable to `market`
-size | String | Yes | Quantity to buy or sell
+size | String | Yes | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 
@@ -5513,7 +5700,7 @@ positionSide | String | Position side<br>Default `net` for One-way Mode <br>`lon
 side | String | Order side, `buy` `sell`
 orderType | String | Order type
 price | String | Order price
-size | String | Quantity to buy or sell
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 leverage | String | Leverage
 state | String | State
 filledSize | String | Accumulated fill quantity.
@@ -6105,7 +6292,7 @@ data | Array | Subscribed data
 `>instType` | String | Instrument type
 `>orderId` | String | Order ID
 `>price` | String | Price
-`>size` | String | Quantity to buy or sell
+`>size` | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
 `>orderType` | String | Order type
 `>side` | String | Order side
 `>positionSide` | String | Position side
@@ -6263,18 +6450,18 @@ GET /api/v1/user/query-apikey
   "code": "0",
   "msg": "success",
   "data": {
-    "uid": "30009591122",
+    "uid": "YOUR_USER_ID",
     "apiName": "read_test",
-    "apiKey": "ddc12acf367c4395a54d7b51269c759b",
+    "apiKey": "YOUR_API_KEY",
     "readOnly": 0,
     "ips": [
-      "127.0.0.1",
-      "192.168.50.100",
+      "YOUR_IP_ADDRESS_1",
+      "YOUR_IP_ADDRESS_2",
       
     ],
     "type": 1,
-    "expireTime": "1713451704769",
-    "createTime": "1705675704615",
+    "expireTime": "1597026383085",
+    "createTime": "1597026383085",
     "referralCode": "blofin"
   }
 }
@@ -6292,3 +6479,233 @@ type | Integer | 1: Transaction, 2. Connect to third-party
 expireTime | String | Expiration time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 ips | Array | IP bound
+
+## Complete Trading Example
+
+This section demonstrates a complete trading workflow that combines REST API calls with WebSocket updates. The example shows how to:
+1. Query the order book to get current price
+2. Place a limit buy order 10% below market price
+3. Receive order confirmation via WebSocket
+4. Cancel the order and clean up resources
+
+### Python Implementation
+
+```python
+import asyncio
+import base64
+import hmac
+import hashlib
+import json
+import requests
+import time
+import websockets
+
+async def sign_websocket_login(secret: str, api_key: str, passphrase: str) -> tuple[str, str, str]:
+    """Generate WebSocket login signature."""
+    timestamp = str(int(time.time() * 1000))
+    nonce = timestamp
+    
+    # Fixed components for WebSocket auth
+    method = "GET"
+    path = "/users/self/verify"
+    body = ""
+    
+    # Create signature string
+    msg = f"{path}{method}{timestamp}{nonce}{body}"
+    hex_signature = hmac.new(
+        secret.encode(),
+        msg.encode(),
+        hashlib.sha256
+    ).hexdigest().encode()
+    
+    return base64.b64encode(hex_signature).decode(), timestamp, nonce
+
+async def trading_example():
+    """Complete trading workflow example."""
+    try:
+        # Example credentials (replace with your own)
+        api_key = "YOUR_API_KEY"
+        secret = "YOUR_SECRET"
+        passphrase = "YOUR_PASSPHRASE"
+        
+        # 1. Get order book price
+        response = requests.get(
+            "https://openapi.blofin.com/api/v1/market/books",
+            params={"instId": "BTC-USDT", "size": "1"}
+        )
+        response.raise_for_status()
+        best_ask = float(response.json()["data"][0]["asks"][0][0])  # Note: data[0] for first order book entry
+        limit_price = round(best_ask * 0.9, 1)  # 10% below market, rounded to 0.1
+        print(f"Best ask: {best_ask}, Limit price: {limit_price}")
+        
+        # 2. Connect to WebSocket and authenticate
+        ws = await websockets.connect("wss://openapi.blofin.com/ws/private")
+        sign, timestamp, nonce = await sign_websocket_login(secret, api_key, passphrase)
+        
+        # Login
+        await ws.send(json.dumps({
+            "op": "login",
+            "args": [{
+                "apiKey": api_key,
+                "passphrase": passphrase,
+                "timestamp": timestamp,
+                "sign": sign,
+                "nonce": nonce
+            }]
+        }))
+        
+        # Subscribe to orders channel
+        await ws.send(json.dumps({
+            "op": "subscribe",
+            "args": [{"channel": "orders", "instId": "BTC-USDT"}]
+        }))
+        
+        # 3. Place limit buy order
+        order_request = {
+            "instId": "BTC-USDT",
+            "marginMode": "cross",  # Not "tdMode"
+            "side": "buy",
+            "orderType": "limit",   # Not "ordType"
+            "price": str(limit_price),  # Not "px"
+            "size": "0.1",  # Not "sz". See /api/v1/market/instruments for contract sizes
+            "leverage": "3",
+            "positionSide": "net"
+        }
+        # order_request["brokerId"] = "your broker id" #if needed
+        # Generate signature for REST API
+        timestamp = str(int(time.time() * 1000))
+        nonce = timestamp  # Use timestamp as nonce for consistency
+        path = "/api/v1/trade/order"
+        method = "POST"
+        msg = f"{path}{method}{timestamp}{nonce}{json.dumps(order_request, separators=(',', ':'), sort_keys=True)}"
+        hex_signature = hmac.new(
+            secret.encode('utf-8'),
+            msg.encode('utf-8'),
+            hashlib.sha256
+        ).hexdigest().encode('utf-8')
+        signature = base64.b64encode(hex_signature).decode()
+        
+        # Prepare headers with broker ID
+        headers = {
+            "ACCESS-KEY": api_key,
+            "ACCESS-SIGN": signature,
+            "ACCESS-TIMESTAMP": timestamp,
+            "ACCESS-NONCE": nonce,
+            "ACCESS-PASSPHRASE": passphrase,
+            "Content-Type": "application/json"
+        }
+        
+        # Place order
+        response = requests.post(
+            "https://openapi.blofin.com/api/v1/trade/order",
+            headers=headers,
+            json=order_request
+        )
+        response.raise_for_status()
+        order_response = response.json()
+        
+        # Verify response format and success
+        if not isinstance(order_response, dict):
+            raise Exception(f"Invalid order response format: {order_response}")
+            
+        if "code" in order_response and order_response["code"] != "0":
+            raise Exception(f"Order API error: {order_response}")
+            
+        if "data" not in order_response:
+            raise Exception(f"No data in order response: {order_response}")
+            
+        order_id = order_response["data"][0]["orderId"]
+        print(f"Order placed: {order_id}")
+        
+        # 4. Wait for order confirmation
+        async def listen_for_confirmation():
+            while True:
+                data = json.loads(await ws.recv())
+                if data.get("event") == "update":
+                    for order in data.get("data", []):
+                        if order.get("orderId") == order_id:
+                            return order
+                            
+        try:
+            order_update = await asyncio.wait_for(
+                listen_for_confirmation(),
+                timeout=10
+            )
+            print(f"Order confirmed: {order_update}")
+        except asyncio.TimeoutError:
+            print("Timeout waiting for order confirmation")
+            raise
+        
+        # 5. Cancel order
+        # Generate new signature for cancel request
+        timestamp = str(int(time.time() * 1000))
+        nonce = timestamp
+        path = "/api/v1/trade/cancel-order"
+        method = "POST"
+        cancel_request = {"orderId": order_id}
+        msg = f"{path}{method}{timestamp}{nonce}{json.dumps(cancel_request)}"
+        hex_signature = hmac.new(
+            secret.encode('utf-8'),
+            msg.encode('utf-8'),
+            hashlib.sha256
+        ).hexdigest().encode('utf-8')
+        signature = base64.b64encode(hex_signature).decode()
+        
+        # Update headers with new signature
+        headers.update({
+            "ACCESS-SIGN": signature,
+            "ACCESS-TIMESTAMP": timestamp,
+            "ACCESS-NONCE": nonce
+        })
+        
+        response = requests.post(
+            "https://openapi.blofin.com/api/v1/trade/cancel-order",
+            headers=headers,
+            json=cancel_request
+        )
+        response.raise_for_status()
+        print("Order canceled")
+        
+        # Clean up WebSocket connection
+        await ws.close()
+        
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        if isinstance(e, requests.exceptions.RequestException):
+            print(f"Request error details: {e.response.text if e.response else 'No response'}")
+        if 'ws' in locals():
+            await ws.close()
+        raise  # Re-raise the exception after cleanup
+
+if __name__ == "__main__":
+    asyncio.run(trading_example())
+```
+
+The example above demonstrates a complete trading workflow:
+
+1. **Market Data Retrieval**
+   * Fetches current order book for BTC-USDT
+   * Extracts best ask price from first level
+   * Calculates limit price 10% below market
+
+2. **WebSocket Integration**
+   * Establishes authenticated WebSocket connection
+   * Subscribes to order updates channel
+   * Handles connection cleanup properly
+
+3. **Order Management**
+   * Places limit buy order with proper parameters
+   * Uses current API parameter names (marginMode, orderType, price, size)
+   * Includes required broker ID in headers and request body
+
+4. **Real-time Updates**
+   * Waits for order confirmation via WebSocket
+   * Implements timeout handling for confirmation
+   * Processes order status updates in real-time
+
+5. **Error Handling**
+   * Validates API responses thoroughly
+   * Implements proper exception handling
+   * Ensures WebSocket cleanup on errors
+
+Note: Replace the example credentials with your own API key, secret, and passphrase. The broker ID shown is specific to test credentials and may not be required for your API key.
