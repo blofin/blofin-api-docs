@@ -5675,7 +5675,7 @@ GET /api/v1/copytrading/trade/pending-tpsl-by-contract?instId=BTC-USDT
 Parameter | Type | Required | Description
 ----------------- | ----- |----------| -----------
 instId | String | No       | Instrument ID, e.g. `BTC-USDT`
-algoId | String | No       | Margin mode<br>`cross`<br>`isolated`
+algoId | String | No       | TP/SL order ID
 
 > Response Example:
 
