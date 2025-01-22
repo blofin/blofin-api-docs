@@ -4304,7 +4304,11 @@ data | Object | Subscribed data
 `>>orderFrozen` | String | Margin frozen for open orders
 `>>equityUsd` | String | Equity in USD of the currency
 `>>isolatedUnrealizedPnl` | String | Isolated unrealized profit and loss of the currency
-`>>bonus` | String | Bonus balance
+`>>coinUsdPrice` | String | Price index USD of currency
+`>>spotAvailable` | String | Spot balance of the currency
+`>>liability` | String | Liabilities of currency, Applicable to `Multi-currency margin`
+`>>borrowFrozen` | String | Potential borrowing IMR of currency in USD. Only applicable to `Multi-currency margin`. It is "" for other margin modes.
+`>>marginRatio` | String | Cross maintenance margin requirement at the currency level. Applicable to `Multi-currency margin` and when there is cross position
 
 ## Complete Trading Example
 
