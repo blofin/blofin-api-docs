@@ -1616,7 +1616,7 @@ GET /api/v1/asset/balances?accountType=funding
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-accountType | String | Yes | Account type <br> `funding`/`futures`/`copy_trading`/`earn`/`spot`
+accountType | String | Yes | Account type <br> `funding`/`futures`/`copy_trading`/`earn`/`spot` <br> unified account use `futures`
 currency | String | No | Currency
 
 > Response Example:
@@ -1674,8 +1674,8 @@ body
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | Yes | Transfer currency, e.g. `USDT`
-fromAccount | String | Yes | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`
-toAccount | String | Yes | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`
+fromAccount | String | Yes | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot` <br> unified account use `futures`
+toAccount | String | Yes | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot` <br> unified account use `futures`
 amount | String | Yes | Amount to be transferred
 clientId | String | No | Client-supplied ID<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 
@@ -1716,8 +1716,8 @@ GET /api/v1/asset/bills
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | No | Transfer currency, e.g. `USDT`
-fromAccount | String | No | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`
-toAccount | String | No | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`
+fromAccount | String | No | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot` <br> unified account use `futures`
+toAccount | String | No | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot` <br> unified account use `futures`
 before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
 after | String | No | Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. `1654041600000`
 limit | String | No | Number of results per request. The maximum is `100`; The default is `100`
