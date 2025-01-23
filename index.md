@@ -317,7 +317,6 @@ async def sign_websocket_login(secret: str, api_key: str, passphrase: str) -> tu
     # Fixed components for WebSocket auth
     method = "GET"
     path = "/users/self/verify"
-    
     # Create signature string
     msg = f"{path}{method}{timestamp}{nonce}"
     hex_signature = hmac.new(
@@ -861,7 +860,7 @@ https://openapi.blofin.com/api/v1/market/mark-price?instId=BTC-USDT
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
 
 > Response Example:
 
@@ -4941,7 +4940,7 @@ GET /api/v1/copytrading/instruments
 
 ```json
 {
-    "code": 200,
+    "code": 0,
     "msg": "success",
     "data": {
        instIdList:["BTC-USDT","ETH-USDT"]
@@ -5058,7 +5057,7 @@ Retrieve information on your positions in by order mode.
 > Request Example:
 
 ```shell
-GET /api/v1/copytrading/account/balance
+GET /api/v1/copytrading/account/positions-by-order
 ```
 
 #### Request Parameters
@@ -5675,7 +5674,7 @@ GET /api/v1/copytrading/trade/pending-tpsl-by-contract?instId=BTC-USDT
 Parameter | Type | Required | Description
 ----------------- | ----- |----------| -----------
 instId | String | No       | Instrument ID, e.g. `BTC-USDT`
-algoId | String | No       | TP/SL order ID
+algoId | String | No       | Algo order ID
 
 > Response Example:
 
