@@ -860,7 +860,7 @@ https://openapi.blofin.com/api/v1/market/mark-price?instId=BTC-USDT
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
 
 > Response Example:
 
@@ -4940,7 +4940,7 @@ GET /api/v1/copytrading/instruments
 
 ```json
 {
-    "code": 200,
+    "code": 0,
     "msg": "success",
     "data": {
        instIdList:["BTC-USDT","ETH-USDT"]
@@ -5057,7 +5057,7 @@ Retrieve information on your positions in by order mode.
 > Request Example:
 
 ```shell
-GET /api/v1/copytrading/account/balance
+GET /api/v1/copytrading/account/positions-by-order
 ```
 
 #### Request Parameters
@@ -5674,7 +5674,7 @@ GET /api/v1/copytrading/trade/pending-tpsl-by-contract?instId=BTC-USDT
 Parameter | Type | Required | Description
 ----------------- | ----- |----------| -----------
 instId | String | No       | Instrument ID, e.g. `BTC-USDT`
-algoId | String | No       | Margin mode<br>`cross`<br>`isolated`
+algoId | String | No       | Algo order ID
 
 > Response Example:
 
