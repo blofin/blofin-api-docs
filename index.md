@@ -6665,7 +6665,8 @@ GET /api/v1/user/query-apikey
     "type": 1,
     "expireTime": "1597026383085",
     "createTime": "1597026383085",
-    "referralCode": "blofin"
+    "referralCode": "blofin",
+    "parentUid": "YOUR_PARENT_USER_ID",
   }
 }
 ```
@@ -6682,4 +6683,5 @@ type | Integer | 1: Transaction, 2. Connect to third-party
 expireTime | String | Expiration time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 ips | Array | IP bound
+parentUid | String | if use sub account api key, it shows main account uid; if use main account api key, it shows “0”
 
