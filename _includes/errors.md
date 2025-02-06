@@ -67,3 +67,4 @@ Error Code | HTTP Status Code | Error Message
 103013 | 200 | Internal error; unable to process your request. Please try again.
 110006 | 200 | You have pending cross orders. Please cancel them before adjusting your leverage.
 110019 | 200 | Setting failed. Cancel any open orders, and close positions first.
+1000 | 200 | The order has been canceled.
