@@ -20,9 +20,9 @@
     "build.test": "npm run build.sass.test && cross-var npx eleventy --input=$SLATEDIR/index.md --output=./dist",
     "build": "npm run build.sass && npm run build.11ty",
     "build:dev": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
-		"build:test": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
-		"build:pre": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
-		"build:prod": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
+    "build:test": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
+    "build:pre": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
+    "build:prod": "npm run build.sass &&MY_ENVIRONMENT=production npm run build.11ty",
     "debug": "DEBUG=Eleventy* npx eleventy --dryrun --input=/index.md",
     "serve": "npm run build.sass &&MY_ENVIRONMENT=development npx eleventy --input=./index.md --serve --port=4567",
     "serve.local": "cross-var npm run build.sass.local && cross-var npx eleventy --input=$SLATEDIR/index.md --output=$SLATEDIR/dist --serve --port=4567"
@@ -34,7 +34,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@11ty/eleventy": "^0.12.1",
+    "@11ty/eleventy": "^2.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.1",
     "cheerio": "^1.0.0-rc.9",
     "cross-var-no-babel": "^1.2.0",
