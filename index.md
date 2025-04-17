@@ -4712,10 +4712,10 @@ registerTime | String | Register time of invitee. Unix timestamp format in milli
 totalTradingVolume | String | Total futures trading amount of invitee
 totalTradingFee | String | Total futures trading fee of invitee
 totalCommision | String | Total commission of invitee
-totalDeposit | String | Total deposit amount of invitee
-totalWithdrawal | String | Total withdrawal amount of invitee
+totalDeposit | String | The total deposited amount, expressed in USDT.<br>The conversion to USDT is based on the real-time spot price of the deposited currency pair at the moment the deposit is credited.
+totalWithdrawal | String | Total withdrawal, expressed in USDT.<br>The conversion to USDT is based on the last spot price of the withdrawn currency pair at the moment the deposit is credited.
 kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
-equity | String | The total amount of equity from all accounts in USDT
+equity | String | The total amount of equity from Futures account in USDT
 
 
 
@@ -4782,10 +4782,10 @@ registerTime | String | Register time of invitee. Unix timestamp format in milli
 totalTradingVolume | String | Total futures trading amount of invitee
 totalTradingFee | String | Total futures trading fee of invitee
 totalCommision | String | Total commission of invitee
-totalDeposit | String | Total deposit amount of invitee
-totalWithdrawal | String | Total withdrawal amount of invitee
+totalDeposit | String | The total deposited amount, expressed in USDT.<br>The conversion to USDT is based on the real-time spot price of the deposited currency pair at the moment the deposit is credited.
+totalWithdrawal | String | Total withdrawal, expressed in USDT.<br>The conversion to USDT is based on the last spot price of the withdrawn currency pair at the moment the deposit is credited.
 kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
-equity | String | The total amount of equity from all accounts in USDT
+equity | String | The total amount of equity from Futures account in USDT
 
 ### GET Sub Affiliates
 
