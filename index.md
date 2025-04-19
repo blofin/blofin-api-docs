@@ -4697,7 +4697,8 @@ limit | String | No | Number of results per request. <br>The maximum is `30`; <b
             "totalDeposit": "0",
             "totalWithdrawal": "100",
             "kycLevel": "0",
-            "equity": "0.1"
+            "equity": "0.1",
+            "totalEquity": "0.1"
         }
     ]
 }
@@ -4712,10 +4713,11 @@ registerTime | String | Register time of invitee. Unix timestamp format in milli
 totalTradingVolume | String | Total futures trading amount of invitee
 totalTradingFee | String | Total futures trading fee of invitee
 totalCommision | String | Total commission of invitee
-totalDeposit | String | The total deposited amount, expressed in USDT.<br>The conversion to USDT is based on the real-time spot price of the deposited currency pair at the moment the deposit is credited.
-totalWithdrawal | String | Total withdrawal, expressed in USDT.<br>The conversion to USDT is based on the last spot price of the withdrawn currency pair at the moment the deposit is credited.
+totalDeposit | String | The total deposited amount, expressed in USDT.<br>The conversion to USDT is based on the last spot price of the deposited currency pair at the moment the deposit is credited.
+totalWithdrawal | String | Total withdrawan amount, expressed in USDT.<br>The conversion to USDT is based on the last spot price of the withdrawn currency pair at the moment the deposit is credited.
 kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
-equity | String | The total amount of equity from Futures account in USDT
+equity | String | The total equity of futures account in USDT
+totalEquity | String | The total equity of all accounts in USDT
 
 
 
@@ -4765,7 +4767,8 @@ limit | String | No | Number of results per request. <br>The maximum is `30`; <b
             "totalDeposit": "0",
             "totalWithdrawal": "100",
             "kycLevel": "0",
-            "equity": "0.1"
+            "equity": "0.1",
+            "totalEquity": "0.1"
         }
     ]
 }
@@ -4782,10 +4785,11 @@ registerTime | String | Register time of invitee. Unix timestamp format in milli
 totalTradingVolume | String | Total futures trading amount of invitee
 totalTradingFee | String | Total futures trading fee of invitee
 totalCommision | String | Total commission of invitee
-totalDeposit | String | The total deposited amount, expressed in USDT.<br>The conversion to USDT is based on the real-time spot price of the deposited currency pair at the moment the deposit is credited.
-totalWithdrawal | String | Total withdrawal, expressed in USDT.<br>The conversion to USDT is based on the last spot price of the withdrawn currency pair at the moment the deposit is credited.
+totalDeposit | String | The total deposited amount, expressed in USDT.<br>The conversion to USDT is based on the last spot price of the deposited currency pair at the moment the deposit is credited.
+totalWithdrawal | String | Total withdrawan amount, expressed in USDT.<br>The conversion to USDT is based on the last spot price of the withdrawn currency pair at the moment the deposit is credited.
 kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
-equity | String | The total amount of equity from Futures account in USDT
+equity | String | The total equity of futures account in USDT
+totalEquity | String | The total equity of all accounts in USDT
 
 ### GET Sub Affiliates
 
