@@ -628,7 +628,8 @@ instId | String | No | Instrument ID, e.g. `BTC-USDT`
             "contractType": "linear",
             "maxLimitSize": "100000000",
             "maxMarketSize": "1000000",
-            "state": "live"
+            "state": "live",
+            "settleCurrency": "USDT"
         }
     ]
 }
@@ -652,6 +653,7 @@ contractType | String | Contract type<br>`linear`: linear contract<br>`inverse`:
 maxLimitSize | String | The maximum order quantity of the limit order
 maxMarketSize | String | The maximum order quantity of the market order
 state | String | Instrument status<br>`live`<br>`suspend`
+settleCurrency | String | Settlement and margin currency, e.g. `BTC`
 
 
 ### GET Tickers
