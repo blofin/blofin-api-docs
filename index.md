@@ -1616,7 +1616,7 @@ GET /api/v1/asset/balances?accountType=funding
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-accountType | String | Yes | Account type <br> `funding`/`futures`/`copy_trading`/`earn`/`spot` <br> unified account use `futures`
+accountType | String | Yes | Account type <br> `funding`/`futures`/`copy_trading`/`earn`/`spot`/`inverse_contract` <br> unified account use `futures`
 currency | String | No | Currency
 
 > Response Example:
@@ -1674,8 +1674,8 @@ body
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | Yes | Transfer currency, e.g. `USDT`
-fromAccount | String | Yes | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot` <br> unified account use `futures`
-toAccount | String | Yes | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot` <br> unified account use `futures`
+fromAccount | String | Yes | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`<br>`inverse_contract`<br> unified account use `futures`
+toAccount | String | Yes | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`<br>`inverse_contract`<br> unified account use `futures`
 amount | String | Yes | Amount to be transferred
 clientId | String | No | Client-supplied ID<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
 
@@ -1716,8 +1716,8 @@ GET /api/v1/asset/bills
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | No | Transfer currency, e.g. `USDT`
-fromAccount | String | No | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot` <br> unified account use `futures`
-toAccount | String | No | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot` <br> unified account use `futures`
+fromAccount | String | No | The remitting account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`<br>`inverse_contract`<br> unified account use `futures`
+toAccount | String | No | The beneficiary account <br>`funding`<br>`futures`<br>`copy_trading`<br>`earn`<br>`spot`<br>`inverse_contract`<br> unified account use `futures`
 before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
 after | String | No | Pagination of data to return records earlier than the requested ts, Unix timestamp format in milliseconds, e.g. `1654041600000`
 limit | String | No | Number of results per request. The maximum is `100`; The default is `100`
@@ -1927,6 +1927,12 @@ Retrieve a list of assets (with non-zero balance), remaining balance, and availa
 ```shell
 GET /api/v1/account/balance
 ```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+productType | String | No | Product Type <br> `USDT-FUTURES` <br> `COIN-FUTURES` <br> unified account use `USDT-FUTURES` <br> The default is `USDT-FUTURES`
 
 > Response Example:
 
@@ -4291,6 +4297,126 @@ data | Object | Subscribed data
 `>ts` | String |  Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>totalEquity` | String | The total amount of equity in USD
 `>isolatedEquity` | String | Isolated margin equity in USD
+`>details` | String | Detailed asset information in all currencies
+`>>currency` | String | Currency
+`>>equity` | String | Equity of the currency
+`>>balance` | String | Cash balance
+`>>ts` | String | Update time of currency balance information, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>>isolatedEquity` | String | Isolated margin equity of the currency
+`>>available` | String | Available balance of the currency
+`>>availableEquity` | String | Available equity of the currency
+`>>frozen` | String | Frozen balance of the currency
+`>>orderFrozen` | String | Margin frozen for open orders
+`>>equityUsd` | String | Equity in USD of the currency
+`>>isolatedUnrealizedPnl` | String | Isolated unrealized profit and loss of the currency
+`>>coinUsdPrice` | String | Price index USD of currency
+`>>spotAvailable` | String | Spot balance of the currency
+`>>liability` | String | Liabilities of currency, Applicable to `Multi-currency margin`
+`>>borrowFrozen` | String | Potential borrowing IMR of currency in USD. Only applicable to `Multi-currency margin`. It is "" for other margin modes.
+`>>marginRatio` | String | Cross maintenance margin requirement at the currency level. Applicable to `Multi-currency margin` and when there is cross position
+
+### WS Inverse Account Channel
+
+This channel uses private WebSocket and authentication is required.
+
+Retrieve account information. Data will be pushed when triggered by events such as placing order, canceling order, transaction execution, etc. It will also be pushed in regular interval according to subscription granularity.
+
+> Request Example: Single
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"inverse-account"
+        }
+    ]
+}
+```
+
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe` `error`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name, `inverse-account`
+
+> Response Example: Single
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "inverse-account"
+    }
+}
+```
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "inverse-account"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"inverse-account\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | String | Event, `subscribe` `unsubscribe` `error`
+args | Object | Subscribed channel
+`>channel` | String | Channel name
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+  "arg": {
+    "channel": "inverse-account"
+  },
+  "data": {
+    "ts": "1597026383085",
+    "details": [
+      {
+        "currency": "BTC",
+        "equity": "1",
+        "balance": "1",
+        "ts": "1617279471503",
+        "isolatedEquity": "0",
+        "equityUsd": "45078.3790756226851775",
+        "availableEquity": "1",
+        "available": "0",
+        "frozen": "0",
+        "orderFrozen": "0",
+        "unrealizedPnl": "0",
+        "isolatedUnrealizedPnl": "0",
+        
+      }
+    ]
+  }
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+arg | Object | Successfully subscribed channel
+`>channel` | String | Channel name
+data | Object | Subscribed data
+`>ts` | String |  Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 `>details` | String | Detailed asset information in all currencies
 `>>currency` | String | Currency
 `>>equity` | String | Equity of the currency
