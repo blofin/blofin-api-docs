@@ -1928,6 +1928,12 @@ Retrieve a list of assets (with non-zero balance), remaining balance, and availa
 GET /api/v1/account/balance
 ```
 
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+productType | String | No | Product Type <br> `USDT-FUTURES` <br> `COIN-FUTURES` <br> unified account use `USDT-FUTURES` <br> The default is `USDT-FUTURES`
+
 > Response Example:
 
 ```json
