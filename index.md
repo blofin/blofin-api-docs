@@ -4802,11 +4802,13 @@ GET /api/v1/affiliate/invitees
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 uid | String | No | Invitee's UID
+needEquity | String | No | Whether to return the user's equity in the results.
 after | String | No | Pagination of data to return records earlier than the requested `id`
 before | String | No | Pagination of data to return records newer than the requested `id`
 begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
-limit | String | No | Number of results per request. <br>The maximum is `30`; <br>The default is `10`
+limit | String | No | Number of results per request. <br>When `needEquity` is `false`, the maximum limit is `200`. <br>When `needEquity` is `true`, the maximum limit is `30`. <br>The default value is `10`
+
 
 > Response Example:
 
@@ -4844,8 +4846,8 @@ totalCommision | String | Total commission of invitee
 totalDeposit | String | The total deposited amount, expressed in USDT.<br>The conversion to USDT is based on the last spot price of the deposited currency pair at the moment the deposit is credited.
 totalWithdrawal | String | Total withdrawan amount, expressed in USDT.<br>The conversion to USDT is based on the last spot price of the withdrawn currency pair at the moment the deposit is credited.
 kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
-equity | String | The total equity of futures account in USDT
-totalEquity | String | The total equity of all accounts in USDT
+equity | String | The total equity of futures account in USDT.`0` when `needEquity` is false.
+totalEquity | String | The total equity of all accounts in USDT.`0` when `needEquity` is false.
 
 
 
@@ -4996,12 +4998,12 @@ Retrieve the daily commission data of direct invitees.
 #### HTTP Request
 
 
-`GET /api/v1/affiliate/invitees/daily`
+`GET /api/v1/affiliate/invitees/daily/info`
 
 
 > Request Example:
 ```shell
-GET /api/v1/affiliate/invitees/daily
+GET /api/v1/affiliate/invitees/daily/info
 ```
 
 
@@ -5010,9 +5012,7 @@ GET /api/v1/affiliate/invitees/daily
 
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
-uid | String | No | Invitee’s UID，<br>Required if only `begin`/`end` paging is used, otherwise the data will be inaccurate if only `begin`/`end` is used.
-after | String | No | Pagination of data to return records earlier than the requested `id`
-before | String | No | Pagination of data to return records newer than the requested `id`
+uid | String | Yes | Invitee’s UID，<br>Required if only `begin`/`end` paging is used, otherwise the data will be inaccurate if only `begin`/`end` is used.
 begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
 limit | String | No | Number of results per request. <br>The maximum is `100`; <br>The default is `10`
@@ -5027,7 +5027,6 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; <
     "msg": "success",
     "data": [
         {
-            "id": "9999",
             "uid": "30292758476",
             "commission": "0.032035434",
             "commissionTime": "1716912000000",
@@ -5043,7 +5042,6 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; <
 #### Response Parameters
 Parameter | Type | Description
 ----------------- | ----- | -----------
-id | String | ID
 uid | String | Invitee’s UID
 commission | String | Daily Commission of invitee
 commissionTime | String | Commission time. Unix timestamp format in milliseconds, e.g. `1597026383085`
@@ -6816,4 +6814,3 @@ expireTime | String | Expiration time, Unix timestamp format in milliseconds, e.
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 ips | Array | IP bound
 parentUid | String | if use sub account api key, it shows main account uid; if use main account api key, it shows “0”
-
