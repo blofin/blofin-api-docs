@@ -1034,6 +1034,110 @@ volCurrency | String | Trading volume, with a unit of base currency.
 volCurrencyQuote | String | Trading volume, with a unit of quote currency.
 confirm | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
 
+### GET Index Candlesticks
+
+Retrieve the index candlestick charts.
+
+#### HTTP Request
+
+`GET /api/v1/market/index-candles`
+
+> Request Example:
+```shell
+https://openapi.blofin.com/api/v1/market/index-candles?instId=BTC-USDT
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+bar | String | No | Bar size, the default is `1m`<br>e.g. `1m`/`3m`/`5m`/`15m`/`30m`/`1H`/`2H`/`4H`/`6H`/`8H`/`12H`/`1D`/`3D`/`1W`/`1M`
+after | String | No | Pagination of data to return records earlier than the requested `ts`
+before | String | No | Pagination of data to return records newer than the requested `ts`. The latest data will be returned when using `before` individually
+limit | String | No | Number of results per request. The maximum is `1440`. The default is `500`.
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        [
+            "1703484240000",
+            "2283.45",
+            "2283.45",
+            "2282.8",
+            "2282.8",
+            "1"
+        ]
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+ts | String | Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. `1672502400000`
+open | String | Open price
+high | String | Highest price
+low | String | Lowest price
+close | String | Close price
+confirm | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
+
+### GET Mark Price Candlesticks
+
+Retrieve the mark price candlestick charts.
+
+#### HTTP Request
+
+`GET /api/v1/market/mark-price-candles`
+
+> Request Example:
+```shell
+https://openapi.blofin.com/api/v1/market/mark-price-candles?instId=BTC-USDT
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+bar | String | No | Bar size, the default is `1m`<br>e.g. `1m`/`3m`/`5m`/`15m`/`30m`/`1H`/`2H`/`4H`/`6H`/`8H`/`12H`/`1D`/`3D`/`1W`/`1M`
+after | String | No | Pagination of data to return records earlier than the requested `ts`
+before | String | No | Pagination of data to return records newer than the requested `ts`. The latest data will be returned when using `before` individually
+limit | String | No | Number of results per request. The maximum is `1440`. The default is `500`.
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        [
+            "1703484240000",
+            "2283.45",
+            "2283.45",
+            "2282.8",
+            "2282.8",
+            "1"
+        ]
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+ts | String | Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. `1672502400000`
+open | String | Open price
+high | String | Highest price
+low | String | Lowest price
+close | String | Close price
+confirm | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
+
 ## WebSocket
 ### WS Trades Channel
 
@@ -1229,6 +1333,196 @@ data | Object | Subscribed data
 `>vol` | String | Trading volume, with a unit of contracts.
 `>volCurrency` | String | Trading volume, with a unit of base currency.
 `>volCurrencyQuote` | String | Trading volume, with a unit of quote currency.
+`>confirm` | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
+
+### WS Index candlesticks Channel
+
+This channel uses public WebSocket and authentication is not required.
+
+Retrieve the candlesticks data of an instrument. the push frequency is the fastest interval 1 second push the data.
+
+
+> Request Example
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"index-candle1D",
+            "instId":"BTC-USDT"
+        }
+    ]
+}
+```
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name <br>`index-candle1m` <br>`index-candle3m` <br>`index-candle5m` <br>`index-candle15m` <br>`index-candle30m` <br>`index-candle1H` <br>`index-candle2H` <br>`index-candle4H` <br>`index-candle6H` <br>`index-candle8H` <br>`index-candle12H` <br>`index-candle1D` <br>`index-candle3D` <br>`index-candle1W` <br>`index-candle1M`
+`>instId` | String | Yes | Instrument ID
+
+
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "index-candle1D",
+        "instId": "BTC-USDT"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"index-candle1D\", \"instId\" : \"BTC-USDT\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | Object | Event, `subscribe` `unsubscribe` `error`
+arg | String | Subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+    "arg":{
+        "channel":"index-candle1D",
+        "instId":"BTC-USDT"
+    },
+    "data":[
+        [
+            "1753151760000",
+            "3781.07",
+            "3784.12",
+            "3781.07",
+            "3783.98",
+            "0"
+        ]
+    ]
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+arg | String | Successfully subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+data | Object | Subscribed data
+`>ts` | String | Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>open` | String | Open price
+`>high` | String | Highest price
+`>low` | String | Lowest price
+`>close` | String | Close price
+`>confirm` | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
+
+### WS Mark price candlesticks Channel
+
+This channel uses public WebSocket and authentication is not required.
+
+Retrieve the candlesticks data of an instrument. the push frequency is the fastest interval 1 second push the data.
+
+
+> Request Example
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"mark-price-candle1D",
+            "instId":"BTC-USDT"
+        }
+    ]
+}
+```
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name <br>`mark-price-candle1m` <br>`mark-price-candle3m` <br>`mark-price-candle5m` <br>`mark-price-candle15m` <br>`mark-price-candle30m` <br>`mark-price-candle1H` <br>`mark-price-candle2H` <br>`mark-price-candle4H` <br>`mark-price-candle6H` <br>`mark-price-candle8H` <br>`mark-price-candle12H` <br>`mark-price-candle1D` <br>`mark-price-candle3D` <br>`mark-price-candle1W` <br>`mark-price-candle1M`
+`>instId` | String | Yes | Instrument ID
+
+
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "mark-price-candle1D",
+        "instId": "BTC-USDT"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"mark-price-candle1D\", \"instId\" : \"BTC-USDT\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | Object | Event, `subscribe` `unsubscribe` `error`
+arg | String | Subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+    "arg":{
+        "channel":"mark-price-candle1D",
+        "instId":"BTC-USDT"
+    },
+    "data":[
+        [
+            "1753151760000",
+            "3781.07",
+            "3784.12",
+            "3781.07",
+            "3783.98",
+            "0"
+        ]
+    ]
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+arg | String | Successfully subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+data | Object | Subscribed data
+`>ts` | String | Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>open` | String | Open price
+`>high` | String | Highest price
+`>low` | String | Lowest price
+`>close` | String | Close price
 `>confirm` | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
 
 ### WS Order Book Channel
