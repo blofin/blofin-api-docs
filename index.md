@@ -1231,6 +1231,196 @@ data | Object | Subscribed data
 `>volCurrencyQuote` | String | Trading volume, with a unit of quote currency.
 `>confirm` | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
 
+### WS Index candlesticks Channel
+
+This channel uses public WebSocket and authentication is not required.
+
+Retrieve the candlesticks data of an instrument. the push frequency is the fastest interval 1 second push the data.
+
+
+> Request Example
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"index-candle1D",
+            "instId":"BTC-USDT"
+        }
+    ]
+}
+```
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name <br>`index-candle1m` <br>`index-candle3m` <br>`index-candle5m` <br>`index-candle15m` <br>`index-candle30m` <br>`index-candle1H` <br>`index-candle2H` <br>`index-candle4H` <br>`index-candle6H` <br>`index-candle8H` <br>`index-candle12H` <br>`index-candle1D` <br>`index-candle3D` <br>`index-candle1W` <br>`index-candle1M`
+`>instId` | String | Yes | Instrument ID
+
+
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "index-candle1D",
+        "instId": "BTC-USDT"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"index-candle1D\", \"instId\" : \"BTC-USDT\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | Object | Event, `subscribe` `unsubscribe` `error`
+arg | String | Subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+    "arg":{
+        "channel":"index-candle1D",
+        "instId":"BTC-USDT"
+    },
+    "data":[
+        [
+            "1753151760000",
+            "3781.07",
+            "3784.12",
+            "3781.07",
+            "3783.98",
+            "0"
+        ]
+    ]
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+arg | String | Successfully subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+data | Object | Subscribed data
+`>ts` | String | Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>open` | String | Open price
+`>high` | String | Highest price
+`>low` | String | Lowest price
+`>close` | String | Close price
+`>confirm` | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
+
+### WS Mark price candlesticks Channel
+
+This channel uses public WebSocket and authentication is not required.
+
+Retrieve the candlesticks data of an instrument. the push frequency is the fastest interval 1 second push the data.
+
+
+> Request Example
+```json
+{
+    "op":"subscribe",
+    "args":[
+        {
+            "channel":"mark-price-candle1D",
+            "instId":"BTC-USDT"
+        }
+    ]
+}
+```
+#### Request Parameters
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+op | String | Yes | Operation, `subscribe` `unsubscribe`
+args | Array | Yes | List of subscribed channels
+`>channel` | String | Yes | Channel name <br>`mark-price-candle1m` <br>`mark-price-candle3m` <br>`mark-price-candle5m` <br>`mark-price-candle15m` <br>`mark-price-candle30m` <br>`mark-price-candle1H` <br>`mark-price-candle2H` <br>`mark-price-candle4H` <br>`mark-price-candle6H` <br>`mark-price-candle8H` <br>`mark-price-candle12H` <br>`mark-price-candle1D` <br>`mark-price-candle3D` <br>`mark-price-candle1W` <br>`mark-price-candle1M`
+`>instId` | String | Yes | Instrument ID
+
+
+> Response Example:
+
+```json
+{
+    "event": "subscribe",
+    "arg": {
+        "channel": "mark-price-candle1D",
+        "instId": "BTC-USDT"
+    }
+}
+```
+
+> Failure Response Example:
+
+```json
+{
+    "event": "error",
+    "code": "60012",
+    "msg": "Invalid request: {\"op\": \"subscribe\", \"args\":[{ \"channel\" : \"mark-price-candle1D\", \"instId\" : \"BTC-USDT\"}]}"
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+event | Object | Event, `subscribe` `unsubscribe` `error`
+arg | String | Subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+code | String | Error code
+msg | String | Error message
+
+> Push Data Example:
+
+```json
+{
+    "arg":{
+        "channel":"mark-price-candle1D",
+        "instId":"BTC-USDT"
+    },
+    "data":[
+        [
+            "1753151760000",
+            "3781.07",
+            "3784.12",
+            "3781.07",
+            "3783.98",
+            "0"
+        ]
+    ]
+}
+```
+
+#### Push Data Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+arg | String | Successfully subscribed channel
+`>channel` | String | Channel name
+`>instId` | String | Instrument ID
+data | Object | Subscribed data
+`>ts` | String | Opening time of the candlestick, Unix timestamp format in milliseconds, e.g. `1597026383085`
+`>open` | String | Open price
+`>high` | String | Highest price
+`>low` | String | Lowest price
+`>close` | String | Close price
+`>confirm` | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
+
 ### WS Order Book Channel
 
 This channel uses public WebSocket and authentication is not required.
