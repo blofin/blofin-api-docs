@@ -5326,7 +5326,8 @@ limit | String | No | Number of results per request. <br>The maximum is `100`; <
             "commissionTime": "1716912000000",
             "cashback": "0.288318906",
             "fee": "3.2035434",
-            "kycLevel": "0"
+            "kycLevel": "0",
+            "tradingVolume": "200"
         }
     ]
 }
@@ -5342,6 +5343,7 @@ commissionTime | String | Commission time. Unix timestamp format in milliseconds
 cashback | String | Cashback of invitee
 fee | String | Daily trading fee of invitee
 kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
+tradingVolume | String | Daily trading amount of invitee
 
 # Copy Trading
 ## REST
