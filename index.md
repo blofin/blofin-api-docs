@@ -2209,6 +2209,30 @@ confirm | String | Confirmations
 ts | String | Time the deposit request was submitted, Unix timestamp format in milliseconds, e.g. `1656633600000` 
 depositId | String | Deposit ID
 
+### Get Account Config
+
+#### HTTP Request
+
+`GET /api/v1/account/config`
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "accountLevel": "0"
+    }
+}
+```
+
+#### Response Parameters
+
+Parameter | Type | Description
+----------------- | ----- | -----------
+accountLevel | String | Account Level <br> `0`: normal  <br> `1`: spot <br> `2`: spot futures <br> `3`: multi currency <br> `0` is normal account <br> `1`/`2`/`3` is unified account
+
 # Trading
 ## REST API
 ### GET Futures Account Balance
