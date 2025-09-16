@@ -2068,6 +2068,7 @@ Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | No | Currency, e.g. `USDT`
 withdrawId | String | No | Withdrawal ID
+type | String | No | Withdraw type <br>`0`: blockchain withdraw <br>`1`: internal transfers
 txId | String | No | Hash record of the withdrawal
 state | String | No | Status of withdrawal <br> `0`: waiting mannual review  <br> `2`: failed  <br> `3`: success <br> `4`: canceled<br> `6`: kyt<br> `7`: processing
 before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
