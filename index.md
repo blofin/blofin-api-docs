@@ -6572,7 +6572,14 @@ brokerId | String | No | Broker ID provided by BloFin.<br>A combination of case-
 ```json
 {
     "code": "0",
-    "msg": "success"
+    "msg": "success",
+    "data": {
+        "orderIds": [
+            "10000",
+            "20000",
+            "30000"
+        ]
+    }
 }
 ```
 
