@@ -2068,6 +2068,7 @@ Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 currency | String | No | Currency, e.g. `USDT`
 withdrawId | String | No | Withdrawal ID
+type | String | No | Withdraw type <br>`0`: blockchain withdraw <br>`1`: internal transfers
 txId | String | No | Hash record of the withdrawal
 state | String | No | Status of withdrawal <br> `0`: waiting mannual review  <br> `2`: failed  <br> `3`: success <br> `4`: canceled<br> `6`: kyt<br> `7`: processing
 before | String | No | Pagination of data to return records newer than the requested ts, Unix timestamp format in milliseconds, e.g. `1656633600000`
@@ -2208,6 +2209,30 @@ state | String | Status of deposit <br> `0`: pending  <br> `1`: done  <br> `2`: 
 confirm | String | Confirmations
 ts | String | Time the deposit request was submitted, Unix timestamp format in milliseconds, e.g. `1656633600000` 
 depositId | String | Deposit ID
+
+### Get Account Config
+
+#### HTTP Request
+
+`GET /api/v1/account/config`
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "accountLevel": "0"
+    }
+}
+```
+
+#### Response Parameters
+
+Parameter | Type | Description
+----------------- | ----- | -----------
+accountLevel | String | Account Level <br> `0`: normal  <br> `1`: spot <br> `2`: spot futures <br> `3`: multi currency <br> `0` is normal account <br> `1`/`2`/`3` is unified account
 
 # Trading
 ## REST API
