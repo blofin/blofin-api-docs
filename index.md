@@ -5147,7 +5147,17 @@ limit | String | No | Number of results per request. <br>When `needEquity` is `f
             "totalWithdrawal": "100",
             "kycLevel": "0",
             "equity": "0.1",
-            "totalEquity": "0.1"
+            "totalEquity": "0.1",
+            "referralCode": "7tdIua",
+            "couponDiscount": "0",
+            "takerVol30Day": "2002.8611",
+            "makerVol30Day": "999.7936",
+            "tradeVol30Day": "3002.6547",
+            "depositAmount30Day": "0",
+            "takerVol90Day": "17341.7567",
+            "makerVol90Day": "999.7936",
+            "tradeVol90Day": "18341.5503",
+            "vipLevel": 4
         }
     ]
 }
@@ -5167,7 +5177,16 @@ totalWithdrawal | String | Total withdrawan amount, expressed in USDT.<br>The co
 kycLevel | String | KYC level of invitee.`0` Non KYC, `1` Complete personal infomation verification, `2` Complete address proof verification
 equity | String | The total equity of futures account in USDT.`0` when `needEquity` is false.
 totalEquity | String | The total equity of all accounts in USDT.`0` when `needEquity` is false.
-
+referralCode | String | Referral code that the user was invited with, e.g. `7tdIua`
+couponDiscount | String | The amount discounted by invitees using the coupon.
+takerVol30Day | String | Taker volume in last 30 days (USDT), updated every six hours.
+makerVol30Day | String | Maker volume in last 30 days (USDT), updated every six hours.
+tradeVol30Day | String | Total trading volume in last 30 days (USDT), updated every six hours.
+depositAmount30Day | String | Deposit amount in last 30 days (USDT), updated every six hours.
+takerVol90Day | String | Taker volume in last 90 days (USDT), updated every six hours.
+makerVol90Day | String | Maker volume in last 90 days (USDT), updated every six hours.
+tradeVol90Day | String | Total trading volume in last 90 days (USDT), updated every six hours.
+vipLevel | Int | VIP level. This parameter is not displayed when requesting the list, but it will be shown when using the uid to request the invitees' details.
 
 
 
