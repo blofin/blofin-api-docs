@@ -3499,11 +3499,11 @@ Retrieve TP/SL order Detail.
 
 #### HTTP Request
 
-`GET /api/v1/trade/orders-tpsl-detail`
+`GET /api/v1/trade/order-tpsl-detail`
 
 > Request Example:
 ```shell
-GET /api/v1/trade/orders-tpsl-detail
+GET /api/v1/trade/order-tpsl-detail
 ```
 
 #### Request Parameters
