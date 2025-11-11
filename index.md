@@ -3326,6 +3326,95 @@ algoClientOrderId | String | There will be a value when algo order attaching `cl
 algoId | String | Algo ID. There will be a value when algo order is triggered, or it will be "".
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
+### GET Order Detail
+
+Retrieve order detail.
+
+#### HTTP Request
+
+`GET /api/v1/trade/order-detail`
+
+> Request Example:
+```shell
+GET /api/v1/trade/orders-detail
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+orderId | String | Conditional | Order ID  Either orderId or clientOrderId is required, if both are passed, orderId will be used
+clientOrderId | String | Conditional | Client Order ID as assigned by the client
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "orderId": "29531103",
+        "clientOrderId": "",
+        "instId": "ETH-USDT",
+        "marginMode": "isolated",
+        "positionSide": "net",
+        "side": "buy",
+        "orderType": "limit",
+        "price": "1514.150000000000000000",
+        "size": "1.000000000000000000",
+        "reduceOnly": "false",
+        "leverage": "3",
+        "state": "live",
+        "filledSize": "0.000000000000000000",
+        "filled_amount": "0.000000000000000000",
+        "averagePrice": "0.000000000000000000",
+        "fee": "0.000000000000000000",
+        "pnl": "0.000000000000000000",
+        "createTime": "1697031292762",
+        "updateTime": "1697031292788",
+        "orderCategory": "normal",
+        "tpTriggerPrice": "1688.000000000000000000",
+        "slTriggerPrice": "1299.000000000000000000",
+        "slOrderPrice": null,
+        "tpOrderPrice": null,
+        "algoClientOrderId": "aaa",
+        "algoId": "11756185",
+        "brokerId": ""
+    }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+orderId | String | Order ID
+clientOrderId | String | Client Order ID as assigned by the client.
+instId | String | Instrument ID
+marginMode | String | Margin mode
+positionSide | String | Position side
+side | String | Order side
+orderType | String | Order type
+price | String | Price
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
+reduceOnly | String | Whether orders can only reduce in position size.
+leverage | String | Leverage
+state | String | State
+filledSize | String | Accumulated fill quantity.
+averagePrice | String | Average filled price. If none is filled, it will return "".
+fee | String | Fee and rebate
+pnl | String | Profit and loss, Applicable to orders which have a trade and aim to close position.
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+updateTime | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+orderCategory | String | Order category<br>`normal`<br>`full_liquidation`<br>`partial_liquidation`<br>`adl`<br>`tp`<br>`sl`
+tpTriggerPrice | String | Take-profit trigger price
+tpOrderPrice | String | Take-profit order price. <br>If the price is `-1`, take-profit will be executed at the market price.
+slTriggerPrice | String | Stop-loss trigger price
+slOrderPrice | String | Stop-loss order price. <br>If the price is `-1`, stop-loss will be executed at the market price.
+algoClientOrderId | String | There will be a value when algo order attaching `clientOrderId` is triggered, or it will be "".
+algoId | String | Algo ID. There will be a value when algo order is triggered, or it will be "".
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
 ### GET Active TPSL Orders
 
 Retrieve a list of untriggered TP/SL orders under the current account.
@@ -3404,7 +3493,76 @@ actualSize | String | Actual order quantity
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
+### GET TPSL Order Detail
 
+Retrieve TP/SL order Detail.
+
+#### HTTP Request
+
+`GET /api/v1/trade/orders-tpsl-detail`
+
+> Request Example:
+```shell
+GET /api/v1/trade/orders-tpsl-detail
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+tpslId | String | Conditional | TP/SL order ID  Either tpslId or clientOrderId is required, if both are passed, tpslId will be used
+clientOrderId | String | Conditional | Client Order ID as assigned by the client<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters.
+
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": {
+        "tpslId": "2411",
+        "instId": "ETH-USDT",
+        "marginMode": "cross",
+        "positionSide": "net",
+        "side": "sell",
+        "tpTriggerPrice": "1666.000000000000000000",
+        "tpOrderPrice": null,
+        "slTriggerPrice": "1222.000000000000000000",
+        "slOrderPrice": null,
+        "size": "1",
+        "state": "live",
+        "leverage": "3",
+        "reduceOnly": "false",
+        "actualSize": null,
+        "clientOrderId": "aabbc",
+        "createTime": "1697016700775",
+        "brokerId": ""
+    }
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+tpslId | String | TP/SL order ID
+clientOrderId | String | Client Order ID as assigned by the client.
+instId | String | Instrument ID
+marginMode | String | Margin mode
+positionSide | String | Position side
+side | String | Order side
+tpTriggerPrice | String | Take-profit trigger price
+tpOrderPrice | String | Take-profit order price. If the price is `-1`, take-profit will be executed at the market price.
+slTriggerPrice | String | Stop-loss trigger price
+slOrderPrice | String | Stop-loss order price. If the price is `-1`, stop-loss will be executed at the market price.
+size | String | Number of contracts to buy or sell. For contract size details, refer to the /api/v1/market/instruments endpoint
+state | String | State,`live`, `effective`, `canceled`, `order_failed`
+leverage | String | Leverage
+reduceOnly | String | Whether orders can only reduce in position size.<br>Valid options: `true` or `false`. The default value is `false`.
+actualSize | String | Actual order quantity
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
 ### GET Active Algo Orders
 
