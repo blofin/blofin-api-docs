@@ -3344,8 +3344,9 @@ GET /api/v1/trade/orders-detail
 Parameter | Type | Required | Description
 ----------------- | ----- | ------- | -----------
 instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
-orderId | String | Conditional | Order ID  Either orderId or clientOrderId is required, if both are passed, orderId will be used
+orderId | String | Conditional | Order ID  Either orderId or clientOrderId or algoClientOrderId is required, if all are passed, orderId will be used
 clientOrderId | String | Conditional | Client Order ID as assigned by the client
+algoClientOrderId | String | Conditional | Algo Client Order ID as assigned by the client
 
 > Response Example:
 
