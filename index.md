@@ -2435,6 +2435,107 @@ maintenanceMargin | String | Maintenance margin requirement
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 updateTime | String | Latest time position was adjusted, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
+### GET Positions History
+
+Retrieve information on your historical positions.
+
+#### HTTP Request
+
+`GET /api/v1/account/positions-history`
+
+> Request Example:
+```shell
+GET /api/v1/account/positions-history?instId=BTC-USDT
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+positionId | String | No | Position ID
+instId | String | No | Instrument ID, e.g. `BTC-USDT`
+state | String | No | close position type<br>`partially_closed`<br>`closed`<br>`liquidated`<br>`partially_liquidated`<br>`adl`
+after | String | No | Pagination of data to return records earlier than the requested `historyId`
+before | String | No | Pagination of data to return records newer than the requested `historyId`
+begin | String | No | Filter with a begin timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
+end | String | No | Filter with an end timestamp. Unix timestamp format in milliseconds, e.g. `1597026383085`
+limit | String | No | Number of results per request. The maximum is `100`; The default is `20`
+
+The `before` and `after` parameters cannot be used simultaneously.
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        {
+            "historyId": "1234567890",
+            "positionId": "7982",
+            "instId": "ETH-USDT",
+            "instType": "SWAP",
+            "side": "buy",
+            "marginMode": "isolated",
+            "positionSide": "net",
+            "closePositions": "1",
+            "maxPositions": "1",
+            "liquidationPositions": "0",
+            "openAveragePrice": "1591.800000000000000000",
+            "closeAveragePrice": "1592.500000000000000000",
+            "createTime": "1695352782370",
+            "updateTime": "1695352782372",
+            "leverage": "3",
+            "realizedPnl": "0.7",
+            "realizedPnlRatio": "0.000439",
+            "fee": "0.190536000000000000"
+        },
+        {
+            "historyId": "1234567891",
+            "positionId": "5483",
+            "instId": "BCH-USDT",
+            "instType": "SWAP",
+            "side": "sell",
+            "marginMode": "cross",
+            "positionSide": "net",
+            "closePositions": "290",
+            "maxPositions": "290",
+            "liquidationPositions": "0",
+            "openAveragePrice": "1890.000000000000000000",
+            "closeAveragePrice": "1887.000000000000000000",
+            "createTime": "1695090016933",
+            "updateTime": "1695090016931",
+            "leverage": "3",
+            "realizedPnl": "-8.7",
+            "realizedPnlRatio": "-0.004603",
+            "fee": "0.547200000000000000"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+historyId | String | History ID
+positionId | String | Position ID
+instId | String | Instrument ID, e.g. `BTC-USDT`
+instType | String | Instrument type
+side | String | Position side, `buy` or `sell`
+marginMode | String | Margin mode<br>`cross`<br>`isolated`
+positionSide | String | Position side<br>`long`<br>`short`<br>`net`
+closePositions | String | Closed position quantity
+maxPositions | String | Maximum position quantity
+liquidationPositions | String | Liquidation position quantity
+openAveragePrice | String | Average open price
+closeAveragePrice | String | Average close price
+createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+updateTime | String | Update time, Unix timestamp format in milliseconds, e.g. `1597026383085`
+leverage | String | Leverage
+realizedPnl | String | Realized profit and loss
+realizedPnlRatio | String | Realized profit and loss ratio
+fee | String | Trading fee
+
 ### GET Margin Mode
 
 #### HTTP Request
@@ -7733,4 +7834,5 @@ side | String | Order side
 fee | String | Fee
 ts | String | Data generation time, Unix timestamp format in milliseconds, e.g. `1597026383085`.
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
+
 
