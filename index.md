@@ -2985,9 +2985,9 @@ instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
 marginMode | String | Yes | Margin mode<br>`cross`<br>`isolated`
 positionSide | String | Yes | Position side<br>Default `net` for One-way Mode <br>`long` or `short` for Hedge Mode. It must be sent in Hedge Mode.
 side | String | Yes | Order side, `buy` `sell`
-tpTriggerPrice | String | Yes | Take-profit trigger price<br>If you fill in this parameter, you should fill in the `tpOrderPrice` as well.
+tpTriggerPrice | String | No | Take-profit trigger price<br>If you fill in this parameter, you should fill in the `tpOrderPrice` as well.<br>Either `tpTriggerPrice` or `slTriggerPrice` must be provided.
 tpOrderPrice | String | No | Take-profit order price.<br>If you fill in this parameter, you should fill in the `tpTriggerPrice` as well.<br>If the price is -1, take-profit will be executed at the market price.
-slTriggerPrice | String | No | Stop-loss trigger price<br>If you fill in this parameter, you should fill in the `slOrderPrice` as well.
+slTriggerPrice | String | No | Stop-loss trigger price<br>If you fill in this parameter, you should fill in the `slOrderPrice` as well.<br>Either `tpTriggerPrice` or `slTriggerPrice` must be provided.
 slOrderPrice | String | No | Stop-loss order price.<br>If you fill in this parameter, you should fill in the `slTriggerPrice` as well.<br>If the price is -1, stop-loss will be executed at the market price.
 size | String | Yes | Quantity  <br> If the quantity is -1, it means entire positions
 reduceOnly | String | No | Whether orders can only reduce in position size. <br>Valid options: `true` or `false`. The default value is `false`.<br>When `reduceOnly = true` and the opposite order size exceeds the position size. The position will be fully closed, and no new position will be opened.
