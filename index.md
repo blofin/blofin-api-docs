@@ -3473,7 +3473,12 @@ Retrieve order detail.
 
 > Request Example:
 ```shell
-GET /api/v1/trade/orders-detail
+GET /api/v1/trade/order-detail
+body
+  {
+    "instId": "ETH-USDT",
+    "orderId": "29531103"
+  }
 ```
 
 #### Request Parameters
