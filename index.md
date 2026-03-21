@@ -7950,4 +7950,3 @@ fee | String | Fee
 ts | String | Data generation time, Unix timestamp format in milliseconds, e.g. `1597026383085`.
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
 
-
