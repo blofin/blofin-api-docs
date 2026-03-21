@@ -917,7 +917,7 @@ instId | String | No | Instrument ID, e.g. `BTC-USDT`
     "data": [
         {
             "instId": "BTC-USDT",
-            "fundingRate": "0.000330372404346635",
+            "fundingRate": "0.000332",
             "fundingTime": "1703462400000"
         }
     ]
@@ -962,7 +962,7 @@ limit | String | No | Number of results per request. The maximum is `100`; The d
     "data": [
         {
             "instId": "BTC-USDT",
-            "fundingRate": "0.000330372404346635",
+            "fundingRate": "0.000335",
             "fundingTime": "1703462400000"
         }
     ]
@@ -1137,6 +1137,55 @@ high | String | Highest price
 low | String | Lowest price
 close | String | Close price
 confirm | String | The state of candlesticks.<br>`0` represents that it is uncompleted, `1` represents that it is completed.
+
+### GET Position Tiers
+
+Retrieve position tier data.
+
+#### HTTP Request
+
+`GET /api/v1/market/position-tiers`
+
+> Request Example:
+```shell
+https://openapi.blofin.com/api/v1/market/position-tiers?instId=BTC-USDT&marginMode=cross
+```
+
+#### Request Parameters
+
+Parameter | Type | Required | Description
+----------------- | ----- | ------- | -----------
+instId | String | Yes | Instrument ID, e.g. `BTC-USDT`
+marginMode | String | Yes | Margin mode<br>`isolated`<br>`cross`
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        {
+            "symbol": "BTC-USDT",
+            "marginMode": "cross",
+            "minSize": "0.01",
+            "maxSize": "150",
+            "maintenanceMarginRate": "0.004",
+            "maxLeverage": "125"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+symbol | String | Symbol
+marginMode | String | Margin mode
+minSize | String | Minimum position size
+maxSize | String | Maximum position size
+maintenanceMarginRate | String | Maintenance margin rate
+maxLeverage | String | Maximum leverage
 
 ## WebSocket
 ### WS Trades Channel
@@ -2268,7 +2317,67 @@ demoApplyMoney | Array | Yes |
 currency | String | Yes | Applied coin, supports BTC, ETH, USDT
 amountStr | String | Yes | Applied amount, the max applied amount in each request <br>BTC: "5" <br>ETH: "50" <br>USDT: "5000,000"
 
+### GET Currencies
 
+Retrieve currency information.
+
+#### HTTP Request
+
+`GET /api/v1/asset/currencies`
+
+> Request Example:
+```shell
+GET /api/v1/asset/currencies
+```
+
+#### Request Parameters
+
+None
+
+> Response Example:
+
+```json
+{
+    "code": "0",
+    "msg": "success",
+    "data": [
+        {
+            "currency": "USDT",
+            "chain": "TRC20",
+            "depositMinAmount": "1",
+            "depositUnsafeConfirmation": 1,
+            "depositConfirmation": 20,
+            "withdrawMinAmount": "10",
+            "withdrawFee": "1",
+            "withdrawPrecision": 8,
+            "supportMemo": 0,
+            "isDepositAvailable": 1,
+            "isWithdrawAvailable": 1,
+            "recoveryEtaDeposit": 0,
+            "recoveryEtaWithdraw": 0,
+            "logo": "https://example.com/usdt.png"
+        }
+    ]
+}
+```
+
+#### Response Parameters
+Parameter | Type | Description
+----------------- | ----- | -----------
+currency | String | Currency
+chain | String | Chain name
+depositMinAmount | String | Minimum deposit amount
+depositUnsafeConfirmation | Integer | Deposit unsafe confirmation count
+depositConfirmation | Integer | Deposit confirmation count
+withdrawMinAmount | String | Minimum withdrawal amount
+withdrawFee | String | Withdrawal fee
+withdrawPrecision | Integer | Withdrawal precision
+supportMemo | Integer | Whether memo/tag is supported<br>`0`: not supported<br>`1`: supported
+isDepositAvailable | Integer | Whether deposit is available<br>`0`: not available<br>`1`: available
+isWithdrawAvailable | Integer | Whether withdrawal is available<br>`0`: not available<br>`1`: available
+recoveryEtaDeposit | Long | Estimated recovery time for deposit
+recoveryEtaWithdraw | Long | Estimated recovery time for withdrawal
+logo | String | Currency logo URL
 
 # Trading
 ## REST API
@@ -2432,6 +2541,7 @@ unrealizedPnl | String | Unrealized profit and loss calculated by mark price.
 unrealizedPnlRatio | String | Unrealized profit and loss ratio calculated by mark price.
 initialMargin | String | Initial margin requirement, only applicable to `cross`.
 maintenanceMargin | String | Maintenance margin requirement
+realizedPnl | String | realized profit and loss
 createTime | String | Creation time, Unix timestamp format in milliseconds, e.g. `1597026383085`
 updateTime | String | Latest time position was adjusted, Unix timestamp format in milliseconds, e.g. `1597026383085`
 
@@ -7839,5 +7949,4 @@ side | String | Order side
 fee | String | Fee
 ts | String | Data generation time, Unix timestamp format in milliseconds, e.g. `1597026383085`.
 brokerId | String | Broker ID provided by BloFin.<br>A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 16 characters.
-
 
